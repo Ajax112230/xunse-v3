@@ -38,7 +38,7 @@ body {
 }
 
 /* === Galaxy Background === */
-#galaxy-bg {
+#galaxy-bg { background: #0d0d0d;
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
@@ -1554,22 +1554,24 @@ global.initGalaxy = function(container, opts) {
 </script>
 <script>
 window.addEventListener('DOMContentLoaded', function() {
-  var ctn = document.getElementById('galaxy-bg');
-  if (ctn && window.initGalaxy) {
-    window.initGalaxy(ctn, {
-      hueShift: 45,
-      starSpeed: 0.3,
-      density: 0.8,
-      speed: 0.6,
-      glowIntensity: 0.35,
-      saturation: 0.2,
-      mouseRepulsion: true,
-      repulsionStrength: 2.5,
-      twinkleIntensity: 0.3,
-      rotationSpeed: 0.08,
-      transparent: true,
-    });
-  }
+  try {
+    var ctn = document.getElementById('galaxy-bg');
+    if (ctn && window.initGalaxy) {
+      window.initGalaxy(ctn, {
+        hueShift: 45,
+        starSpeed: 0.3,
+        density: 0.8,
+        speed: 0.6,
+        glowIntensity: 0.35,
+        saturation: 0.2,
+        mouseRepulsion: true,
+        repulsionStrength: 2.5,
+        twinkleIntensity: 0.3,
+        rotationSpeed: 0.08,
+        transparent: true,
+      });
+    }
+  } catch(_e) { console.warn('WebGL failed, running without stars'); }
 
   // ─── TiltedCard 3D 倾斜 ───────────────────────
   var _tiltCard = document.getElementById('mood-card');
