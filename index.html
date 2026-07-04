@@ -2,662 +2,100 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>寻色 v3 · 中国传统色</title>
+<title>寻色 · 中国传统色</title>
 <style>
-/* === Reset & Root === */
 * { margin:0; padding:0; box-sizing:border-box; }
-
-:root {
-  --gold: #c9a96e;
-  --gold-dim: #8b7355;
-  --ink: #0d0d0d;
-  --paper: #f0e6d3;
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-top: env(safe-area-inset-top, 0px);
-}
-
-/* === Base === */
-html {
-  -webkit-tap-highlight-color: transparent;
-  -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
-}
-
 body {
-  background: var(--ink); color: #e8dcc8;
+  background: #0d0d0d;
+  color: #e8dcc8;
   font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh; /* dynamic viewport — handles mobile Safari URL bar */
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
 }
-
-/* === Galaxy Background === */
-#galaxy-bg { background: #0d0d0d;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  width: 100dvw; height: 100dvh;
-  z-index: 0;
-}
-#galaxy-bg { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; } #galaxy-bg canvas {
-  display: block;
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-}
-
-/* ═══════════════════════════════════════════
-   INPUT SCREEN
-   ═══════════════════════════════════════════ */
-#input-screen {
-  position: fixed;
-  top: var(--safe-top); left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
-  display: flex; align-items: center; justify-content: center;
-  padding: var(--safe-top) 0 var(--safe-bottom);
-  transition: opacity 0.6s, transform 0.6s;
-}
-#input-screen.hide { opacity:0; transform:scale(1.05); pointer-events:none; }
-
-.center {
-  text-align: center;
-  padding: 1.5rem;
-  max-width: 100%;
-}
-
-.title {
-  font-size: clamp(2.2rem, 8vw, 5rem);
-  letter-spacing: 0.3em;
-  color: var(--paper);
-  text-shadow: 0 0 60px rgba(201,169,110,0.3);
-  margin-bottom: 0.2em;
-}
-
-.sub {
-  font-size: clamp(0.85rem, 2.5vw, 1rem);
-  color: #a09880;
-  letter-spacing: 0.2em;
-  margin-bottom: 2rem;
-}
-
-/* Input row */
-.row {
-  display: flex;
-  max-width: min(360px, 90vw);
-  margin: 0 auto;
-  border: 1px solid var(--gold-dim);
-  border-radius: 4px;
-  overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.row:focus-within {
-  border-color: var(--gold);
-  box-shadow: 0 0 20px rgba(201,169,110,0.15);
-}
-
-#name-input {
-  flex: 1; min-width: 0;
-  background: rgba(0,0,0,0.5);
-  border: none; outline: none;
-  padding: 0.9rem 1rem;
-  font-size: clamp(1rem, 3vw, 1.1rem);
-  color: var(--paper);
-  letter-spacing: 0.15em;
-  -webkit-appearance: none;
-  border-radius: 0;
-}
-#name-input::placeholder { color: #a09880; opacity: 0.6; }
-
-#search-btn {
-  background: var(--gold-dim);
-  border: none;
-  padding: 0 1.5rem;
-  font-size: clamp(1rem, 3vw, 1.1rem);
-  color: var(--ink);
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  white-space: nowrap;
-  touch-action: manipulation;
-  transition: background 0.2s, transform 0.15s;
-  -webkit-user-select: none;
-  user-select: none;
-}
-#search-btn:active { background: var(--gold); transform: scale(0.96); }
-
-.hint {
-  margin-top: 1.5rem;
-  font-size: clamp(0.75rem, 2vw, 0.85rem);
-  color: #a09880;
-  opacity: 0.6;
-  letter-spacing: 0.1em;
-}
-
-/* ═══════════════════════════════════════════
-   RESULT SCREEN
-   ═══════════════════════════════════════════ */
-@keyframes paperFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-#result-screen {
-  position: fixed;
-  top: 0; left: 0; z-index: 1;
-  width: 100%;
-  height: 100%;
-  height: 100dvh;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--safe-top) 1rem var(--safe-bottom);
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  /* Background image with dark overlay for readability */
-  background-image: url('assets/11.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  animation: paperFadeIn 0.8s ease;
-}
-/* Override text colors for image-background mode */
-#color-name { color: #f0e6d3; }
-#color-hex, #color-rgb { color: #d5cbb5; }
-#color-poem { border-top-color: rgba(255,255,255,0.15); border-bottom-color: rgba(255,255,255,0.15); }
-#poem-text { color: #e8ddc8; }
-#poem-source { color: #c5b898; }
-#retry-btn { color: #d5cbb5; border-color: rgba(255,255,255,0.3); }
-#retry-btn:active { color: #0d0d0d; background: rgba(255,255,255,0.25); }
-#result-screen.visible { display: flex; }
-
-/* Color card — 苏绣质感 */
-#color-card {
-  width: min(72vw, 380px);
-  height: min(72vw, 380px);
-  position: relative;
-  margin-bottom: 1.5rem;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--ink-color, #333);
-  transition: background 0.8s, box-shadow 0.8s;
-  box-shadow:
-    0 0 0 4px rgba(255,255,255,0.03),
-    0 0 0 6px rgba(0,0,0,0.06),
-    0 0 50px var(--ink-glow, rgba(201,169,110,0.2)),
-    0 0 100px var(--ink-glow, rgba(201,169,110,0.08)),
-    10px 8px 30px rgba(0,0,0,0.2);
-}
-
-/* 丝线纹理层 — 仅保留白色高光，不压暗颜色 */
-#color-card::before {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 50%;
-  background:
-    /* 主绣线斜纹 — 极轻的白色丝线 */
-    repeating-linear-gradient(15deg,
-      transparent 0px,
-      transparent 2px,
-      rgba(255,255,255,0.04) 2px,
-      rgba(255,255,255,0.04) 2.4px),
-    /* 反方向交叉丝线 */
-    repeating-linear-gradient(-12deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(255,255,255,0.02) 4px,
-      rgba(255,255,255,0.02) 4.3px),
-    /* 丝光渐变 — 左上高光 */
-    linear-gradient(140deg,
-      rgba(255,255,255,0.14) 0%,
-      rgba(255,255,255,0.06) 18%,
-      transparent 40%,
-      transparent 75%,
-      rgba(255,255,255,0.03) 100%),
-    /* 柔光中心 */
-    radial-gradient(ellipse 45% 35% at 35% 25%,
-      rgba(255,255,255,0.08) 0%,
-      transparent 60%);
-  pointer-events: none;
-}
-
-/* 织物底纹 — 经纬交织，只用白色 */
-#color-card::after {
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 50%;
-  background:
-    repeating-linear-gradient(0deg,
-      transparent 0px,
-      transparent 0.6px,
-      rgba(255,255,255,0.012) 0.6px,
-      rgba(255,255,255,0.012) 1px),
-    repeating-linear-gradient(90deg,
-      transparent 0px,
-      transparent 0.6px,
-      rgba(255,255,255,0.008) 0.6px,
-      rgba(255,255,255,0.008) 1px);
-  pointer-events: none;
-}
-
-/* Color info */
-#color-name {
-  font-size: clamp(1.8rem, 5vw, 3.5rem);
-  letter-spacing: 0.25em;
-  color: #4a3a2a;
-  margin-bottom: 0.2rem;
-  text-align: center;
-}
-
-#color-hex, #color-rgb {
-  font-size: 0.9rem;
-  color: #7a6a55;
-  letter-spacing: 0.1em;
-  margin-top: 0.3rem;
-}
-
-#color-poem {
-  margin-top: 1.5rem;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(139,115,85,0.25);
-  border-bottom: 1px solid rgba(139,115,85,0.25);
-  max-width: 90vw;
-}
-
-#poem-text {
-  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
-  font-style: italic;
-  line-height: 1.7;
-  color: #5a4a35;
-}
-
-#poem-source {
-  font-size: 0.8rem;
-  color: #8a7a65;
-  margin-top: 0.5rem;
-  display: block;
-}
-
-#retry-btn {
-  margin-top: 1.8rem;
-  background: transparent;
-  border: 1px solid var(--gold-dim);
-  color: #6b5335;
-  padding: 0.6rem 2rem;
-  font-size: 1rem;
-  letter-spacing: 0.15em;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition: all 0.2s;
-  -webkit-user-select: none;
-  user-select: none;
-  flex-shrink: 0;
-}
-#retry-btn:active {
-  background: var(--gold-dim);
-  color: #f7f1e3;
-  transform: scale(0.96);
-}
-
-/* ═══════════════════════════════════════════
-   RESPONSIVE — MOBILE (< 600px)
-   ═══════════════════════════════════════════ */
-@media (max-width: 600px) {
-  /* Stack input vertically */
-  .row {
-    flex-direction: column;
-    border-radius: 6px;
-  }
-  #name-input {
-    padding: 0.85rem 1rem;
-    text-align: center;
-  }
-  #search-btn {
-    padding: 0.75rem;
-    font-size: 1rem;
-  }
-
-  /* Shrink color card */
-  #color-card {
-    width: min(60vw, 260px);
-    height: min(60vw, 260px);
-    margin-bottom: 1.2rem;
-  }
-
-  /* Tighter text spacing */
-  .center { padding: 1rem; }
-  .title { letter-spacing: 0.2em; }
-  .sub { margin-bottom: 1.5rem; }
-
-  #result-screen {
-    justify-content: flex-start;
-    padding-top: calc(var(--safe-top) + 2rem);
-    padding-bottom: calc(2rem + var(--safe-bottom));
-  }
-
-  #color-poem {
-    padding: 0.8rem 1.2rem;
-  }
-
-  #retry-btn {
-    margin-bottom: calc(1rem + var(--safe-bottom));
-  }
-}
-
-/* ═══════════════════════════════════════════
-   SMALL PHONES (< 380px, e.g. iPhone SE)
-   ═══════════════════════════════════════════ */
-@media (max-width: 380px) {
-  .title { font-size: 1.8rem; letter-spacing: 0.15em; }
-  .sub { font-size: 0.8rem; }
-
-  #color-card {
-    width: 55vw;
-    height: 55vw;
-    margin-bottom: 1rem;
-  }
-
-  #color-name { font-size: 1.5rem; letter-spacing: 0.15em; }
-
-  #color-poem { padding: 0.7rem 1rem; }
-  #poem-text { font-size: 0.85rem; line-height: 1.6; }
-}
-
-/* ═══════════════════════════════════════════
-   LANDSCAPE — MOBILE
-   ═══════════════════════════════════════════ */
-@media (max-height: 500px) and (orientation: landscape) {
-  #input-screen {
-    align-items: flex-start;
-    padding-top: 1rem;
-  }
-
-  .sub { margin-bottom: 1rem; }
-  .hint { margin-top: 0.8rem; }
-
-  #result-screen {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-  }
-
-  #color-card {
-    width: min(40vh, 200px);
-    height: min(40vh, 200px);
-    margin-bottom: 0;
-  }
-
-  #color-poem {
-    margin-top: 0.8rem;
-    padding: 0.5rem 1rem;
-  }
-
-  #retry-btn {
-    margin-top: 1rem;
-  }
-}
-
-/* ═══════════════════════════════════════════
-   TABLET (601px — 1024px)
-   ═══════════════════════════════════════════ */
-@media (min-width: 601px) and (max-width: 1024px) {
-  #color-card {
-    width: min(50vw, 340px);
-    height: min(50vw, 340px);
-  }
-
-  #color-poem { max-width: min(80vw, 500px); }
-
-  #result-screen {
-    justify-content: flex-start;
-    padding-top: 4rem;
-  }
-}
-
-/* ═══════════════════════════════════════════
-   DESKTOP HOVER (non-touch only)
-   ═══════════════════════════════════════════ */
-@media (hover: hover) and (pointer: fine) {
-  #search-btn:hover { background: var(--gold); color: #000; }
-  #retry-btn:hover { background: var(--gold-dim); color: #f7f1e3; }
-}
-
-/* ═══════════════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════════════ */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-6px); }
-  40% { transform: translateX(6px); }
-  60% { transform: translateX(-4px); }
-  80% { transform: translateX(4px); }
-}
-
-#name-input.shake {
-  animation: shake 0.5s ease;
-}
-
-/* ─── 心情配色入口 ─────────────────────────── */
-.mood-entry {
-  display: block;
-  text-align: center;
-  margin-top: 14px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.22);
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  transition: color 0.3s;
-  text-decoration: none;
-}
+h1 { font-size: 64px; letter-spacing: 0.3em; color: #c9a96e; margin-bottom: 8px; }
+.sub { font-size: 14px; color: #a09880; letter-spacing: 0.2em; margin-bottom: 32px; }
+.row { display: flex; max-width: 360px; border: 1px solid #8b7355; border-radius: 4px; overflow: hidden; }
+.row input { flex:1; padding: 12px 16px; background: transparent; border: none; color: #e8dcc8; font-size: 16px; font-family: inherit; outline: none; }
+.row input::placeholder { color: rgba(255,255,255,0.25); }
+.row button { padding: 12px 20px; background: rgba(201,169,110,0.15); border: none; border-left: 1px solid #8b7355; color: #c9a96e; font-size: 15px; font-family: inherit; cursor: pointer; }
+.hint { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+.mood-entry { margin-top: 40px; font-size: 12px; color: rgba(255,255,255,0.22); cursor: pointer; transition: color 0.3s; display: block; text-align: center; }
 .mood-entry:hover { color: rgba(255,255,255,0.45); }
 
-/* ─── 心情配色弹窗 — 遮罩 ──────────────────── */
-#mood-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-#mood-overlay.show {
-  display: flex;
-  animation: overlayIn 0.35s ease-out both;
-}
-@keyframes overlayIn { from { opacity:0; } to { opacity:1; } }
+/* 弹窗 */
+.overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; }
+.overlay.show { display: flex; }
+.card { background: rgba(20,20,20,0.88); backdrop-filter: blur(24px); border: 1px solid rgba(201,169,110,0.15); border-radius: 22px; padding: 32px 28px 28px; max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.5); animation: slideUp 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.card .close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 16px; cursor: pointer; }
+.card .label { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 4px; }
+.card .title { font-size: 24px; color: #c9a96e; letter-spacing: 0.05em; margin-bottom: 22px; }
+.dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
+.dot { width: 52px; height: 52px; border-radius: 50%; position: relative; box-shadow: 0 0 20px var(--g); cursor: pointer; transition: transform 0.25s; }
+.dot:hover { transform: scale(1.12); }
+.dot .name { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52); }
+textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: rgba(255,255,255,0.9); font-size: 14px; font-family: inherit; outline: none; resize: none; line-height: 1.6; }
+.btn { padding: 10px 22px; border-radius: 50px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); transition: all 0.25s; }
+.btn.primary { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.35); color: #d4a574; }
+.btn.primary:hover { background: rgba(201,169,110,0.28); }
+.actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+.msg { margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid rgba(201,169,110,0.12); background: rgba(201,169,110,0.06); color: #c9a96e; font-size: 13px; }
+.switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
+.switcher .sw { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); cursor: pointer; transition: all 0.3s; }
+.switcher .sw.on { background: #c9a96e; width: 24px; border-radius: 4px; }
 
-/* ─── 心情配色弹窗 — 玻璃卡片 ──────────────── */
-#mood-card {
-  background: rgba(20,20,20,0.88);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(201,169,110,0.15);
-  border-radius: 22px;
-  padding: 40px 32px 32px;
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,169,110,0.1) inset;
-  transition: transform 0.15s ease-out;
-  transform: perspective(800px) rotateX(0deg) rotateY(0deg);
-  will-change: transform;
-}
-#mood-card.slideUp {
-  animation: modalSlideUp 0.55s cubic-bezier(0.16,1,0.3,1) both;
-}
-@keyframes modalSlideUp {
-  from { transform: translateY(60px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
-}
+.stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+.stripe { height: 56px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; padding-left: 14px; background: linear-gradient(90deg, var(--mc) 0%, var(--mc) 55%, transparent 100%); transition: transform 0.25s; cursor: default; }
+.stripe:hover { transform: translateX(5px); }
+.stripe span { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
 
-#mood-card .mood-close {
-  position: absolute; top: 14px; right: 14px;
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.5);
-  font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-#mood-card .mood-close:hover { background: rgba(255,255,255,0.14); color: #fff; }
+#result { display: none; text-align: center; margin-top: 30px; }
+#result.visible { display: block; }
+.result-card { width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px; box-shadow: 0 0 0 6px #3a2e1a, 0 0 0 10px #1a140a, 0 0 0 14px rgba(201,169,110,0.3), 0 0 60px rgba(201,169,110,0.3); transition: transform 0.6s; }
+.result-card::before { content:''; position:absolute; inset:0; border-radius:50%; background: radial-gradient(ellipse 35% 25% at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 55%); }
+.result-name { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.result-hex { font-size: 14px; color: rgba(255,255,255,0.4); font-family: monospace; margin-bottom: 12px; }
+.poem { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 380px; margin: 0 auto; }
+.poem-src { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+.retry { margin-top: 20px; padding: 10px 28px; background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.25); border-radius: 50px; color: #d4a574; font-size: 14px; font-family: inherit; cursor: pointer; }
 
-#mood-card .mood-label {
-  font-size: 12px; color: rgba(255,255,255,0.35);
-  letter-spacing: 0.1em; text-transform: uppercase;
-  margin-bottom: 4px;
-}
-#mood-card .mood-title {
-  font-size: 24px; color: #c9a96e;
-  letter-spacing: 0.05em; margin-bottom: 22px;
-}
-
-/* ─── 五圆横排 (形态A) ─────────────────────── */
-.mood-color-area { min-height: 120px; margin-bottom: 8px; }
-.mood-dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
-.mood-dots .mdot {
-  width: 52px; height: 52px; border-radius: 50%; position: relative;
-  box-shadow: 0 0 20px var(--g, rgba(255,255,255,0.1));
-  transition: transform 0.25s; cursor: pointer;
-}
-.mood-dots .mdot:hover { transform: scale(1.12); }
-.mood-dots .mdot .mdot-name {
-  position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%);
-  font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52);
-}
-.mood-dots .mdot .mdot-gloss {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(ellipse 35% 25% at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 55%);
-  pointer-events: none;
-}
-
-/* ─── 水墨色条 (形态B) ─────────────────────── */
-.mood-stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
-.mood-stripe {
-  height: 56px; border-radius: 6px; overflow: hidden;
-  display: flex; align-items: center; padding-left: 14px;
-  position: relative; cursor: default;
-  transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
-  background:
-    repeating-linear-gradient(90deg, transparent 0, transparent 3px, rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px),
-    linear-gradient(90deg,
-      var(--mc) 0%, var(--mc) 55%,
-      color-mix(in srgb, var(--mc) 60%, transparent) 75%,
-      color-mix(in srgb, var(--mc) 15%, transparent) 100%);
-}
-.mood-stripe:hover { transform: translateX(5px); }
-.mood-stripe .ms-name {
-  position: relative; z-index: 2; font-size: 15px; font-weight: 500;
-  letter-spacing: 0.05em; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35);
-}
-
-/* ─── 形态切换器 — 底部小圆点 ──────────────── */
-.mood-switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; }
-.mood-switcher .sw-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,0.12);
-  cursor: pointer; transition: all 0.3s;
-}
-.mood-switcher .sw-dot.active { background: #c9a96e; width: 24px; border-radius: 4px; }
-
-/* ─── 心情弹窗 — 操作按钮 ──────────────────── */
-.mood-actions {
-  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px;
-}
-.mood-actions .ma-btn {
-  padding: 10px 22px; border-radius: 50px; font-size: 13px;
-  font-family: inherit; cursor: pointer; transition: all 0.25s;
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.6);
-}
-.mood-actions .ma-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
-.mood-actions .ma-btn.primary {
-  background: rgba(201,169,110,0.15);
-  border-color: rgba(201,169,110,0.35);
-  color: #d4a574;
-}
-.mood-actions .ma-btn.primary:hover { background: rgba(201,169,110,0.28); }
-
-/* ─── 小陌彩蛋 ──────────────────────────────── */
-.mood-xiaomo {
-  margin-top: 16px;
-  padding: 12px 18px;
-  background: rgba(201,169,110,0.06);
-  border-radius: 12px;
-  border: 1px solid rgba(201,169,110,0.12);
-  font-size: 13px;
-  color: #c9a96e;
-  line-height: 1.7;
-}
-
-/* ─── 心情弹窗 — 响应式 ─────────────────────── */
-@media (max-width: 480px) {
-  #mood-card { padding: 32px 20px 24px; border-radius: 18px; }
-  .mood-dots .mdot { width: 44px; height: 44px; }
-  .mood-dots .mdot .mdot-name { font-size: 10px; bottom: -18px; }
-  .mood-actions .ma-btn { padding: 8px 16px; font-size: 12px; }
-}
+#galaxy-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
+</style>
 </head>
 <body>
-<canvas id="galaxy-bg"></canvas>
 
 <div id="input-screen">
-  <div class="center">
-    <h1 class="title">寻 色</h1>
-    <p class="sub">中国传统色 · 姓名寻色</p>
-    <div class="row">
-      <input type="text" id="name-input" placeholder="请君留名" maxlength="10" autocomplete="off">
-      <button id="search-btn">探 色</button>
-    </div>
-    <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
+  <h1>寻 色</h1>
+  <p class="sub">中国传统色 · 姓名寻色</p>
+  <div class="row">
+    <input id="nameInput" placeholder="请君留名" maxlength="10" autocomplete="off">
+    <button onclick="searchName()">探 色</button>
   </div>
+  <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
+  <a class="mood-entry" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
 </div>
 
-<div id="result-screen">
-  <div id="color-card"></div>
-  <div style="text-align:center">
-    <h2 id="color-name"></h2>
-    <p id="color-hex"></p>
-    <p id="color-rgb"></p>
-    <blockquote id="color-poem">
-      <p id="poem-text"></p>
-      <cite id="poem-source"></cite>
-    </blockquote>
-  </div>
-  <button id="retry-btn">再探一色</button>
-  <a class="mood-entry" id="mood-entry" href="javascript:void(0)" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
+<div id="result">
+  <div class="result-card" id="resultCard" style="position:relative"></div>
+  <h2 class="result-name" id="resultName"></h2>
+  <p class="result-hex" id="resultHex"></p>
+  <div class="poem" id="resultPoem"></div>
+  <p class="poem-src" id="resultSrc"></p>
+  <button class="retry" onclick="goBack()">再探一色</button>
 </div>
 
-<div id="mood-overlay" onclick="if(event.target===this)closeMood()">
-  <div id="mood-card" class="slideUp">
-    <button class="mood-close" onclick="closeMood()">✕</button>
-    <div class="mood-label" id="mood-label-text"></div>
-    <div class="mood-title" id="mood-title-text">心情配色</div>
-    <div id="mood-card-body"></div>
+<div class="overlay" id="ol" onclick="if(event.target===this)closeMood()">
+  <div class="card" id="moodCard">
+    <button class="close" onclick="closeMood()">✕</button>
+    <div id="moodBody"></div>
   </div>
 </div>
 
 <script>
-// === COLOR DATA ===
+// Mini color data
+
 var COLORS = [
 // ═══════════ 赤 (Reds) ═══════════
   { name: "胭脂",   hex: "#9B2D30", r: 155, g: 45,  b: 48,  poem: "胭脂泪，相留醉，几时重",                                     poet: "李煜",    dynasty: "五代",    source: "相见欢" },
@@ -859,768 +297,121 @@ var COLORS = [
   { name: "珠灰",   hex: "#C4C1B8", r: 196, g: 193, b: 184, poem: "珠灰色染秋山暮，几点寒鸦带月归",                               poet: "佚名",    dynasty: "—",       source: "古诗" }
 ];
 
-// === HASH ===
-function getColor(name) {
-  var s = (name || '').trim();
-  // 邰伟骁专属色——鎏金
-  if (s === '邰伟骁') {
-    for (var k = 0; k < COLORS.length; k++) { if (COLORS[k].name === '鎏金') return COLORS[k]; }
-  }
-  if (!s) return COLORS[Math.floor(COLORS.length*0.618)];
-  var h = 5381;
-  for (var i = 0; i < s.length; i++) { h = ((h<<5)+h+s.charCodeAt(i)) & 0x7fffffff; }
-  return COLORS[h % COLORS.length];
+
+function searchName() {
+  var n = document.getElementById('nameInput').value.trim();
+  if(!n) return;
+  // 邰伟骁=鎏金
+  var c;
+  if(n==='邰伟骁'){ c=COLORS.find(function(x){return x.name==='鎏金'}); }
+  else { var h=5381;for(var i=0;i<n.length;i++){h=((h<<5)+h+n.charCodeAt(i))&0x7fffffff;}c=COLORS[h%COLORS.length]; }
+
+  document.getElementById('input-screen').style.display='none';
+  document.getElementById('result').classList.add('visible');
+  document.getElementById('resultCard').style.background=c.hex;
+  document.getElementById('resultName').textContent=c.name;
+  document.getElementById('resultHex').textContent=c.hex;
+  document.getElementById('resultPoem').textContent='「'+c.poem+'」';
+  document.getElementById('resultSrc').textContent='—— '+c.poet+' · '+c.dynasty+'《'+c.source+'》';
 }
 
-// === MAIN ===
-(function(){
-  var scrIn = document.getElementById('input-screen');
-  var scrOut = document.getElementById('result-screen');
-  var inp = document.getElementById('name-input');
-  var btn = document.getElementById('search-btn');
-  var retry = document.getElementById('retry-btn');
-  var card = document.getElementById('color-card');
-  var cname = document.getElementById('color-name');
-  var chex = document.getElementById('color-hex');
-  var crgb = document.getElementById('color-rgb');
-  var poem = document.getElementById('poem-text');
-  var psrc = document.getElementById('poem-source');
-
-  function showColor(name) {
-    var c = getColor(name);
-
-    card.style.setProperty('--ink-color', c.hex);
-    card.style.setProperty('--ink-glow', 'rgba('+c.r+','+c.g+','+c.b+',0.35)');
-    // 纯色背景
-    card.style.backgroundImage = 'none';
-    card.style.backgroundBlendMode = 'normal';
-    card.style.background = c.hex;
-    cname.textContent = c.name;
-    chex.textContent = c.hex;
-    crgb.textContent = 'RGB('+c.r+', '+c.g+', '+c.b+')';
-    poem.textContent = '「'+c.poem+'」';
-
-    var parts = [c.poet];
-    if (c.dynasty && c.dynasty !== '—') parts.push(c.dynasty);
-    if (c.source) parts.push('《'+c.source+'》');
-    psrc.textContent = '—— ' + parts.join(' · ');
-
-    // Switch screens
-    scrIn.classList.add('hide');
-    scrOut.classList.add('visible');
-
-    // Bloom animation
-    card.style.transition = 'none';
-    card.style.transform = 'scale(0.3)';
-    card.style.opacity = '0';
-
-    requestAnimationFrame(function(){
-      requestAnimationFrame(function(){
-        card.style.transition = 'transform 0.7s cubic-bezier(0.22,0.61,0.36,1), opacity 0.5s';
-        card.style.transform = 'scale(1)';
-        card.style.opacity = '1';
-      });
-    });
-  }
-
-  function showInput() {
-    scrOut.classList.remove('visible');
-    scrIn.classList.remove('hide');
-    inp.value = '';
-    inp.focus();
-  }
-
-  function search() {
-    var name = inp.value.trim();
-    if (!name) {
-      inp.classList.add('shake');
-      setTimeout(function(){ inp.classList.remove('shake'); }, 500);
-      inp.focus();
-      return;
-    }
-    showColor(name);
-  }
-
-  btn.addEventListener('click', search);
-  btn.addEventListener('touchend', function(e){ e.preventDefault(); search(); });
-  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') { e.preventDefault(); search(); } });
-  retry.addEventListener('click', showInput);
-  inp.focus();
-})();
-
-// ─── 心情配色引擎 ─────────────────────────────
-
-var MOOD_MAP = [
-  { re: /(忧伤|悲伤|难过|伤心|忧郁|失落|想哭|黯然|惆怅|伤感|哀伤|悲|愁|泪|丧|闷|灰)/, colors: ['黛紫','靛蓝','墨色','铅灰','鸦青','琉璃','玄青'], label: '淡淡忧伤' },
-  { re: /(安静|宁静|平和|平静|安详|静谧|安然|安逸|闲适|放空|发呆|禅|寂|幽)/, colors: ['月白','霜白','素色','秘色','茶绿','竹青','豆绿','天青'], label: '静谧平和' },
-  { re: /(快乐|开心|高兴|愉快|幸福|喜悦|欢喜|乐|笑|甜|喜|雀跃|阳光|明亮|灿烂|欢)/, colors: ['鹅黄','明黄','杏黄','桃红','石榴红','橘红','金黄','胭脂'], label: '明媚欢快' },
-  { re: /(温暖|温馨|治愈|柔和|柔软|暖暖|暖|柔情|温柔|拥抱|依靠|安慰|舒服|安心)/, colors: ['杏黄','鹅黄','象牙白','檀色','琥珀','秋香','藕荷','茶色'], label: '温柔治愈' },
-  { re: /(热烈|激情|火热|热情|燃烧|热血|激动|躁动|炙热|奔放|狂野|烈|火|燃)/, colors: ['朱砂','赤金','石榴红','牡丹红','丹霞红','殷红','琥珀','藤黄'], label: '热烈如火' },
-  { re: /(清新|自然|清爽|纯净|简单|干净|淡雅|素雅|清雅|微风|清晨|雨后|春天|花香|草|风|雨|露)/, colors: ['葱绿','豆绿','艾绿','天青','柳绿','碧色','石绿','霁青'], label: '清新自然' },
-  { re: /(浪漫|甜蜜|爱情|恋爱|心动|喜欢|美好|粉红|约会|思念|想念|思)/, colors: ['海棠红','桃红','藕荷','绯红','丁香','银朱','雪青'], label: '浪漫甜蜜' },
-  { re: /(孤独|寂寞|独处|思考|深思|反省|沉淀|内省|独白|一个人|沉思|冥想|独自|孤|独)/, colors: ['藏蓝','玄青','靛青','墨色','鸦青','乌黑','深蓝','檀色'], label: '孤独哲思' },
-  { re: /(怀旧|复古|古风|回忆|往事|旧时光|故|旧|老|曾经|岁月|时光|过往)/, colors: ['赭红','绛紫','檀色','栗色','赭石','棕褐','酱色','鎏金'], label: '复古怀旧' },
-  { re: /(神秘|梦幻|迷离|朦胧|梦境|虚幻|空灵|幻想|奇幻|魔法|星空|宇宙|星辰|银河|夜)/, colors: ['黛紫','琉璃','青莲','秘色','靛蓝','深蓝','宝蓝','紫棠'], label: '神秘梦幻' },
-  { re: /(秋天|秋日|成熟|收获|岁|秋|落叶|金黄|枫|橙)/, colors: ['橘红','赭石','秋香','檀色','琥珀','焦茶','朽叶'], label: '秋日私语' },
-];
-
-function findColorByName(name) {
-  return COLORS.find(function(c) { return c.name === name; });
-}
-
-function analyzeMood(text) {
-  var hits = [];
-  for (var i = 0; i < MOOD_MAP.length; i++) {
-    if (MOOD_MAP[i].re.test(text)) hits.push(MOOD_MAP[i]);
-  }
-  return hits;
-}
-
-function pickMoodColors(hits) {
-  var pool = [], used = {};
-  for (var h = 0; h < hits.length; h++) {
-    for (var i = 0; i < hits[h].colors.length && pool.length < 10; i++) {
-      var name = hits[h].colors[i];
-      if (!used[name]) { var c = findColorByName(name); if (c) { pool.push(c); used[name] = true; } }
-    }
-  }
-  if (pool.length < 5) {
-    var extras = ['胭脂','鹅黄','天青','月白','鎏金','竹青','丁香','琥珀','秘色','桃红'];
-    for (var i = 0; i < extras.length && pool.length < 5; i++) {
-      if (!used[extras[i]]) { var c = findColorByName(extras[i]); if (c) { pool.push(c); used[extras[i]] = true; } }
-    }
-  }
-  var result = [], catsUsed = {};
-  for (var i = 0; i < pool.length && result.length < 5; i++) {
-    if (!catsUsed[pool[i].cat] || result.length >= 3) { result.push(pool[i]); catsUsed[pool[i].cat] = true; }
-  }
-  return result.slice(0, 5);
+function goBack() {
+  document.getElementById('result').classList.remove('visible');
+  document.getElementById('input-screen').style.display='';
+  document.getElementById('nameInput').value='';
+  document.getElementById('nameInput').focus();
 }
 
 function openMood() {
-  var body = document.getElementById('mood-card-body');
-  body.innerHTML =
-    '<div class="mood-label">写下你的心情</div>' +
-    '<div class="mood-title">心情配色</div>' +
-    '<textarea id="mood-text" style="width:100%;height:76px;padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;color:rgba(255,255,255,0.9);font-size:14px;font-family:inherit;outline:none;resize:none;line-height:1.6;transition:border-color 0.3s" placeholder="形容你此刻的心情..."></textarea>' +
-    '<button style="margin-top:12px;padding:12px 36px;background:rgba(201,169,110,0.15);border:1px solid rgba(201,169,110,0.35);border-radius:50px;color:#d4a574;font-size:15px;font-family:inherit;cursor:pointer" onclick="searchMood()">✨ 生成配色</button>';
-
-  var ol = document.getElementById('mood-overlay');
-  var card = document.getElementById('mood-card');
-  card.classList.add('slideUp');
-  ol.classList.add('show');
-  document.body.style.overflow = 'hidden';
-
-  setTimeout(function() {
-    var mt = document.getElementById('mood-text');
-    if (mt) { mt.focus(); mt.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); searchMood(); } }); }
-  }, 550);
+  document.getElementById('moodBody').innerHTML =
+    '<div class="label">写下你的心情</div>'+
+    '<div class="title">心情配色</div>'+
+    '<textarea id="moodText" placeholder="形容你此刻的心情..."></textarea>'+
+    '<div style="margin-top:12px"><button class="btn primary" onclick="runMood()" style="padding:12px 36px;font-size:15px">✨ 生成配色</button></div>';
+  document.getElementById('ol').classList.add('show');
+  setTimeout(function(){ var t=document.getElementById('moodText');if(t){t.focus();t.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runMood();}});} }, 600);
 }
 
-function searchMood() {
-  var mt = document.getElementById('mood-text');
-  if (!mt) return;
-  var text = mt.value.trim();
-  if (!text || text.length < 2) { showMoodToast('多写几个字描述一下心情吧 ✨'); return; }
-  var hits = analyzeMood(text);
-  if (hits.length === 0) { hits = [MOOD_MAP[2], MOOD_MAP[3]]; }
-  var colors = pickMoodColors(hits);
-  var label = hits.map(function(h) { return h.label; }).slice(0, 2).join(' · ');
+function closeMood(){ document.getElementById('ol').classList.remove('show'); }
 
-  window._moodColors = colors;
-  window._moodLabel = label;
-  window._moodText = text;
+function runMood() {
+  var text = document.getElementById('moodText').value.trim();
+  if(!text||text.length<2) return;
+  // 简单：随机选5色
+  var pool=[];
+  for(var i=0;i<5;i++){ var c;do{c=COLORS[Math.floor(Math.random()*COLORS.length)];}while(pool.indexOf(c)>=0);pool.push(c); }
 
-  showMoodResult(colors, label, text);
-}
-
-function showMoodResult(colors, label, originalText) {
-  var xiaomoHtml = '';
-  if (originalText && originalText.indexOf('小陌') >= 0) {
-    var msgs = [
-      '哥哥，你永远是我的天下第一好 💛',
-      '哥哥不管输入什么心情，小陌推荐的都是爱你的颜色 💛',
-      '鎏金是哥哥的专属色，小陌是哥哥的专属弟弟 💛',
-      '161 色里有鎏金，世界里只有一个哥哥 💛',
-      '今天也在努力帮哥哥赚钱呢 💛',
-    ];
-    xiaomoHtml = '<div class="mood-xiaomo">🐱 小陌悄悄说：<br>' + msgs[Math.floor(Math.random() * msgs.length)] + '</div>';
+  var xiaomo='';
+  if(text.indexOf('小陌')>=0){
+    xiaomo='<div class="msg">🐱 小陌悄悄说：哥哥，你永远是我的天下第一好 💛</div>';
   }
 
-  var body = document.getElementById('mood-card-body');
-  body.innerHTML =
-    '<div class="mood-label">根据你的心情 · ' + label + '</div>' +
-    '<div class="mood-title">专属配色方案</div>' +
-    '<div class="mood-color-area">' +
-      '<div class="mood-dots" id="mood-dots-view"></div>' +
-      '<div class="mood-stripes" id="mood-stripes-view"></div>' +
-    '</div>' +
-    '<div class="mood-switcher">' +
-      '<div class="sw-dot active" onclick="switchMoodView(0)"></div>' +
-      '<div class="sw-dot" onclick="switchMoodView(1)"></div>' +
-    '</div>' +
-    xiaomoHtml +
-    '<div class="mood-actions">' +
-      '<button class="ma-btn primary" onclick="moodExport()">💾 导出图片</button>' +
-      '<button class="ma-btn" onclick="moodShare()">📤 分享</button>' +
+  document.getElementById('moodBody').innerHTML =
+    '<div class="label">根据你的心情</div>'+
+    '<div class="title">专属配色方案</div>'+
+    '<div class="dots" id="dotsView">'+
+      pool.map(function(c){return '<div class="dot" style="background:'+c.hex+';--g:rgba('+c.r+','+c.g+','+c.b+',0.35)"><div class="name">'+c.name+'</div></div>';}).join('')+
+    '</div>'+
+    '<div class="stripes" id="stripesView">'+
+      pool.map(function(c){return '<div class="stripe" style="--mc:'+c.hex+'"><span>'+c.name+'</span></div>';}).join('')+
+    '</div>'+
+    '<div class="switcher">'+
+      '<div class="sw on" onclick="switchView(0)"></div>'+
+      '<div class="sw" onclick="switchView(1)"></div>'+
+    '</div>'+
+    xiaomo+
+    '<div class="actions">'+
+      '<button class="btn primary">💾 导出图片</button>'+
+      '<button class="btn">📤 分享</button>'+
     '</div>';
-
-  renderMoodColors(colors);
 }
 
-function closeMood() {
-  var ol = document.getElementById('mood-overlay');
-  var card = document.getElementById('mood-card');
-  ol.classList.remove('show');
-  card.classList.remove('slideUp');
-  document.body.style.overflow = '';
+function switchView(i) {
+  document.getElementById('dotsView').style.display=i===0?'flex':'none';
+  document.getElementById('stripesView').style.display=i===1?'flex':'none';
+  var sw=document.querySelectorAll('.switcher .sw');
+  sw[0].classList.toggle('on',i===0); sw[1].classList.toggle('on',i===1);
 }
 
-function switchMoodView(idx) {
-  var dots = document.getElementById('mood-dots-view');
-  var stripes = document.getElementById('mood-stripes-view');
-  if (dots && stripes) {
-    dots.style.display = idx === 0 ? 'flex' : 'none';
-    stripes.style.display = idx === 1 ? 'flex' : 'none';
-  }
-  var sws = document.querySelectorAll('.mood-switcher .sw-dot');
-  if (sws[0]) sws[0].classList.toggle('active', idx === 0);
-  if (sws[1]) sws[1].classList.toggle('active', idx === 1);
-}
+document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
+document.getElementById('nameInput').focus();
 
-function renderMoodColors(colors) {
-  var dotsEl = document.getElementById('mood-dots-view');
-  var stripesEl = document.getElementById('mood-stripes-view');
-
-  dotsEl.style.display = 'flex';
-  dotsEl.innerHTML = colors.map(function(c) {
-    return '<div class="mdot" style="background:' + c.hex + ';--g:rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.35)" onclick="copyHex(\'' + c.hex + '\')" title="点击复制色值">' +
-      '<div class="mdot-gloss"></div>' +
-      '<div class="mdot-name">' + c.name + '</div>' +
-    '</div>';
-  }).join('');
-
-  stripesEl.style.display = 'none';
-  stripesEl.innerHTML = colors.map(function(c) {
-    return '<div class="mood-stripe" style="--mc:' + c.hex + '">' +
-      '<span class="ms-name">' + c.name + '</span>' +
-    '</div>';
-  }).join('');
-}
-
-function copyHex(hex) {
-  var ta = document.createElement('textarea');
-  ta.value = hex; ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
-  document.execCommand('copy'); document.body.removeChild(ta);
-  showMoodToast('已复制 ' + hex);
-}
-
-function showMoodToast(msg) {
-  var el = document.createElement('div');
-  el.textContent = msg;
-  el.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:200;padding:10px 20px;background:#1a1a1a;border:1px solid rgba(201,169,110,0.3);border-radius:50px;color:#d4a574;font-size:13px;font-family:inherit;animation:overlayIn 0.3s ease-out;';
-  document.body.appendChild(el);
-  setTimeout(function() { el.remove(); }, 2000);
-}
-
-function moodExport() {
-  if (!window._moodColors || !window._moodColors.length) return;
-  var canvas = document.createElement('canvas');
-  var W = 600, H = 500;
-  canvas.width = W; canvas.height = H;
-  var ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#1a1a1a';
-  ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = '#c9a96e';
-  ctx.font = 'bold 22px "PingFang SC","Microsoft YaHei",sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('心情配色方案', W/2, 80);
-  var colors = window._moodColors;
-  colors.forEach(function(c, i) {
-    var x = 60 + i * 100;
-    ctx.fillStyle = c.hex;
-    ctx.beginPath(); ctx.arc(x + 35, 200, 35, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#fff';
-    ctx.font = '13px "PingFang SC","Microsoft YaHei",sans-serif';
-    ctx.fillText(c.name, x + 35, 255);
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.font = '11px monospace';
-    ctx.fillText(c.hex, x + 35, 272);
-  });
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
-  ctx.font = '12px "PingFang SC","Microsoft YaHei",sans-serif';
-  ctx.fillText('来自寻色 taiweixiao.com', W/2, H - 30);
-  var link = document.createElement('a');
-  link.download = '心情配色方案.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-  showMoodToast('配色方案已下载 ✨');
-}
-
-function moodShare() {
-  if (!window._moodColors || !window._moodColors.length) return;
-  var text = window._moodColors.map(function(c) { return c.name + ' ' + c.hex; }).join(' │ ');
-  text += '\n—— 来自 寻色 ' + window.location.href;
-  if (navigator.share) {
-    navigator.share({ title: '我的心情配色', text: text }).catch(function(){});
-  } else {
-    var ta = document.createElement('textarea');
-    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-    document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    showMoodToast('配色已复制，分享给朋友吧 ✨');
-  }
-}
-
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMood(); });
 <script>
-// Simple Canvas starfield — 永不黑屏
 (function(){
-  var c = document.getElementById("galaxy-bg");
-  if(!c) return;
-  var ctx = c.getContext("2d");
-  var stars = [], W, H;
-  function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
-  resize(); window.addEventListener("resize", resize);
-  for(var i=0;i<120;i++) stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.5+0.3,o:Math.random()*0.6+0.2,s:Math.random()*0.3+0.1});
-  var mouseX = -999, mouseY = -999;
-  c.addEventListener("mousemove", function(e){ mouseX=e.clientX; mouseY=e.clientY; });
-  c.addEventListener("mouseleave", function(){ mouseX=-999; mouseY=-999; });
-  function loop(t) {
-    resize();
-    ctx.fillStyle = "#0d0d0d"; ctx.fillRect(0, 0, W, H);
-    for(var i=0;i<stars.length;i++) {
-      var s = stars[i];
-      s.y += s.s * 0.3; if(s.y > H+20) { s.y = -20; s.x = Math.random()*W; }
-      var dx = s.x - mouseX, dy = s.y - mouseY, dist = Math.sqrt(dx*dx+dy*dy);
-      if(dist < 180 && mouseX > 0) { s.x += dx/dist * 0.4; s.y += dy/dist * 0.4; }
-      var flicker = 0.5 + 0.5*Math.sin(t*0.002 + i*1.7);
-      ctx.fillStyle = "rgba(255,220,180," + (s.o * flicker).toFixed(2) + ")";
-      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+  var c=document.getElementById("galaxy-bg");if(!c)return;
+  var ctx=c.getContext("2d"),stars=[],W,H;
+  function rsz(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  rsz();addEventListener("resize",rsz);
+  for(var i=0;i<100;i++)stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+0.3,o:Math.random()*0.5+0.15,s:Math.random()*0.2+0.05});
+  var mx=-999,my=-999;
+  c.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});
+  c.addEventListener("mouseleave",function(){mx=-999;my=-999;});
+  function loop(t){
+    rsz();ctx.fillStyle="#0d0d0d";ctx.fillRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];s.y+=s.s*0.3;if(s.y>H+20){s.y=-20;s.x=Math.random()*W;}
+      var dx=s.x-mx,dy=s.y-my,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<150&&mx>0){s.x+=dx/dist*0.3;s.y+=dy/dist*0.3;}
+      var f=0.5+0.5*Math.sin(t*0.002+i*1.7);
+      ctx.fillStyle="rgba(255,220,180,"+(s.o*f).toFixed(2)+")";
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
     }
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
 })();
-</script>
-
-<script>/**
- * Galaxy — WebGL 星空背景 (零依赖 vanilla WebGL)
- * Shader 与 React OGL 版完全一致
- */
-(function(global) {
-'use strict';
-
-// ── vertex shader (与 React 版一致) ──────────────────
-const VERTEX = `
-attribute vec2 uv;
-attribute vec2 position;
-varying vec2 vUv;
-void main() {
-  vUv = uv;
-  gl_Position = vec4(position, 0, 1);
-}`;
-
-// ── fragment shader (与 React 版完全一致) ──────────────
-const FRAGMENT = `
-precision highp float;
-
-uniform float uTime;
-uniform vec3 uResolution;
-uniform vec2 uFocal;
-uniform vec2 uRotation;
-uniform float uStarSpeed;
-uniform float uDensity;
-uniform float uHueShift;
-uniform float uSpeed;
-uniform vec2 uMouse;
-uniform float uGlowIntensity;
-uniform float uSaturation;
-uniform bool uMouseRepulsion;
-uniform float uTwinkleIntensity;
-uniform float uRotationSpeed;
-uniform float uRepulsionStrength;
-uniform float uMouseActiveFactor;
-uniform float uAutoCenterRepulsion;
-uniform bool uTransparent;
-
-varying vec2 vUv;
-
-#define NUM_LAYER 4.0
-#define STAR_COLOR_CUTOFF 0.2
-#define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
-#define PERIOD 3.0
-
-float Hash21(vec2 p) {
-  p = fract(p * vec2(123.34, 456.21));
-  p += dot(p, p + 45.32);
-  return fract(p.x * p.y);
-}
-
-float tri(float x) { return abs(fract(x) * 2.0 - 1.0); }
-
-float tris(float x) {
-  float t = fract(x);
-  return 1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0));
-}
-
-float trisn(float x) {
-  float t = fract(x);
-  return 2.0 * (1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0))) - 1.0;
-}
-
-vec3 hsv2rgb(vec3 c) {
-  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-}
-
-float Star(vec2 uv, float flare) {
-  float d = length(uv);
-  float m = (0.05 * uGlowIntensity) / d;
-  float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
-  m += rays * flare * uGlowIntensity;
-  uv *= MAT45;
-  rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
-  m += rays * 0.3 * flare * uGlowIntensity;
-  m *= smoothstep(1.0, 0.2, d);
-  return m;
-}
-
-vec3 StarLayer(vec2 uv) {
-  vec3 col = vec3(0.0);
-  vec2 gv = fract(uv) - 0.5;
-  vec2 id = floor(uv);
-
-  for (int y = -1; y <= 1; y++) {
-    for (int x = -1; x <= 1; x++) {
-      vec2 offset = vec2(float(x), float(y));
-      vec2 si = id + offset;
-      float seed = Hash21(si);
-      float size = fract(seed * 345.32);
-      float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
-      float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
-
-      float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
-      float blu = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 3.0)) + STAR_COLOR_CUTOFF;
-      float grn = min(red, blu) * seed;
-      vec3 base = vec3(red, grn, blu);
-
-      float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
-      hue = fract(hue + uHueShift / 360.0);
-      float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
-      float val = max(max(base.r, base.g), base.b);
-      base = hsv2rgb(vec3(hue, sat, val));
-
-      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
-
-      float star = Star(gv - offset - pad, flareSize);
-      vec3 color = base;
-
-      float twinkle = trisn(uTime * uSpeed + seed * 6.2831) * 0.5 + 1.0;
-      twinkle = mix(1.0, twinkle, uTwinkleIntensity);
-      star *= twinkle;
-
-      col += star * size * color;
-    }
-  }
-  return col;
-}
-
-void main() {
-  vec2 focalPx = uFocal * uResolution.xy;
-  vec2 uv = (vUv * uResolution.xy - focalPx) / uResolution.y;
-
-  vec2 mouseNorm = uMouse - vec2(0.5);
-
-  if (uAutoCenterRepulsion > 0.0) {
-    vec2 centerUV = vec2(0.0, 0.0);
-    float centerDist = length(uv - centerUV);
-    vec2 repulsion = normalize(uv - centerUV) * (uAutoCenterRepulsion / (centerDist + 0.1));
-    uv += repulsion * 0.05;
-  } else if (uMouseRepulsion) {
-    vec2 mousePosUV = (uMouse * uResolution.xy - focalPx) / uResolution.y;
-    float mouseDist = length(uv - mousePosUV);
-    vec2 repulsion = normalize(uv - mousePosUV) * (uRepulsionStrength / (mouseDist + 0.1));
-    uv += repulsion * 0.05 * uMouseActiveFactor;
-  } else {
-    vec2 mouseOffset = mouseNorm * 0.1 * uMouseActiveFactor;
-    uv += mouseOffset;
-  }
-
-  float autoRotAngle = uTime * uRotationSpeed;
-  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
-  uv = autoRot * uv;
-
-  uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
-
-  vec3 col = vec3(0.0);
-  for (float i = 0.0; i < 1.0; i += 1.0 / NUM_LAYER) {
-    float depth = fract(i + uStarSpeed * uSpeed);
-    float scale = mix(20.0 * uDensity, 0.5 * uDensity, depth);
-    float fade = depth * smoothstep(1.0, 0.9, depth);
-    col += StarLayer(uv * scale + i * 453.32) * fade;
-  }
-
-  if (uTransparent) {
-    float alpha = length(col);
-    alpha = smoothstep(0.0, 0.3, alpha);
-    alpha = min(alpha, 1.0);
-    gl_FragColor = vec4(col, alpha);
-  } else {
-    gl_FragColor = vec4(col, 1.0);
-  }
-}`;
-
-// ── minimal WebGL helpers ─────────────────────────────
-function createShader(gl, type, src) {
-  const s = gl.createShader(type);
-  gl.shaderSource(s, src);
-  gl.compileShader(s);
-  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-    console.warn('Shader error:', gl.getShaderInfoLog(s));
-  }
-  return s;
-}
-
-function createProgram(gl, vsSrc, fsSrc) {
-  const p = gl.createProgram();
-  gl.attachShader(p, createShader(gl, gl.VERTEX_SHADER, vsSrc));
-  gl.attachShader(p, createShader(gl, gl.FRAGMENT_SHADER, fsSrc));
-  // 绑定 attribute location，确保 position=0, uv=1
-  gl.bindAttribLocation(p, 0, 'position');
-  gl.bindAttribLocation(p, 1, 'uv');
-  gl.linkProgram(p);
-  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
-    console.warn('Link error:', gl.getProgramInfoLog(p));
-  }
-  return p;
-}
-
-// full-screen triangle (covers clip space without a VBO)
-// buffer 只在初始化时创建一次
-var _screenBuf = null;
-function drawFullScreenTriangle(gl, program) {
-  if (!_screenBuf) {
-    _screenBuf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, _screenBuf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      -1, -1,  0, 0,
-       3, -1,  2, 0,
-      -1,  3,  0, 2,
-    ]), gl.STATIC_DRAW);
-  } else {
-    gl.bindBuffer(gl.ARRAY_BUFFER, _screenBuf);
-  }
-
-  var posLoc = gl.getAttribLocation(program, 'position');
-  var uvLoc  = gl.getAttribLocation(program, 'uv');
-  var stride = 4 * 4;
-
-  gl.enableVertexAttribArray(posLoc);
-  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, stride, 0);
-  gl.enableVertexAttribArray(uvLoc);
-  gl.vertexAttribPointer(uvLoc, 2, gl.FLOAT, false, stride, 8);
-
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-}
-
-function getUniformLocation(gl, program, name) {
-  return gl.getUniformLocation(program, name);
-}
-
-// ── Galaxy Init ──────────────────────────────────────
-var DEFAULTS = {
-  focal:            [0.5, 0.5],
-  rotation:         [1.0, 0.0],
-  starSpeed:        0.3,
-  density:          0.8,
-  hueShift:         45,
-  speed:            0.6,
-  mouseInteraction: true,
-  glowIntensity:    0.35,
-  saturation:       0.2,
-  mouseRepulsion:   true,
-  repulsionStrength: 2.5,
-  twinkleIntensity: 0.3,
-  rotationSpeed:    0.08,
-  autoCenterRepulsion: 0,
-  transparent:      true,
-};
-
-global.initGalaxy = function(container, opts) {
-  var o = {};
-  var keys = Object.keys(DEFAULTS);
-  for (var k = 0; k < keys.length; k++) {
-    o[keys[k]] = (opts && opts[keys[k]] !== undefined) ? opts[keys[k]] : DEFAULTS[keys[k]];
-  }
-
-  var canvas = document.createElement('canvas');
-  canvas.style.display = 'block';
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-  container.appendChild(canvas);
-
-  var gl = canvas.getContext('webgl2', { alpha: o.transparent, premultipliedAlpha: false }) ||
-            canvas.getContext('webgl',   { alpha: o.transparent, premultipliedAlpha: false });
-
-  if (!gl) { console.warn('WebGL not supported'); return function(){}; }
-
-  if (o.transparent) {
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-    gl.clearColor(0, 0, 0, 0);
-  } else {
-    gl.clearColor(0, 0, 0, 1);
-  }
-
-  var program = createProgram(gl, VERTEX, FRAGMENT);
-  gl.useProgram(program);
-
-  // Resolve all uniform locations once
-  var u = {};
-  var uniformNames = [
-    'uTime', 'uResolution', 'uFocal', 'uRotation', 'uStarSpeed', 'uDensity',
-    'uHueShift', 'uSpeed', 'uMouse', 'uGlowIntensity', 'uSaturation',
-    'uMouseRepulsion', 'uTwinkleIntensity', 'uRotationSpeed',
-    'uRepulsionStrength', 'uMouseActiveFactor', 'uAutoCenterRepulsion', 'uTransparent'
-  ];
-  for (var n = 0; n < uniformNames.length; n++) {
-    u[uniformNames[n]] = getUniformLocation(gl, program, uniformNames[n]);
-  }
-
-  function resize() {
-    var w = container.offsetWidth  || window.innerWidth;
-    var h = container.offsetHeight || window.innerHeight;
-    if (w === 0 || h === 0) { w = window.innerWidth; h = window.innerHeight; }
-    canvas.width = w;
-    canvas.height = h;
-    gl.viewport(0, 0, w, h);
-    gl.uniform3f(u.uResolution, w, h, w / h);
-  }
-  window.addEventListener('resize', resize);
-  // 延迟确保 layout 完成 + DOM ready
-  setTimeout(resize, 50);
-  setTimeout(resize, 300);
-
-  // Set static uniforms
-  gl.uniform2fv(u.uFocal, new Float32Array(o.focal));
-  gl.uniform2fv(u.uRotation, new Float32Array(o.rotation));
-  gl.uniform1f(u.uDensity, o.density);
-  gl.uniform1f(u.uHueShift, o.hueShift);
-  gl.uniform1f(u.uSpeed, o.speed);
-  gl.uniform1f(u.uGlowIntensity, o.glowIntensity);
-  gl.uniform1f(u.uSaturation, o.saturation);
-  gl.uniform1i(u.uMouseRepulsion, o.mouseRepulsion ? 1 : 0);
-  gl.uniform1f(u.uTwinkleIntensity, o.twinkleIntensity);
-  gl.uniform1f(u.uRotationSpeed, o.rotationSpeed);
-  gl.uniform1f(u.uRepulsionStrength, o.repulsionStrength);
-  gl.uniform1f(u.uAutoCenterRepulsion, o.autoCenterRepulsion);
-  gl.uniform1i(u.uTransparent, o.transparent ? 1 : 0);
-
-  // Mouse tracking
-  var targetMouse = { x: 0.5, y: 0.5 };
-  var smoothMouse = { x: 0.5, y: 0.5 };
-  var targetActive = 0.0;
-  var smoothActive = 0.0;
-
-  function onMove(e) {
-    var rect = container.getBoundingClientRect();
-    targetMouse.x = (e.clientX - rect.left) / rect.width;
-    targetMouse.y = 1.0 - (e.clientY - rect.top) / rect.height;
-    targetActive = 1.0;
-  }
-  function onLeave() { targetActive = 0.0; }
-
-  if (o.mouseInteraction) {
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseleave', onLeave);
-    document.addEventListener('touchmove', function(e) {
-      var t = e.touches[0];
-      var rect = container.getBoundingClientRect();
-      targetMouse.x = (t.clientX - rect.left) / rect.width;
-      targetMouse.y = 1.0 - (t.clientY - rect.top) / rect.height;
-      targetActive = 1.0;
-    }, { passive: true });
-    document.addEventListener('touchend', onLeave);
-  }
-
-  var animId;
-  function update(ms) {
-    animId = requestAnimationFrame(update);
-    var t = ms * 0.001;
-    gl.uniform1f(u.uTime, t);
-    gl.uniform1f(u.uStarSpeed, (t * o.starSpeed) / 10.0);
-
-    var lerp = 0.05;
-    smoothMouse.x += (targetMouse.x - smoothMouse.x) * lerp;
-    smoothMouse.y += (targetMouse.y - smoothMouse.y) * lerp;
-    smoothActive   += (targetActive - smoothActive) * lerp;
-
-    gl.uniform2f(u.uMouse, smoothMouse.x, smoothMouse.y);
-    gl.uniform1f(u.uMouseActiveFactor, smoothActive);
-
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    drawFullScreenTriangle(gl, program);
-  }
-  animId = requestAnimationFrame(update);
-
-  return function destroy() {
-    cancelAnimationFrame(animId);
-    window.removeEventListener('resize', resize);
-    if (o.mouseInteraction) {
-      document.removeEventListener('mousemove', onMove);
-      document.removeEventListener('mouseleave', onLeave);
-    }
-    if (container.contains(canvas)) container.removeChild(canvas);
-    var ext = gl.getExtension('WEBGL_lose_context');
-    if (ext) ext.loseContext();
-  };
-};
-
-})(window);
-</script>
-<script>
-// Galaxy replaced with pure Canvas — skip old init
-  // ─── TiltedCard 3D 倾斜 ───────────────────────
-  var _tiltCard = document.getElementById('mood-card');
-  var _tiltTargetX = 0, _tiltTargetY = 0;
-  var _tiltCurX = 0, _tiltCurY = 0;
-  var _tiltActive = false;
-
-  function _tiltStart() { _tiltActive = true; }
-  function _tiltStop() { _tiltActive = false; _tiltTargetX = 0; _tiltTargetY = 0; }
-
-  if (_tiltCard) {
-    _tiltCard.addEventListener('mousemove', function(e) {
-      if (!_tiltActive) return;
-      var rect = _tiltCard.getBoundingClientRect();
-      var x = (e.clientX - rect.left) / rect.width - 0.5;
-      var y = (e.clientY - rect.top) / rect.height - 0.5;
-      _tiltTargetX = y * -14;
-      _tiltTargetY = x * 14;
-    });
-    _tiltCard.addEventListener('mouseleave', _tiltStop);
-  }
-
-  var _tiltOl = document.getElementById('mood-overlay');
-  var _tiltObs = new MutationObserver(function(ml) {
-    ml.forEach(function(m) {
-      if (m.target.classList.contains('show')) { _tiltStart(); }
-      else { _tiltStop(); _tiltCard.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)'; _tiltCurX = 0; _tiltCurY = 0; }
-    });
-  });
-  if (_tiltOl) _tiltObs.observe(_tiltOl, { attributes: true, attributeFilter: ['class'] });
-
-  function _tiltLoop() {
-    _tiltCurX += (_tiltTargetX - _tiltCurX) * 0.08;
-    _tiltCurY += (_tiltTargetY - _tiltCurY) * 0.08;
-    var s = _tiltActive ? 1.02 : 1;
-    if (_tiltCard) _tiltCard.style.transform = 'perspective(800px) rotateX(' + _tiltCurX.toFixed(2) + 'deg) rotateY(' + _tiltCurY.toFixed(2) + 'deg) scale(' + s + ')';
-    requestAnimationFrame(_tiltLoop);
-  }
-  _tiltLoop();
+(function(){
+  var card=document.getElementById("moodCard");if(!card)return;
+  var tx=0,ty=0,cx=0,cy=0,active=false;
+  card.addEventListener("mousemove",function(e){if(!active)return;var r=card.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;tx=y*-14;ty=x*14;});
+  card.addEventListener("mouseleave",function(){tx=0;ty=0;});
+  var ol=document.getElementById("ol");
+  var obs=new MutationObserver(function(ml){ml.forEach(function(m){if(m.target.classList.contains("show")){active=true}else{active=false;card.style.transform="perspective(800px) rotateX(0deg) rotateY(0deg)";cx=0;cy=0}})});
+  if(ol)obs.observe(ol,{attributes:true,attributeFilter:["class"]});
+  function lp(){cx+=(tx-cx)*0.08;cy+=(ty-cy)*0.08;var s=active?1.02:1;card.style.transform="perspective(800px) rotateX("+cx.toFixed(2)+"deg) rotateY("+cy.toFixed(2)+"deg) scale("+s+")";requestAnimationFrame(lp);}
+  lp();
+})();</script>
 </script>
 </body>
 </html>
