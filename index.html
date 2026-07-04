@@ -51,7 +51,7 @@ textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,2
 .stripe:hover { transform: translateX(5px); }
 .stripe span { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
 
-#result { display: none; text-align: center; margin-top: 30px; position: relative; z-index: 2; }
+#result { display: none; text-align: center; margin-top: 30px; }
 #result.visible { display: block; }
 .result-card { width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px; box-shadow: 0 0 0 6px #3a2e1a, 0 0 0 10px #1a140a, 0 0 0 14px rgba(201,169,110,0.3), 0 0 60px rgba(201,169,110,0.3); transition: transform 0.6s; }
 .result-card::before { content:''; position:absolute; inset:0; border-radius:50%; background: radial-gradient(ellipse 35% 25% at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 55%); }
@@ -64,7 +64,7 @@ textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,2
 </head>
 <body>
 
-<img id="bg-img" src="assets/11.jpg" style="position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;z-index:0;display:none">
+<img id="bg-img" src="assets/11.jpg" alt="" style="position:fixed;inset:0;width:100vw;height:100vh;object-fit:cover;z-index:1;display:none">
 
 <div id="input-screen">
   <h1>寻 色</h1>
@@ -304,7 +304,6 @@ function searchName() {
   else { var h=5381;for(var i=0;i<n.length;i++){h=((h<<5)+h+n.charCodeAt(i))&0x7fffffff;}c=COLORS[h%COLORS.length]; }
 
   document.getElementById('input-screen').style.display='none';
-  document.getElementById('galaxy-bg').style.display='none';
   document.getElementById('bg-img').style.display='block';
   document.getElementById('result').classList.add('visible');
   document.getElementById('resultCard').style.background=c.hex;
@@ -316,7 +315,6 @@ function searchName() {
 
 function goBack() {
   document.getElementById('bg-img').style.display='none';
-  document.getElementById('galaxy-bg').style.display='';
   document.getElementById('result').classList.remove('visible');
   document.getElementById('input-screen').style.display='';
   document.getElementById('nameInput').value='';
@@ -377,32 +375,6 @@ function switchView(i) {
 document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
 document.getElementById('nameInput').focus();
-
-// Canvas 星星背景
-(function(){
-  var c=document.getElementById('galaxy-bg');
-  if(!c)return;
-  var ctx=c.getContext('2d'),stars=[],W,H;
-  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;}
-  rs();addEventListener('resize',rs);
-  for(var i=0;i<100;i++)stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+0.3,o:Math.random()*0.5+0.15,s:Math.random()*0.2+0.05});
-  var mx=-999,my=-999;
-  c.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
-  c.addEventListener('mouseleave',function(){mx=-999;my=-999;});
-  function loop(t){
-    rs();ctx.fillStyle='#0d0d0d';ctx.fillRect(0,0,W,H);
-    for(var i=0;i<stars.length;i++){
-      var s=stars[i];s.y+=s.s*0.3;if(s.y>H+20){s.y=-20;s.x=Math.random()*W;}
-      var dx=s.x-mx,dy=s.y-my,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<150&&mx>0){s.x+=dx/dist*0.3;s.y+=dy/dist*0.3;}
-      var f=0.5+0.5*Math.sin(t*0.002+i*1.7);
-      ctx.fillStyle='rgba(255,220,180,'+(s.o*f).toFixed(2)+')';
-      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
-    }
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
-})();
 </script>
 </body>
 </html>
