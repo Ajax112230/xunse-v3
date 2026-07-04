@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>寻色 · 中国传统色</title>
+<title>寻色测试 · 简版</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -60,8 +60,6 @@ textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,2
 .poem { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 380px; margin: 0 auto; }
 .poem-src { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 6px; }
 .retry { margin-top: 20px; padding: 10px 28px; background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.25); border-radius: 50px; color: #d4a574; font-size: 14px; font-family: inherit; cursor: pointer; }
-
-#galaxy-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
 </style>
 </head>
 <body>
@@ -94,8 +92,6 @@ textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,2
 </div>
 
 <script>
-// Mini color data
-
 var COLORS = [
 // ═══════════ 赤 (Reds) ═══════════
   { name: "胭脂",   hex: "#9B2D30", r: 155, g: 45,  b: 48,  poem: "胭脂泪，相留醉，几时重",                                     poet: "李煜",    dynasty: "五代",    source: "相见欢" },
@@ -295,8 +291,7 @@ var COLORS = [
   { name: "青灰",   hex: "#7F8F96", r: 127, g: 143, b: 150, poem: "青灰色的天空下，一只孤雁南飞",                                 poet: "佚名",    dynasty: "—",       source: "现代诗" },
   { name: "瓦灰",   hex: "#9B9B9B", r: 155, g: 155, b: 155, poem: "天色瓦灰云似絮，一川烟草满城风",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
   { name: "珠灰",   hex: "#C4C1B8", r: 196, g: 193, b: 184, poem: "珠灰色染秋山暮，几点寒鸦带月归",                               poet: "佚名",    dynasty: "—",       source: "古诗" }
-];
-
+];;
 
 function searchName() {
   var n = document.getElementById('nameInput').value.trim();
@@ -376,42 +371,6 @@ function switchView(i) {
 document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
 document.getElementById('nameInput').focus();
-
-<script>
-(function(){
-  var c=document.getElementById("galaxy-bg");if(!c)return;
-  var ctx=c.getContext("2d"),stars=[],W,H;
-  function rsz(){W=c.width=innerWidth;H=c.height=innerHeight;}
-  rsz();addEventListener("resize",rsz);
-  for(var i=0;i<100;i++)stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+0.3,o:Math.random()*0.5+0.15,s:Math.random()*0.2+0.05});
-  var mx=-999,my=-999;
-  c.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});
-  c.addEventListener("mouseleave",function(){mx=-999;my=-999;});
-  function loop(t){
-    rsz();ctx.fillStyle="#0d0d0d";ctx.fillRect(0,0,W,H);
-    for(var i=0;i<stars.length;i++){
-      var s=stars[i];s.y+=s.s*0.3;if(s.y>H+20){s.y=-20;s.x=Math.random()*W;}
-      var dx=s.x-mx,dy=s.y-my,dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<150&&mx>0){s.x+=dx/dist*0.3;s.y+=dy/dist*0.3;}
-      var f=0.5+0.5*Math.sin(t*0.002+i*1.7);
-      ctx.fillStyle="rgba(255,220,180,"+(s.o*f).toFixed(2)+")";
-      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
-    }
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
-})();
-(function(){
-  var card=document.getElementById("moodCard");if(!card)return;
-  var tx=0,ty=0,cx=0,cy=0,active=false;
-  card.addEventListener("mousemove",function(e){if(!active)return;var r=card.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-0.5;var y=(e.clientY-r.top)/r.height-0.5;tx=y*-14;ty=x*14;});
-  card.addEventListener("mouseleave",function(){tx=0;ty=0;});
-  var ol=document.getElementById("ol");
-  var obs=new MutationObserver(function(ml){ml.forEach(function(m){if(m.target.classList.contains("show")){active=true}else{active=false;card.style.transform="perspective(800px) rotateX(0deg) rotateY(0deg)";cx=0;cy=0}})});
-  if(ol)obs.observe(ol,{attributes:true,attributeFilter:["class"]});
-  function lp(){cx+=(tx-cx)*0.08;cy+=(ty-cy)*0.08;var s=active?1.02:1;card.style.transform="perspective(800px) rotateX("+cx.toFixed(2)+"deg) rotateY("+cy.toFixed(2)+"deg) scale("+s+")";requestAnimationFrame(lp);}
-  lp();
-})();</script>
 </script>
 </body>
 </html>
