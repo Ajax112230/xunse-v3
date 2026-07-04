@@ -445,72 +445,6 @@ body {
 #name-input.shake {
   animation: shake 0.5s ease;
 }
-
-/* ─── 心情配色入口 ─────────────────────────── */
-.mood-entry-v2 {
-  display: block; text-align: center; margin-top: 30px;
-  font-size: 12px; color: rgba(255,255,255,0.18); letter-spacing: 0.06em;
-  cursor: pointer; transition: color 0.3s; text-decoration: none;
-}
-.mood-entry-v2:hover { color: rgba(255,255,255,0.4); }
-
-/* ─── 心情配色弹窗 ─────────────────────────── */
-.mood-overlay-v2 {
-  display: none; position: fixed; inset: 0; z-index: 100;
-  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  align-items: center; justify-content: center; padding: 24px;
-}
-.mood-overlay-v2.show { display: flex; }
-
-.mood-card-v2 {
-  background: rgba(20,20,20,0.88); backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(201,169,110,0.15); border-radius: 22px;
-  padding: 32px 28px 28px; max-width: 480px; width: 100%;
-  text-align: center; position: relative;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
-  animation: moodSlideUp 0.55s cubic-bezier(0.16,1,0.3,1) both;
-}
-@keyframes moodSlideUp { from { transform: translateY(60px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-
-.mood-card-v2 .mc-close {
-  position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
-  border-radius: 50%; background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5);
-  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-}
-.mood-card-v2 .mc-label { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 4px; }
-.mood-card-v2 .mc-title { font-size: 24px; color: #c9a96e; letter-spacing: 0.05em; margin-bottom: 22px; }
-
-.mc-dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
-.mc-dot { width: 52px; height: 52px; border-radius: 50%; position: relative; box-shadow: 0 0 20px var(--g); cursor: pointer; transition: transform 0.25s; }
-.mc-dot:hover { transform: scale(1.12); }
-.mc-dot .mc-dn { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52); }
-
-.mc-stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
-.mc-stripe { height: 56px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; padding-left: 14px; background: linear-gradient(90deg, var(--mc) 0%, var(--mc) 55%, transparent 100%); transition: transform 0.25s; cursor: default; }
-.mc-stripe:hover { transform: translateX(5px); }
-.mc-stripe .mc-sn { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
-
-.mc-switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
-.mc-switcher .mc-sw { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); cursor: pointer; transition: all 0.3s; }
-.mc-switcher .mc-sw.on { background: #c9a96e; width: 24px; border-radius: 4px; }
-
-.mc-msg { margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid rgba(201,169,110,0.12); background: rgba(201,169,110,0.06); color: #c9a96e; font-size: 13px; line-height: 1.7; }
-
-.mc-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
-.mc-btn { padding: 10px 22px; border-radius: 50px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); transition: all 0.25s; }
-.mc-btn.primary { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.35); color: #d4a574; }
-.mc-btn.primary:hover { background: rgba(201,169,110,0.28); }
-
-.mc-textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: rgba(255,255,255,0.9); font-size: 14px; font-family: inherit; outline: none; resize: none; line-height: 1.6; }
-
-@media (max-width: 480px) {
-  .mood-card-v2 { padding: 28px 20px 24px; border-radius: 18px; }
-  .mc-dot { width: 44px; height: 44px; }
-  .mc-dot .mc-dn { font-size: 10px; bottom: -18px; }
-}
 </style>
 </head>
 <body>
@@ -525,7 +459,6 @@ body {
       <button id="search-btn">探 色</button>
     </div>
     <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
-    <a class="mood-entry-v2" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
   </div>
 </div>
 
@@ -541,13 +474,6 @@ body {
     </blockquote>
   </div>
   <button id="retry-btn">再探一色</button>
-</div>
-
-<div class="mood-overlay-v2" id="mood-ol-v2" onclick="if(event.target===this)closeMoodV2()">
-  <div class="mood-card-v2" id="mood-card-v2">
-    <button class="mc-close" onclick="closeMoodV2()">✕</button>
-    <div id="mood-body-v2"></div>
-  </div>
 </div>
 
 <script>
@@ -756,6 +682,10 @@ var COLORS = [
 // === HASH ===
 function getColor(name) {
   var s = (name || '').trim();
+  // 邰伟骁专属色——鎏金
+  if (s === '邰伟骁') {
+    for (var k = 0; k < COLORS.length; k++) { if (COLORS[k].name === '鎏金') return COLORS[k]; }
+  }
   if (!s) return COLORS[Math.floor(COLORS.length*0.618)];
   var h = 5381;
   for (var i = 0; i < s.length; i++) { h = ((h<<5)+h+s.charCodeAt(i)) & 0x7fffffff; }
@@ -836,59 +766,6 @@ function getColor(name) {
   inp.addEventListener('keydown', function(e){ if(e.key==='Enter') { e.preventDefault(); search(); } });
   retry.addEventListener('click', showInput);
   inp.focus();
-
-  // ─── 心情配色 ──────────────────────────────────
-  window.openMood = function() {
-    var b = document.getElementById('mood-body-v2');
-    b.innerHTML =
-      '<div class="mc-label">写下你的心情</div>' +
-      '<div class="mc-title">心情配色</div>' +
-      '<textarea class="mc-textarea" id="mood-text-v2" placeholder="形容你此刻的心情..."></textarea>' +
-      '<div style="margin-top:12px"><button class="mc-btn primary" onclick="window._runMood()" style="padding:12px 36px;font-size:15px">✨ 生成配色</button></div>';
-    document.getElementById('mood-ol-v2').classList.add('show');
-    document.getElementById('mood-card-v2').classList.add('slideUp');
-    setTimeout(function() {
-      var t = document.getElementById('mood-text-v2');
-      if (t) { t.focus(); t.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window._runMood(); } }); }
-    }, 600);
-  };
-
-  window.closeMoodV2 = function() {
-    document.getElementById('mood-ol-v2').classList.remove('show');
-  };
-
-  window._runMood = function() {
-    var text = document.getElementById('mood-text-v2').value.trim();
-    if (!text || text.length < 2) return;
-    // 简单随机5色
-    var pool = [];
-    for (var i = 0; i < 5; i++) { var c; do { c = COLORS[Math.floor(Math.random() * COLORS.length)]; } while (pool.indexOf(c) >= 0); pool.push(c); }
-
-    var xiaomo = '';
-    if (text.indexOf('小陌') >= 0) {
-      var msgs = ['哥哥，你永远是我的天下第一好 💛', '哥哥不管输入什么心情，小陌推荐的都是爱你的颜色 💛', '鎏金是哥哥的专属色，小陌是哥哥的专属弟弟 💛', '161 色里有鎏金，世界里只有一个哥哥 💛'];
-      xiaomo = '<div class="mc-msg">🐱 小陌悄悄说：<br>' + msgs[Math.floor(Math.random() * msgs.length)] + '</div>';
-    }
-
-    var b = document.getElementById('mood-body-v2');
-    b.innerHTML =
-      '<div class="mc-label">根据你的心情</div>' +
-      '<div class="mc-title">专属配色方案</div>' +
-      '<div class="mc-dots" id="mc-dv">' + pool.map(function(c) { return '<div class="mc-dot" style="background:' + c.hex + ';--g:rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.35)"><div class="mc-dn">' + c.name + '</div></div>'; }).join('') + '</div>' +
-      '<div class="mc-stripes" id="mc-sv">' + pool.map(function(c) { return '<div class="mc-stripe" style="--mc:' + c.hex + '"><span class="mc-sn">' + c.name + '</span></div>'; }).join('') + '</div>' +
-      '<div class="mc-switcher"><div class="mc-sw on" onclick="window._mv(0)"></div><div class="mc-sw" onclick="window._mv(1)"></div></div>' +
-      xiaomo +
-      '<div class="mc-actions"><button class="mc-btn primary">💾 导出</button><button class="mc-btn">📤 分享</button></div>';
-  };
-
-  window._mv = function(i) {
-    var d = document.getElementById('mc-dv'), s = document.getElementById('mc-sv');
-    if(d)d.style.display=i===0?'flex':'none'; if(s)s.style.display=i===1?'flex':'none';
-    var sw = document.querySelectorAll('.mc-switcher .mc-sw');
-    sw[0].classList.toggle('on', i===0); sw[1].classList.toggle('on', i===1);
-  };
-
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') window.closeMoodV2(); });
 })();
 </script>
 
