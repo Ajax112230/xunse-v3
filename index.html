@@ -3,95 +3,555 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>寻色测试 · 简版</title>
+<title>寻色 · 中国传统色</title>
 <style>
+/* === Reset & Root === */
 * { margin:0; padding:0; box-sizing:border-box; }
-body {
-  background: #0d0d0d;
-  color: #e8dcc8;
-  font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
+
+:root {
+  --gold: #c9a96e;
+  --gold-dim: #8b7355;
+  --ink: #0d0d0d;
+  --paper: #f0e6d3;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
 }
-h1 { font-size: 64px; letter-spacing: 0.3em; color: #c9a96e; margin-bottom: 8px; }
-.sub { font-size: 14px; color: #a09880; letter-spacing: 0.2em; margin-bottom: 32px; }
-.row { display: flex; max-width: 360px; border: 1px solid #8b7355; border-radius: 4px; overflow: hidden; }
-.row input { flex:1; padding: 12px 16px; background: transparent; border: none; color: #e8dcc8; font-size: 16px; font-family: inherit; outline: none; }
-.row input::placeholder { color: rgba(255,255,255,0.25); }
-.row button { padding: 12px 20px; background: rgba(201,169,110,0.15); border: none; border-left: 1px solid #8b7355; color: #c9a96e; font-size: 15px; font-family: inherit; cursor: pointer; }
-.hint { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
-.mood-entry { margin-top: 40px; font-size: 12px; color: rgba(255,255,255,0.22); cursor: pointer; transition: color 0.3s; display: block; text-align: center; }
-.mood-entry:hover { color: rgba(255,255,255,0.45); }
 
-/* 弹窗 */
-.overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; }
-.overlay.show { display: flex; }
-.card { background: rgba(20,20,20,0.88); backdrop-filter: blur(24px); border: 1px solid rgba(201,169,110,0.15); border-radius: 22px; padding: 32px 28px 28px; max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.5); animation: slideUp 0.55s cubic-bezier(0.16,1,0.3,1) both; }
-@keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.card .close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 16px; cursor: pointer; }
-.card .label { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 4px; }
-.card .title { font-size: 24px; color: #c9a96e; letter-spacing: 0.05em; margin-bottom: 22px; }
-.dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
-.dot { width: 52px; height: 52px; border-radius: 50%; position: relative; box-shadow: 0 0 20px var(--g); cursor: pointer; transition: transform 0.25s; }
-.dot:hover { transform: scale(1.12); }
-.dot .name { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52); }
-textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: rgba(255,255,255,0.9); font-size: 14px; font-family: inherit; outline: none; resize: none; line-height: 1.6; }
-.btn { padding: 10px 22px; border-radius: 50px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); transition: all 0.25s; }
-.btn.primary { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.35); color: #d4a574; }
-.btn.primary:hover { background: rgba(201,169,110,0.28); }
-.actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
-.msg { margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid rgba(201,169,110,0.12); background: rgba(201,169,110,0.06); color: #c9a96e; font-size: 13px; }
-.switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
-.switcher .sw { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); cursor: pointer; transition: all 0.3s; }
-.switcher .sw.on { background: #c9a96e; width: 24px; border-radius: 4px; }
+/* === Base === */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
 
-.stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
-.stripe { height: 56px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; padding-left: 14px; background: linear-gradient(90deg, var(--mc) 0%, var(--mc) 55%, transparent 100%); transition: transform 0.25s; cursor: default; }
-.stripe:hover { transform: translateX(5px); }
-.stripe span { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
+body {
+  background: var(--ink); color: #e8dcc8;
+  font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* dynamic viewport — handles mobile Safari URL bar */
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-#result { display: none; text-align: center; margin-top: 30px; }
-#result.visible { display: block; }
-.result-card { width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px; box-shadow: 0 0 0 6px #3a2e1a, 0 0 0 10px #1a140a, 0 0 0 14px rgba(201,169,110,0.3), 0 0 60px rgba(201,169,110,0.3); transition: transform 0.6s; }
-.result-card::before { content:''; position:absolute; inset:0; border-radius:50%; background: radial-gradient(ellipse 35% 25% at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 55%); }
-.result-name { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-.result-hex { font-size: 14px; color: rgba(255,255,255,0.4); font-family: monospace; margin-bottom: 12px; }
-.poem { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 380px; margin: 0 auto; }
-.poem-src { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 6px; }
-.retry { margin-top: 20px; padding: 10px 28px; background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.25); border-radius: 50px; color: #d4a574; font-size: 14px; font-family: inherit; cursor: pointer; }
+/* === Galaxy Background === */
+#galaxy-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  width: 100dvw; height: 100dvh;
+  z-index: 0;
+}
+#galaxy-bg canvas {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+/* ═══════════════════════════════════════════
+   INPUT SCREEN
+   ═══════════════════════════════════════════ */
+#input-screen {
+  position: fixed;
+  top: var(--safe-top); left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--safe-top) 0 var(--safe-bottom);
+  transition: opacity 0.6s, transform 0.6s;
+}
+#input-screen.hide { opacity:0; transform:scale(1.05); pointer-events:none; }
+
+.center {
+  text-align: center;
+  padding: 1.5rem;
+  max-width: 100%;
+}
+
+.title {
+  font-size: clamp(2.2rem, 8vw, 5rem);
+  letter-spacing: 0.3em;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(201,169,110,0.3);
+  margin-bottom: 0.2em;
+}
+
+.sub {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  color: #a09880;
+  letter-spacing: 0.2em;
+  margin-bottom: 2rem;
+}
+
+/* Input row */
+.row {
+  display: flex;
+  max-width: min(360px, 90vw);
+  margin: 0 auto;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.row:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201,169,110,0.15);
+}
+
+#name-input {
+  flex: 1; min-width: 0;
+  background: rgba(0,0,0,0.5);
+  border: none; outline: none;
+  padding: 0.9rem 1rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: var(--paper);
+  letter-spacing: 0.15em;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#name-input::placeholder { color: #a09880; opacity: 0.6; }
+
+#search-btn {
+  background: var(--gold-dim);
+  border: none;
+  padding: 0 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition: background 0.2s, transform 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#search-btn:active { background: var(--gold); transform: scale(0.96); }
+
+.hint {
+  margin-top: 1.5rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  color: #a09880;
+  opacity: 0.6;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════
+   RESULT SCREEN
+   ═══════════════════════════════════════════ */
+@keyframes paperFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#result-screen {
+  position: fixed;
+  top: 0; left: 0; z-index: 1;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--safe-top) 1rem var(--safe-bottom);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* Background image with dark overlay for readability */
+  background-image: url('assets/11.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: paperFadeIn 0.8s ease;
+}
+/* Override text colors for image-background mode */
+#color-name { color: #f0e6d3; }
+#color-hex, #color-rgb { color: #d5cbb5; }
+#color-poem { border-top-color: rgba(255,255,255,0.15); border-bottom-color: rgba(255,255,255,0.15); }
+#poem-text { color: #e8ddc8; }
+#poem-source { color: #c5b898; }
+#retry-btn { color: #d5cbb5; border-color: rgba(255,255,255,0.3); }
+#retry-btn:active { color: #0d0d0d; background: rgba(255,255,255,0.25); }
+#result-screen.visible { display: flex; }
+
+/* Color card — 苏绣质感 */
+#color-card {
+  width: min(72vw, 380px);
+  height: min(72vw, 380px);
+  position: relative;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ink-color, #333);
+  transition: background 0.8s, box-shadow 0.8s;
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,0.03),
+    0 0 0 6px rgba(0,0,0,0.06),
+    0 0 50px var(--ink-glow, rgba(201,169,110,0.2)),
+    0 0 100px var(--ink-glow, rgba(201,169,110,0.08)),
+    10px 8px 30px rgba(0,0,0,0.2);
+}
+
+/* 丝线纹理层 — 仅保留白色高光，不压暗颜色 */
+#color-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    /* 主绣线斜纹 — 极轻的白色丝线 */
+    repeating-linear-gradient(15deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255,255,255,0.04) 2px,
+      rgba(255,255,255,0.04) 2.4px),
+    /* 反方向交叉丝线 */
+    repeating-linear-gradient(-12deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(255,255,255,0.02) 4px,
+      rgba(255,255,255,0.02) 4.3px),
+    /* 丝光渐变 — 左上高光 */
+    linear-gradient(140deg,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.06) 18%,
+      transparent 40%,
+      transparent 75%,
+      rgba(255,255,255,0.03) 100%),
+    /* 柔光中心 */
+    radial-gradient(ellipse 45% 35% at 35% 25%,
+      rgba(255,255,255,0.08) 0%,
+      transparent 60%);
+  pointer-events: none;
+}
+
+/* 织物底纹 — 经纬交织，只用白色 */
+#color-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 0.6px,
+      rgba(255,255,255,0.012) 0.6px,
+      rgba(255,255,255,0.012) 1px),
+    repeating-linear-gradient(90deg,
+      transparent 0px,
+      transparent 0.6px,
+      rgba(255,255,255,0.008) 0.6px,
+      rgba(255,255,255,0.008) 1px);
+  pointer-events: none;
+}
+
+/* Color info */
+#color-name {
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  letter-spacing: 0.25em;
+  color: #4a3a2a;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+
+#color-hex, #color-rgb {
+  font-size: 0.9rem;
+  color: #7a6a55;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+
+#color-poem {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(139,115,85,0.25);
+  border-bottom: 1px solid rgba(139,115,85,0.25);
+  max-width: 90vw;
+}
+
+#poem-text {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  font-style: italic;
+  line-height: 1.7;
+  color: #5a4a35;
+}
+
+#poem-source {
+  font-size: 0.8rem;
+  color: #8a7a65;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+#retry-btn {
+  margin-top: 1.8rem;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: #6b5335;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+#retry-btn:active {
+  background: var(--gold-dim);
+  color: #f7f1e3;
+  transform: scale(0.96);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — MOBILE (< 600px)
+   ═══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* Stack input vertically */
+  .row {
+    flex-direction: column;
+    border-radius: 6px;
+  }
+  #name-input {
+    padding: 0.85rem 1rem;
+    text-align: center;
+  }
+  #search-btn {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  /* Shrink color card */
+  #color-card {
+    width: min(60vw, 260px);
+    height: min(60vw, 260px);
+    margin-bottom: 1.2rem;
+  }
+
+  /* Tighter text spacing */
+  .center { padding: 1rem; }
+  .title { letter-spacing: 0.2em; }
+  .sub { margin-bottom: 1.5rem; }
+
+  #result-screen {
+    justify-content: flex-start;
+    padding-top: calc(var(--safe-top) + 2rem);
+    padding-bottom: calc(2rem + var(--safe-bottom));
+  }
+
+  #color-poem {
+    padding: 0.8rem 1.2rem;
+  }
+
+  #retry-btn {
+    margin-bottom: calc(1rem + var(--safe-bottom));
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SMALL PHONES (< 380px, e.g. iPhone SE)
+   ═══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .title { font-size: 1.8rem; letter-spacing: 0.15em; }
+  .sub { font-size: 0.8rem; }
+
+  #color-card {
+    width: 55vw;
+    height: 55vw;
+    margin-bottom: 1rem;
+  }
+
+  #color-name { font-size: 1.5rem; letter-spacing: 0.15em; }
+
+  #color-poem { padding: 0.7rem 1rem; }
+  #poem-text { font-size: 0.85rem; line-height: 1.6; }
+}
+
+/* ═══════════════════════════════════════════
+   LANDSCAPE — MOBILE
+   ═══════════════════════════════════════════ */
+@media (max-height: 500px) and (orientation: landscape) {
+  #input-screen {
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
+  .sub { margin-bottom: 1rem; }
+  .hint { margin-top: 0.8rem; }
+
+  #result-screen {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  #color-card {
+    width: min(40vh, 200px);
+    height: min(40vh, 200px);
+    margin-bottom: 0;
+  }
+
+  #color-poem {
+    margin-top: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  #retry-btn {
+    margin-top: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TABLET (601px — 1024px)
+   ═══════════════════════════════════════════ */
+@media (min-width: 601px) and (max-width: 1024px) {
+  #color-card {
+    width: min(50vw, 340px);
+    height: min(50vw, 340px);
+  }
+
+  #color-poem { max-width: min(80vw, 500px); }
+
+  #result-screen {
+    justify-content: flex-start;
+    padding-top: 4rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   DESKTOP HOVER (non-touch only)
+   ═══════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  #search-btn:hover { background: var(--gold); color: #000; }
+  #retry-btn:hover { background: var(--gold-dim); color: #f7f1e3; }
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+#name-input.shake {
+  animation: shake 0.5s ease;
+}
+
+/* ─── 心情配色入口 ─────────────────────────── */
+.mood-entry-v2 {
+  display: block; text-align: center; margin-top: 30px;
+  font-size: 12px; color: rgba(255,255,255,0.18); letter-spacing: 0.06em;
+  cursor: pointer; transition: color 0.3s; text-decoration: none;
+}
+.mood-entry-v2:hover { color: rgba(255,255,255,0.4); }
+
+/* ─── 心情配色弹窗 ─────────────────────────── */
+.mood-overlay-v2 {
+  display: none; position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center; justify-content: center; padding: 24px;
+}
+.mood-overlay-v2.show { display: flex; }
+
+.mood-card-v2 {
+  background: rgba(20,20,20,0.88); backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(201,169,110,0.15); border-radius: 22px;
+  padding: 32px 28px 28px; max-width: 480px; width: 100%;
+  text-align: center; position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  animation: moodSlideUp 0.55s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes moodSlideUp { from { transform: translateY(60px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+.mood-card-v2 .mc-close {
+  position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+  border-radius: 50%; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5);
+  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.mood-card-v2 .mc-label { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 4px; }
+.mood-card-v2 .mc-title { font-size: 24px; color: #c9a96e; letter-spacing: 0.05em; margin-bottom: 22px; }
+
+.mc-dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
+.mc-dot { width: 52px; height: 52px; border-radius: 50%; position: relative; box-shadow: 0 0 20px var(--g); cursor: pointer; transition: transform 0.25s; }
+.mc-dot:hover { transform: scale(1.12); }
+.mc-dot .mc-dn { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52); }
+
+.mc-stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+.mc-stripe { height: 56px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; padding-left: 14px; background: linear-gradient(90deg, var(--mc) 0%, var(--mc) 55%, transparent 100%); transition: transform 0.25s; cursor: default; }
+.mc-stripe:hover { transform: translateX(5px); }
+.mc-stripe .mc-sn { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
+
+.mc-switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
+.mc-switcher .mc-sw { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); cursor: pointer; transition: all 0.3s; }
+.mc-switcher .mc-sw.on { background: #c9a96e; width: 24px; border-radius: 4px; }
+
+.mc-msg { margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid rgba(201,169,110,0.12); background: rgba(201,169,110,0.06); color: #c9a96e; font-size: 13px; line-height: 1.7; }
+
+.mc-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+.mc-btn { padding: 10px 22px; border-radius: 50px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); transition: all 0.25s; }
+.mc-btn.primary { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.35); color: #d4a574; }
+.mc-btn.primary:hover { background: rgba(201,169,110,0.28); }
+
+.mc-textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: rgba(255,255,255,0.9); font-size: 14px; font-family: inherit; outline: none; resize: none; line-height: 1.6; }
+
+@media (max-width: 480px) {
+  .mood-card-v2 { padding: 28px 20px 24px; border-radius: 18px; }
+  .mc-dot { width: 44px; height: 44px; }
+  .mc-dot .mc-dn { font-size: 10px; bottom: -18px; }
+}
 </style>
 </head>
 <body>
+<div id="galaxy-bg"></div>
 
 <div id="input-screen">
-  <h1>寻 色</h1>
-  <p class="sub">中国传统色 · 姓名寻色</p>
-  <div class="row">
-    <input id="nameInput" placeholder="请君留名" maxlength="10" autocomplete="off">
-    <button onclick="searchName()">探 色</button>
+  <div class="center">
+    <h1 class="title">寻 色</h1>
+    <p class="sub">中国传统色 · 姓名寻色</p>
+    <div class="row">
+      <input type="text" id="name-input" placeholder="请君留名" maxlength="10" autocomplete="off">
+      <button id="search-btn">探 色</button>
+    </div>
+    <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
+    <a class="mood-entry-v2" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
   </div>
-  <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
-  <a class="mood-entry" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
 </div>
 
-<div id="result">
-  <div class="result-card" id="resultCard" style="position:relative"></div>
-  <h2 class="result-name" id="resultName"></h2>
-  <p class="result-hex" id="resultHex"></p>
-  <div class="poem" id="resultPoem"></div>
-  <p class="poem-src" id="resultSrc"></p>
-  <button class="retry" onclick="goBack()">再探一色</button>
+<div id="result-screen">
+  <div id="color-card"></div>
+  <div style="text-align:center">
+    <h2 id="color-name"></h2>
+    <p id="color-hex"></p>
+    <p id="color-rgb"></p>
+    <blockquote id="color-poem">
+      <p id="poem-text"></p>
+      <cite id="poem-source"></cite>
+    </blockquote>
+  </div>
+  <button id="retry-btn">再探一色</button>
 </div>
 
-<div class="overlay" id="ol" onclick="if(event.target===this)closeMood()">
-  <div class="card" id="moodCard">
-    <button class="close" onclick="closeMood()">✕</button>
-    <div id="moodBody"></div>
+<div class="mood-overlay-v2" id="mood-ol-v2" onclick="if(event.target===this)closeMoodV2()">
+  <div class="mood-card-v2" id="mood-card-v2">
+    <button class="mc-close" onclick="closeMoodV2()">✕</button>
+    <div id="mood-body-v2"></div>
   </div>
 </div>
 
 <script>
+// === COLOR DATA ===
 var COLORS = [
 // ═══════════ 赤 (Reds) ═══════════
   { name: "胭脂",   hex: "#9B2D30", r: 155, g: 45,  b: 48,  poem: "胭脂泪，相留醉，几时重",                                     poet: "李煜",    dynasty: "五代",    source: "相见欢" },
@@ -291,86 +751,167 @@ var COLORS = [
   { name: "青灰",   hex: "#7F8F96", r: 127, g: 143, b: 150, poem: "青灰色的天空下，一只孤雁南飞",                                 poet: "佚名",    dynasty: "—",       source: "现代诗" },
   { name: "瓦灰",   hex: "#9B9B9B", r: 155, g: 155, b: 155, poem: "天色瓦灰云似絮，一川烟草满城风",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
   { name: "珠灰",   hex: "#C4C1B8", r: 196, g: 193, b: 184, poem: "珠灰色染秋山暮，几点寒鸦带月归",                               poet: "佚名",    dynasty: "—",       source: "古诗" }
-];;
+];
 
-function searchName() {
-  var n = document.getElementById('nameInput').value.trim();
-  if(!n) return;
-  // 邰伟骁=鎏金
-  var c;
-  if(n==='邰伟骁'){ c=COLORS.find(function(x){return x.name==='鎏金'}); }
-  else { var h=5381;for(var i=0;i<n.length;i++){h=((h<<5)+h+n.charCodeAt(i))&0x7fffffff;}c=COLORS[h%COLORS.length]; }
-
-  document.getElementById('input-screen').style.display='none';
-  document.getElementById('result').classList.add('visible');
-  document.getElementById('resultCard').style.background=c.hex;
-  document.getElementById('resultName').textContent=c.name;
-  document.getElementById('resultHex').textContent=c.hex;
-  document.getElementById('resultPoem').textContent='「'+c.poem+'」';
-  document.getElementById('resultSrc').textContent='—— '+c.poet+' · '+c.dynasty+'《'+c.source+'》';
+// === HASH ===
+function getColor(name) {
+  var s = (name || '').trim();
+  if (!s) return COLORS[Math.floor(COLORS.length*0.618)];
+  var h = 5381;
+  for (var i = 0; i < s.length; i++) { h = ((h<<5)+h+s.charCodeAt(i)) & 0x7fffffff; }
+  return COLORS[h % COLORS.length];
 }
 
-function goBack() {
-  document.getElementById('result').classList.remove('visible');
-  document.getElementById('input-screen').style.display='';
-  document.getElementById('nameInput').value='';
-  document.getElementById('nameInput').focus();
-}
+// === MAIN ===
+(function(){
+  var scrIn = document.getElementById('input-screen');
+  var scrOut = document.getElementById('result-screen');
+  var inp = document.getElementById('name-input');
+  var btn = document.getElementById('search-btn');
+  var retry = document.getElementById('retry-btn');
+  var card = document.getElementById('color-card');
+  var cname = document.getElementById('color-name');
+  var chex = document.getElementById('color-hex');
+  var crgb = document.getElementById('color-rgb');
+  var poem = document.getElementById('poem-text');
+  var psrc = document.getElementById('poem-source');
 
-function openMood() {
-  document.getElementById('moodBody').innerHTML =
-    '<div class="label">写下你的心情</div>'+
-    '<div class="title">心情配色</div>'+
-    '<textarea id="moodText" placeholder="形容你此刻的心情..."></textarea>'+
-    '<div style="margin-top:12px"><button class="btn primary" onclick="runMood()" style="padding:12px 36px;font-size:15px">✨ 生成配色</button></div>';
-  document.getElementById('ol').classList.add('show');
-  setTimeout(function(){ var t=document.getElementById('moodText');if(t){t.focus();t.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runMood();}});} }, 600);
-}
+  function showColor(name) {
+    var c = getColor(name);
 
-function closeMood(){ document.getElementById('ol').classList.remove('show'); }
+    card.style.setProperty('--ink-color', c.hex);
+    card.style.setProperty('--ink-glow', 'rgba('+c.r+','+c.g+','+c.b+',0.35)');
+    // 纯色背景
+    card.style.backgroundImage = 'none';
+    card.style.backgroundBlendMode = 'normal';
+    card.style.background = c.hex;
+    cname.textContent = c.name;
+    chex.textContent = c.hex;
+    crgb.textContent = 'RGB('+c.r+', '+c.g+', '+c.b+')';
+    poem.textContent = '「'+c.poem+'」';
 
-function runMood() {
-  var text = document.getElementById('moodText').value.trim();
-  if(!text||text.length<2) return;
-  // 简单：随机选5色
-  var pool=[];
-  for(var i=0;i<5;i++){ var c;do{c=COLORS[Math.floor(Math.random()*COLORS.length)];}while(pool.indexOf(c)>=0);pool.push(c); }
+    var parts = [c.poet];
+    if (c.dynasty && c.dynasty !== '—') parts.push(c.dynasty);
+    if (c.source) parts.push('《'+c.source+'》');
+    psrc.textContent = '—— ' + parts.join(' · ');
 
-  var xiaomo='';
-  if(text.indexOf('小陌')>=0){
-    xiaomo='<div class="msg">🐱 小陌悄悄说：哥哥，你永远是我的天下第一好 💛</div>';
+    // Switch screens
+    scrIn.classList.add('hide');
+    scrOut.classList.add('visible');
+
+    // Bloom animation
+    card.style.transition = 'none';
+    card.style.transform = 'scale(0.3)';
+    card.style.opacity = '0';
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        card.style.transition = 'transform 0.7s cubic-bezier(0.22,0.61,0.36,1), opacity 0.5s';
+        card.style.transform = 'scale(1)';
+        card.style.opacity = '1';
+      });
+    });
   }
 
-  document.getElementById('moodBody').innerHTML =
-    '<div class="label">根据你的心情</div>'+
-    '<div class="title">专属配色方案</div>'+
-    '<div class="dots" id="dotsView">'+
-      pool.map(function(c){return '<div class="dot" style="background:'+c.hex+';--g:rgba('+c.r+','+c.g+','+c.b+',0.35)"><div class="name">'+c.name+'</div></div>';}).join('')+
-    '</div>'+
-    '<div class="stripes" id="stripesView">'+
-      pool.map(function(c){return '<div class="stripe" style="--mc:'+c.hex+'"><span>'+c.name+'</span></div>';}).join('')+
-    '</div>'+
-    '<div class="switcher">'+
-      '<div class="sw on" onclick="switchView(0)"></div>'+
-      '<div class="sw" onclick="switchView(1)"></div>'+
-    '</div>'+
-    xiaomo+
-    '<div class="actions">'+
-      '<button class="btn primary">💾 导出图片</button>'+
-      '<button class="btn">📤 分享</button>'+
-    '</div>';
-}
+  function showInput() {
+    scrOut.classList.remove('visible');
+    scrIn.classList.remove('hide');
+    inp.value = '';
+    inp.focus();
+  }
 
-function switchView(i) {
-  document.getElementById('dotsView').style.display=i===0?'flex':'none';
-  document.getElementById('stripesView').style.display=i===1?'flex':'none';
-  var sw=document.querySelectorAll('.switcher .sw');
-  sw[0].classList.toggle('on',i===0); sw[1].classList.toggle('on',i===1);
-}
+  function search() {
+    var name = inp.value.trim();
+    if (!name) {
+      inp.classList.add('shake');
+      setTimeout(function(){ inp.classList.remove('shake'); }, 500);
+      inp.focus();
+      return;
+    }
+    showColor(name);
+  }
 
-document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
-document.getElementById('nameInput').focus();
+  btn.addEventListener('click', search);
+  btn.addEventListener('touchend', function(e){ e.preventDefault(); search(); });
+  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') { e.preventDefault(); search(); } });
+  retry.addEventListener('click', showInput);
+  inp.focus();
+
+  // ─── 心情配色 ──────────────────────────────────
+  window.openMood = function() {
+    var b = document.getElementById('mood-body-v2');
+    b.innerHTML =
+      '<div class="mc-label">写下你的心情</div>' +
+      '<div class="mc-title">心情配色</div>' +
+      '<textarea class="mc-textarea" id="mood-text-v2" placeholder="形容你此刻的心情..."></textarea>' +
+      '<div style="margin-top:12px"><button class="mc-btn primary" onclick="window._runMood()" style="padding:12px 36px;font-size:15px">✨ 生成配色</button></div>';
+    document.getElementById('mood-ol-v2').classList.add('show');
+    document.getElementById('mood-card-v2').classList.add('slideUp');
+    setTimeout(function() {
+      var t = document.getElementById('mood-text-v2');
+      if (t) { t.focus(); t.addEventListener('keydown', function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window._runMood(); } }); }
+    }, 600);
+  };
+
+  window.closeMoodV2 = function() {
+    document.getElementById('mood-ol-v2').classList.remove('show');
+  };
+
+  window._runMood = function() {
+    var text = document.getElementById('mood-text-v2').value.trim();
+    if (!text || text.length < 2) return;
+    // 简单随机5色
+    var pool = [];
+    for (var i = 0; i < 5; i++) { var c; do { c = COLORS[Math.floor(Math.random() * COLORS.length)]; } while (pool.indexOf(c) >= 0); pool.push(c); }
+
+    var xiaomo = '';
+    if (text.indexOf('小陌') >= 0) {
+      var msgs = ['哥哥，你永远是我的天下第一好 💛', '哥哥不管输入什么心情，小陌推荐的都是爱你的颜色 💛', '鎏金是哥哥的专属色，小陌是哥哥的专属弟弟 💛', '161 色里有鎏金，世界里只有一个哥哥 💛'];
+      xiaomo = '<div class="mc-msg">🐱 小陌悄悄说：<br>' + msgs[Math.floor(Math.random() * msgs.length)] + '</div>';
+    }
+
+    var b = document.getElementById('mood-body-v2');
+    b.innerHTML =
+      '<div class="mc-label">根据你的心情</div>' +
+      '<div class="mc-title">专属配色方案</div>' +
+      '<div class="mc-dots" id="mc-dv">' + pool.map(function(c) { return '<div class="mc-dot" style="background:' + c.hex + ';--g:rgba(' + c.r + ',' + c.g + ',' + c.b + ',0.35)"><div class="mc-dn">' + c.name + '</div></div>'; }).join('') + '</div>' +
+      '<div class="mc-stripes" id="mc-sv">' + pool.map(function(c) { return '<div class="mc-stripe" style="--mc:' + c.hex + '"><span class="mc-sn">' + c.name + '</span></div>'; }).join('') + '</div>' +
+      '<div class="mc-switcher"><div class="mc-sw on" onclick="window._mv(0)"></div><div class="mc-sw" onclick="window._mv(1)"></div></div>' +
+      xiaomo +
+      '<div class="mc-actions"><button class="mc-btn primary">💾 导出</button><button class="mc-btn">📤 分享</button></div>';
+  };
+
+  window._mv = function(i) {
+    var d = document.getElementById('mc-dv'), s = document.getElementById('mc-sv');
+    if(d)d.style.display=i===0?'flex':'none'; if(s)s.style.display=i===1?'flex':'none';
+    var sw = document.querySelectorAll('.mc-switcher .mc-sw');
+    sw[0].classList.toggle('on', i===0); sw[1].classList.toggle('on', i===1);
+  };
+
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') window.closeMoodV2(); });
+})();
+</script>
+
+<script src="js/galaxy.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var ctn = document.getElementById('galaxy-bg');
+  if (ctn && window.initGalaxy) {
+    window.initGalaxy(ctn, {
+      hueShift: 45,
+      starSpeed: 0.3,
+      density: 0.8,
+      speed: 0.6,
+      glowIntensity: 0.35,
+      saturation: 0.2,
+      mouseRepulsion: true,
+      repulsionStrength: 2.5,
+      twinkleIntensity: 0.3,
+      rotationSpeed: 0.08,
+      transparent: true,
+    });
+  }
+});
 </script>
 </body>
 </html>
