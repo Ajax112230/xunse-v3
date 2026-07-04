@@ -377,6 +377,32 @@ function switchView(i) {
 document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
 document.getElementById('nameInput').focus();
+
+// Canvas 星星背景
+(function(){
+  var c=document.getElementById('galaxy-bg');
+  if(!c)return;
+  var ctx=c.getContext('2d'),stars=[],W,H;
+  function rs(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  rs();addEventListener('resize',rs);
+  for(var i=0;i<100;i++)stars.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.random()*1.2+0.3,o:Math.random()*0.5+0.15,s:Math.random()*0.2+0.05});
+  var mx=-999,my=-999;
+  c.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+  c.addEventListener('mouseleave',function(){mx=-999;my=-999;});
+  function loop(t){
+    rs();ctx.fillStyle='#0d0d0d';ctx.fillRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i];s.y+=s.s*0.3;if(s.y>H+20){s.y=-20;s.x=Math.random()*W;}
+      var dx=s.x-mx,dy=s.y-my,dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<150&&mx>0){s.x+=dx/dist*0.3;s.y+=dy/dist*0.3;}
+      var f=0.5+0.5*Math.sin(t*0.002+i*1.7);
+      ctx.fillStyle='rgba(255,220,180,'+(s.o*f).toFixed(2)+')';
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
 </script>
 </body>
 </html>
