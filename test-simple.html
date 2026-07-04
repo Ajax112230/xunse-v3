@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>寻色测试 · 简版</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: #0d0d0d;
+  color: #e8dcc8;
+  font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+h1 { font-size: 64px; letter-spacing: 0.3em; color: #c9a96e; margin-bottom: 8px; }
+.sub { font-size: 14px; color: #a09880; letter-spacing: 0.2em; margin-bottom: 32px; }
+.row { display: flex; max-width: 360px; border: 1px solid #8b7355; border-radius: 4px; overflow: hidden; }
+.row input { flex:1; padding: 12px 16px; background: transparent; border: none; color: #e8dcc8; font-size: 16px; font-family: inherit; outline: none; }
+.row input::placeholder { color: rgba(255,255,255,0.25); }
+.row button { padding: 12px 20px; background: rgba(201,169,110,0.15); border: none; border-left: 1px solid #8b7355; color: #c9a96e; font-size: 15px; font-family: inherit; cursor: pointer; }
+.hint { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.2); letter-spacing: 0.06em; }
+.mood-entry { margin-top: 40px; font-size: 12px; color: rgba(255,255,255,0.22); cursor: pointer; transition: color 0.3s; display: block; text-align: center; }
+.mood-entry:hover { color: rgba(255,255,255,0.45); }
+
+/* 弹窗 */
+.overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.55); backdrop-filter: blur(6px); align-items: center; justify-content: center; padding: 24px; }
+.overlay.show { display: flex; }
+.card { background: rgba(20,20,20,0.88); backdrop-filter: blur(24px); border: 1px solid rgba(201,169,110,0.15); border-radius: 22px; padding: 32px 28px 28px; max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 24px 80px rgba(0,0,0,0.5); animation: slideUp 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.card .close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); font-size: 16px; cursor: pointer; }
+.card .label { font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; margin-bottom: 4px; }
+.card .title { font-size: 24px; color: #c9a96e; letter-spacing: 0.05em; margin-bottom: 22px; }
+.dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 16px; }
+.dot { width: 52px; height: 52px; border-radius: 50%; position: relative; box-shadow: 0 0 20px var(--g); cursor: pointer; transition: transform 0.25s; }
+.dot:hover { transform: scale(1.12); }
+.dot .name { position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 11px; white-space: nowrap; color: rgba(255,255,255,0.52); }
+textarea { width: 100%; height: 76px; padding: 14px 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; color: rgba(255,255,255,0.9); font-size: 14px; font-family: inherit; outline: none; resize: none; line-height: 1.6; }
+.btn { padding: 10px 22px; border-radius: 50px; font-size: 13px; font-family: inherit; cursor: pointer; background: transparent; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); transition: all 0.25s; }
+.btn.primary { background: rgba(201,169,110,0.15); border-color: rgba(201,169,110,0.35); color: #d4a574; }
+.btn.primary:hover { background: rgba(201,169,110,0.28); }
+.actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 12px; }
+.msg { margin-top: 14px; padding: 12px; border-radius: 12px; border: 1px solid rgba(201,169,110,0.12); background: rgba(201,169,110,0.06); color: #c9a96e; font-size: 13px; }
+.switcher { display: flex; justify-content: center; gap: 8px; margin-bottom: 14px; }
+.switcher .sw { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.12); cursor: pointer; transition: all 0.3s; }
+.switcher .sw.on { background: #c9a96e; width: 24px; border-radius: 4px; }
+
+.stripes { display: none; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+.stripe { height: 56px; border-radius: 6px; overflow: hidden; display: flex; align-items: center; padding-left: 14px; background: linear-gradient(90deg, var(--mc) 0%, var(--mc) 55%, transparent 100%); transition: transform 0.25s; cursor: default; }
+.stripe:hover { transform: translateX(5px); }
+.stripe span { z-index: 2; font-size: 15px; font-weight: 500; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.35); }
+
+#result { display: none; text-align: center; margin-top: 30px; }
+#result.visible { display: block; }
+.result-card { width: 200px; height: 200px; border-radius: 50%; margin: 0 auto 20px; box-shadow: 0 0 0 6px #3a2e1a, 0 0 0 10px #1a140a, 0 0 0 14px rgba(201,169,110,0.3), 0 0 60px rgba(201,169,110,0.3); transition: transform 0.6s; }
+.result-card::before { content:''; position:absolute; inset:0; border-radius:50%; background: radial-gradient(ellipse 35% 25% at 35% 25%, rgba(255,255,255,0.12) 0%, transparent 55%); }
+.result-name { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.result-hex { font-size: 14px; color: rgba(255,255,255,0.4); font-family: monospace; margin-bottom: 12px; }
+.poem { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; max-width: 380px; margin: 0 auto; }
+.poem-src { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 6px; }
+.retry { margin-top: 20px; padding: 10px 28px; background: rgba(201,169,110,0.12); border: 1px solid rgba(201,169,110,0.25); border-radius: 50px; color: #d4a574; font-size: 14px; font-family: inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div id="input-screen">
+  <h1>寻 色</h1>
+  <p class="sub">中国传统色 · 姓名寻色</p>
+  <div class="row">
+    <input id="nameInput" placeholder="请君留名" maxlength="10" autocomplete="off">
+    <button onclick="searchName()">探 色</button>
+  </div>
+  <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
+  <a class="mood-entry" onclick="openMood()">💭 或写下心情，获取配色灵感</a>
+</div>
+
+<div id="result">
+  <div class="result-card" id="resultCard" style="position:relative"></div>
+  <h2 class="result-name" id="resultName"></h2>
+  <p class="result-hex" id="resultHex"></p>
+  <div class="poem" id="resultPoem"></div>
+  <p class="poem-src" id="resultSrc"></p>
+  <button class="retry" onclick="goBack()">再探一色</button>
+</div>
+
+<div class="overlay" id="ol" onclick="if(event.target===this)closeMood()">
+  <div class="card" id="moodCard">
+    <button class="close" onclick="closeMood()">✕</button>
+    <div id="moodBody"></div>
+  </div>
+</div>
+
+<script>
+// Mini color data
+var COLORS = [
+  { name:"胭脂", hex:"#9B2D30", r:155,g:45,b:48, poem:"胭脂泪，相留醉，几时重", poet:"李煜", dynasty:"五代", source:"相见欢" },
+  { name:"天青", hex:"#6EB4C4", r:110,g:180,b:196, poem:"天青色等烟雨，而我在等你", poet:"方文山", dynasty:"当代", source:"青花瓷" },
+  { name:"鎏金", hex:"#D4A853", r:212,g:168,b:83, poem:"鎏金殿阁连云起，玉宇琼楼入梦来", poet:"佚名", dynasty:"—", source:"古诗" },
+  { name:"鹅黄", hex:"#F7D47C", r:247,g:212,b:124, poem:"鹅黄衫子茜红裙，一曲清歌一斗醺", poet:"佚名", dynasty:"—", source:"古诗" },
+  { name:"月白", hex:"#C4D2E0", r:196,g:210,b:224, poem:"月白风清，如此良夜何", poet:"苏轼", dynasty:"宋", source:"后赤壁赋" },
+  { name:"檀色", hex:"#926B55", r:146,g:107,b:85, poem:"檀色屏风秋色里，一灯明灭照人愁", poet:"佚名", dynasty:"—", source:"古诗" },
+  { name:"琥珀", hex:"#D28A46", r:210,g:138,b:70, poem:"琥珀妆成金凤翘，翠眉双脸柳条腰", poet:"佚名", dynasty:"—", source:"古诗" },
+  { name:"黛紫", hex:"#5A4278", r:90,g:66,b:120, poem:"黛紫山深日易斜，白云飞处是吾家", poet:"佚名", dynasty:"—", source:"古诗" },
+  { name:"桃红", hex:"#F47983", r:244,g:121,b:131, poem:"桃红复含宿雨，柳绿更带朝烟", poet:"王维", dynasty:"唐", source:"田园乐" },
+  { name:"艾绿", hex:"#8DB37E", r:141,g:179,b:126, poem:"艾绿蒲香，正是江南好时节", poet:"佚名", dynasty:"—", source:"古诗" },
+];
+
+function searchName() {
+  var n = document.getElementById('nameInput').value.trim();
+  if(!n) return;
+  // 邰伟骁=鎏金
+  var c;
+  if(n==='邰伟骁'){ c=COLORS.find(function(x){return x.name==='鎏金'}); }
+  else { var h=5381;for(var i=0;i<n.length;i++){h=((h<<5)+h+n.charCodeAt(i))&0x7fffffff;}c=COLORS[h%COLORS.length]; }
+
+  document.getElementById('input-screen').style.display='none';
+  document.getElementById('result').classList.add('visible');
+  document.getElementById('resultCard').style.background=c.hex;
+  document.getElementById('resultName').textContent=c.name;
+  document.getElementById('resultHex').textContent=c.hex;
+  document.getElementById('resultPoem').textContent='「'+c.poem+'」';
+  document.getElementById('resultSrc').textContent='—— '+c.poet+' · '+c.dynasty+'《'+c.source+'》';
+}
+
+function goBack() {
+  document.getElementById('result').classList.remove('visible');
+  document.getElementById('input-screen').style.display='';
+  document.getElementById('nameInput').value='';
+  document.getElementById('nameInput').focus();
+}
+
+function openMood() {
+  document.getElementById('moodBody').innerHTML =
+    '<div class="label">写下你的心情</div>'+
+    '<div class="title">心情配色</div>'+
+    '<textarea id="moodText" placeholder="形容你此刻的心情..."></textarea>'+
+    '<div style="margin-top:12px"><button class="btn primary" onclick="runMood()" style="padding:12px 36px;font-size:15px">✨ 生成配色</button></div>';
+  document.getElementById('ol').classList.add('show');
+  setTimeout(function(){ var t=document.getElementById('moodText');if(t){t.focus();t.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();runMood();}});} }, 600);
+}
+
+function closeMood(){ document.getElementById('ol').classList.remove('show'); }
+
+function runMood() {
+  var text = document.getElementById('moodText').value.trim();
+  if(!text||text.length<2) return;
+  // 简单：随机选5色
+  var pool=[];
+  for(var i=0;i<5;i++){ var c;do{c=COLORS[Math.floor(Math.random()*COLORS.length)];}while(pool.indexOf(c)>=0);pool.push(c); }
+
+  var xiaomo='';
+  if(text.indexOf('小陌')>=0){
+    xiaomo='<div class="msg">🐱 小陌悄悄说：哥哥，你永远是我的天下第一好 💛</div>';
+  }
+
+  document.getElementById('moodBody').innerHTML =
+    '<div class="label">根据你的心情</div>'+
+    '<div class="title">专属配色方案</div>'+
+    '<div class="dots" id="dotsView">'+
+      pool.map(function(c){return '<div class="dot" style="background:'+c.hex+';--g:rgba('+c.r+','+c.g+','+c.b+',0.35)"><div class="name">'+c.name+'</div></div>';}).join('')+
+    '</div>'+
+    '<div class="stripes" id="stripesView">'+
+      pool.map(function(c){return '<div class="stripe" style="--mc:'+c.hex+'"><span>'+c.name+'</span></div>';}).join('')+
+    '</div>'+
+    '<div class="switcher">'+
+      '<div class="sw on" onclick="switchView(0)"></div>'+
+      '<div class="sw" onclick="switchView(1)"></div>'+
+    '</div>'+
+    xiaomo+
+    '<div class="actions">'+
+      '<button class="btn primary">💾 导出图片</button>'+
+      '<button class="btn">📤 分享</button>'+
+    '</div>';
+}
+
+function switchView(i) {
+  document.getElementById('dotsView').style.display=i===0?'flex':'none';
+  document.getElementById('stripesView').style.display=i===1?'flex':'none';
+  var sw=document.querySelectorAll('.switcher .sw');
+  sw[0].classList.toggle('on',i===0); sw[1].classList.toggle('on',i===1);
+}
+
+document.getElementById('nameInput').addEventListener('keydown',function(e){if(e.key==='Enter')searchName();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMood();});
+document.getElementById('nameInput').focus();
+</script>
+</body>
+</html>
