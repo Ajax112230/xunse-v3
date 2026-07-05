@@ -165,9 +165,11 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  animation: paperFadeIn 0.8s ease;
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1);
 }
-/* Override text colors for image-background mode */
+#result-screen.visible { display: flex; opacity: 1; }
+#result-screen.fade-out { opacity: 0; }
 #color-name { color: #f0e6d3; }
 #color-hex, #color-rgb { color: #d5cbb5; }
 #color-poem { border-top-color: rgba(255,255,255,0.15); border-bottom-color: rgba(255,255,255,0.15); }
@@ -175,7 +177,6 @@ body {
 #poem-source { color: #c5b898; }
 #retry-btn { color: #d5cbb5; border-color: rgba(255,255,255,0.3); }
 #retry-btn:active { color: #0d0d0d; background: rgba(255,255,255,0.25); }
-#result-screen.visible { display: flex; }
 
 /* Color card — 苏绣质感 */
 #color-card {
@@ -744,10 +745,19 @@ function getColor(name) {
   }
 
   function showInput() {
-    scrOut.classList.remove('visible');
-    scrIn.classList.remove('hide');
-    inp.value = '';
-    inp.focus();
+    // 回程过渡：结果淡出 → 输入浮现
+    scrOut.classList.remove('fade-out');
+    // 触发 reflow 确保过渡生效
+    void scrOut.offsetWidth;
+    scrOut.classList.add('fade-out');
+    // 输入页浮现（CSS transition 自动处理）
+    scrIn.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+    setTimeout(function() {
+      scrOut.classList.remove('visible', 'fade-out');
+      scrIn.classList.remove('hide');
+      inp.value = '';
+      setTimeout(function() { inp.focus(); }, 300);
+    }, 480);
   }
 
   function search() {
