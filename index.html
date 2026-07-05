@@ -446,6 +446,51 @@ body {
 #name-input.shake {
   animation: shake 0.5s ease;
 }
+.cyber-tab-bar { display:flex; justify-content:center; gap:8px; margin-top:24px; }
+.cyber-tab { padding:8px 20px; border-radius:50px; font-size:13px; font-family:inherit; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); transition:all 0.3s; }
+.cyber-tab.active { background:rgba(201,169,110,0.15); border-color:rgba(201,169,110,0.35); color:#c9a96e; }
+.cyber-tab:hover { color:rgba(255,255,255,0.7); }
+#cyber-screen { display:none; position:fixed; top:var(--safe-top); left:0; z-index:1; width:100%; height:100%; height:100dvh; align-items:center; justify-content:center; padding:var(--safe-top) 0 var(--safe-bottom); overflow-y:auto; }
+#cyber-screen.active { display:flex; }
+.cyber-inputs { max-width:360px; margin:0 auto 20px; }
+.ci-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.ci-label { font-size:14px; color:#a09880; min-width:40px; letter-spacing:0.1em; }
+.ci-input { flex:1; padding:10px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,110,0.25); border-radius:50px; color:#e8dcc8; font-size:14px; font-family:inherit; outline:none; }
+.ci-input::placeholder { color:rgba(255,255,255,0.15); }
+.ci-input:focus { border-color:rgba(201,169,110,0.6); }
+.cyber-questions { max-width:460px; margin:0 auto 20px; text-align:left; }
+.cq { margin-bottom:20px; }
+.cq-q { font-size:14px; color:#d5cbb5; margin-bottom:8px; letter-spacing:0.04em; }
+.cq-q .cq-num { color:#c9a96e; margin-right:6px; }
+.cq-opt { display:block; width:100%; text-align:left; padding:10px 16px; margin-bottom:6px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px; color:rgba(255,255,255,0.55); font-size:13px; font-family:inherit; cursor:pointer; transition:all 0.2s; }
+.cq-opt:hover { background:rgba(255,255,255,0.05); border-color:rgba(201,169,110,0.2); }
+.cq-opt.selected { background:rgba(201,169,110,0.12); border-color:rgba(201,169,110,0.4); color:#c9a96e; }
+.cq-opt .cq-let { display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; border-radius:50%; border:1px solid rgba(255,255,255,0.15); font-size:11px; margin-right:10px; }
+.cq-opt.selected .cq-let { background:rgba(201,169,110,0.3); border-color:#c9a96e; }
+.cyber-submit { padding:14px 42px; background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.35); border-radius:50px; color:#c9a96e; font-size:17px; font-family:inherit; cursor:pointer; letter-spacing:0.08em; transition:all 0.25s; }
+.cyber-submit:hover { background:rgba(201,169,110,0.25); }
+#cyber-result { max-width:460px; margin:0 auto; text-align:center; display:none; }
+.cyber-card-wrap { margin:0 auto 20px; border-radius:24px; overflow:hidden; box-shadow:0 12px 48px rgba(0,0,0,0.4); }
+.cyber-card-color { width:100%; height:240px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.cyber-card-color .cc-name { font-size:48px; font-weight:700; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.35); letter-spacing:0.1em; }
+.cyber-card-color .cc-archetype { font-size:16px; color:rgba(255,255,255,0.85); margin-top:6px; letter-spacing:0.06em; }
+.cyber-card-color .cc-poem { font-size:14px; color:rgba(255,255,255,0.65); margin-top:12px; font-style:italic; }
+.cyber-card-info { background:rgba(255,255,255,0.03); padding:18px 20px; border-radius:0 0 24px 24px; border:1px solid rgba(255,255,255,0.06); border-top:none; }
+.cyber-card-info .ci-hex { font-size:12px; color:rgba(255,255,255,0.3); font-family:monospace; margin-bottom:6px; }
+.cyber-card-info .ci-desc { font-size:14px; color:#d5cbb5; line-height:1.8; }
+.cyber-love { display:none; margin-top:20px; padding:20px; border-radius:16px; border:1px solid rgba(201,169,110,0.15); background:rgba(201,169,110,0.03); }
+.cyber-love.show-xy { display:block; }
+.cyber-love h3 { font-size:16px; color:#c9a96e; margin-bottom:10px; letter-spacing:0.06em; }
+.cyber-love .xy-relation { font-size:22px; margin-bottom:6px; }
+.cyber-love .xy-desc { font-size:14px; color:rgba(255,255,255,0.6); line-height:1.8; }
+.xy-row { display:flex; gap:10px; margin:12px 0; }
+.xy-row input { flex:1; padding:10px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,110,0.25); border-radius:50px; color:#e8dcc8; font-size:13px; font-family:inherit; outline:none; }
+.xy-row button { padding:10px 22px; border-radius:50px; background:rgba(201,169,110,0.12); border:1px solid rgba(201,169,110,0.3); color:#c9a96e; font-size:13px; font-family:inherit; cursor:pointer; }
+.cyber-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+.cyber-actions button { padding:12px 24px; border-radius:50px; font-size:14px; font-family:inherit; cursor:pointer; }
+.cyber-actions .ca-primary { background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.35); color:#c9a96e; }
+.cyber-actions .ca-secondary { background:transparent; border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); }
+@media (max-width:480px) { .cyber-card-color .cc-name { font-size:36px; } .cyber-card-color { height:200px; } }
 </style>
 </head>
 <body>
@@ -459,6 +504,7 @@ body {
       <input type="text" id="name-input" placeholder="请君留名" maxlength="10" autocomplete="off">
       <button id="search-btn">探 色</button>
     </div>
+    <div class="cyber-tab-bar"><span class="cyber-tab active" onclick="switchCyberTab('xunse')">🔮 姓名寻色</span><span class="cyber-tab" onclick="switchCyberTab('cyber')">⭐ 赛博占色</span></div>
     <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
   </div>
 </div>
@@ -475,6 +521,1241 @@ body {
     </blockquote>
   </div>
   <button id="retry-btn">再探一色</button>
+</div><div id="cyber-screen">
+  <div class="center">
+    <h1 class="title" style="font-size:clamp(1.8rem,6vw,3.5rem)">赛 博 占 色</h1>
+    <p class="sub">五道题 · 找到你的本命色</p>
+    <div class="cyber-inputs">
+      <div class="ci-row"><span class="ci-label">姓名</span><input class="ci-input" id="ci-name" placeholder="你的名字" maxlength="10"></div>
+      <div class="ci-row"><span class="ci-label">生日</span><input class="ci-input" id="ci-birth" placeholder="月/日 如 01/15" maxlength="5"></div>
+    </div>
+    <div class="cyber-questions" id="cyber-qs"></div>
+    <button class="cyber-submit" onclick="calcCyberColor()">✨ 开启占色</button>
+    <p class="hint" style="margin-top:12px;font-size:11px">五道题答完即可生成 · 越认真越准</p>
+    <div id="cyber-result">
+      <div class="cyber-card-wrap">
+        <div class="cyber-card-color" id="cyber-card-color" style="background:#333">
+          <div class="cc-name" id="cc-name"></div>
+          <div class="cc-archetype" id="cc-archetype"></div>
+          <div class="cc-poem" id="cc-poem"></div>
+        </div>
+        <div class="cyber-card-info">
+          <div class="ci-hex" id="ci-hex"></div>
+          <div class="ci-desc" id="ci-desc"></div>
+        </div>
+      </div>
+      <div class="cyber-love" id="cyber-love">
+        <h3>💞 色缘</h3>
+        <div class="xy-row"><input id="xy-name" placeholder="输入TA的名字，看看你们的色缘" maxlength="10"><button onclick="calcRelation()">合</button></div>
+        <div id="xy-result"></div>
+      </div>
+      <div class="cyber-actions">
+        <button class="ca-primary" onclick="genCyberCard()">📸 分享卡片</button>
+        <button class="ca-secondary" onclick="resetCyber()">🔄 重测</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// === COLOR DATA ===
+var COLORS = [
+// ═══════════ 赤 (Reds) ═══════════
+  { name: "胭脂",   hex: "#9B2D30", r: 155, g: 45,  b: 48,  poem: "胭脂泪，相留醉，几时重",                                     poet: "李煜",    dynasty: "五代",    source: "相见欢" },
+  { name: "朱砂",   hex: "#E8453C", r: 232, g: 69,  b: 60,  poem: "朱砂炼就千年火，照破人间万古愁",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "绛紫",   hex: "#8B2671", r: 139, g: 38,  b: 113, poem: "万紫千红总是春，绛衣披拂露华新",                               poet: "朱熹",    dynasty: "宋",      source: "春日" },
+  { name: "石榴红", hex: "#CF3842", r: 207, g: 56,  b: 66,  poem: "五月榴花照眼明，枝间时见子初成",                               poet: "韩愈",    dynasty: "唐",      source: "榴花" },
+  { name: "海棠红", hex: "#DB5A6B", r: 219, g: 90,  b: 107, poem: "试问卷帘人，却道海棠依旧",                                     poet: "李清照",  dynasty: "宋",      source: "如梦令" },
+  { name: "殷红",   hex: "#BE002F", r: 190, g: 0,   b: 47,  poem: "殷红浅碧旧衣裳，取次梳头暗淡妆",                               poet: "元稹",    dynasty: "唐",      source: "樱桃花" },
+  { name: "桃红",   hex: "#F58F98", r: 245, g: 143, b: 152, poem: "去年今日此门中，人面桃花相映红",                               poet: "崔护",    dynasty: "唐",      source: "题都城南庄" },
+  { name: "枣红",   hex: "#7B1B1A", r: 123, g: 27,  b: 26,  poem: "枣红深处见秋色，一树斜阳照晚山",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "酡红",   hex: "#DC7060", r: 220, g: 112, b: 96,  poem: "酡颜一笑夭桃绽，一曲霓裳四海惊",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "赤缇",   hex: "#BA3B3F", r: 186, g: 59,  b: 63,  poem: "赤缇霞色映朝日，万里江山入画图",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "银朱",   hex: "#D21F3C", r: 210, g: 31,  b: 60,  poem: "银朱点就梅花落，雪里飘香又一冬",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "妃色",   hex: "#ED5736", r: 237, g: 87,  b: 54,  poem: "妃色妆成春欲暮，一帘红雨落纷纷",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "品红",   hex: "#E61A4B", r: 230, g: 26,  b: 75,  poem: "品红踏碎花千片，一夜东风吹落尽",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "茜色",   hex: "#CA3F4B", r: 202, g: 63,  b: 75,  poem: "茜袖女儿簪野花，越溪深处有人家",                               poet: "杜牧",    dynasty: "唐",      source: "叹花" },
+  { name: "丹",     hex: "#FF4C4C", r: 255, g: 76,  b: 76,  poem: "人生自古谁无死，留取丹心照汗青",                               poet: "文天祥",  dynasty: "宋",      source: "过零丁洋" },
+  { name: "粉红",   hex: "#FFB3C6", r: 255, g: 179, b: 198, poem: "粉红轻浅靓妆新，和露和烟别近邻",                               poet: "吴融",    dynasty: "唐",      source: "海棠" },
+
+  // ═══════════ 橙 (Oranges) ═══════════
+  { name: "杏黄",   hex: "#F1C83E", r: 241, g: 200, b: 62,  poem: "春色满园关不住，一枝红杏出墙来",                               poet: "叶绍翁",  dynasty: "宋",      source: "游园不值" },
+  { name: "秋香",   hex: "#D9B154", r: 217, g: 177, b: 84,  poem: "暗暗淡淡紫，融融冶冶黄",                                       poet: "李商隐",  dynasty: "唐",      source: "菊花" },
+  { name: "琥珀",   hex: "#CA8032", r: 202, g: 128, b: 50,  poem: "兰陵美酒郁金香，玉碗盛来琥珀光",                               poet: "李白",    dynasty: "唐",      source: "客中行" },
+  { name: "驼色",   hex: "#C4A275", r: 196, g: 162, b: 117, poem: "驼褐轻装出玉门，西风万里卷云根",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "橘红",   hex: "#F08C43", r: 240, g: 140, b: 67,  poem: "一年好景君须记，最是橙黄橘绿时",                               poet: "苏轼",    dynasty: "宋",      source: "赠刘景文" },
+  { name: "姜黄",   hex: "#E0B04C", r: 224, g: 176, b: 76,  poem: "姜黄满地无人管，留得残阳一树明",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "缃色",   hex: "#F0C05A", r: 240, g: 192, b: 90,  poem: "缃帙飘零二十年，白头重见旧山川",                               poet: "陆游",    dynasty: "宋",      source: "感旧" },
+  { name: "栀黄",   hex: "#F5C842", r: 245, g: 200, b: 66,  poem: "栀子花开满院香，一时微雨过池塘",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "柘黄",   hex: "#CD9A2B", r: 205, g: 154, b: 43,  poem: "柘袍临池侍三千，红妆照日光流渊",                               poet: "苏轼",    dynasty: "宋",      source: "书韩干牧马图" },
+  { name: "鹅黄",   hex: "#FFF143", r: 255, g: 241, b: 67,  poem: "鹅黄嫩绿总相宜，最是一年春好时",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "橙皮",   hex: "#E5943C", r: 229, g: 148, b: 60,  poem: "橙黄橘绿一年时，正是江南好风景",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "赤金",   hex: "#CD853F", r: 205, g: 133, b: 63,  poem: "想当年，金戈铁马，气吞万里如虎",                               poet: "辛弃疾",  dynasty: "宋",      source: "永遇乐" },
+  { name: "蜜合",   hex: "#E8B86D", r: 232, g: 184, b: 109, poem: "蜜合花香入酒卮，春风一盏醉归时",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "黄栌",   hex: "#C48B43", r: 196, g: 139, b: 67,  poem: "黄栌叶落秋山静，独坐闲庭看暮云",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 黄 (Yellows) ═══════════
+  { name: "明黄",   hex: "#FFD700", r: 255, g: 215, b: 0,   poem: "冲天香阵透长安，满城尽带黄金甲",                               poet: "黄巢",    dynasty: "唐",      source: "不第后赋菊" },
+  { name: "藤黄",   hex: "#EED045", r: 238, g: 208, b: 69,  poem: "藤黄着雨垂垂发，恰似金丝挂碧枝",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "牙色",   hex: "#EEDEB0", r: 238, g: 222, b: 176, poem: "牙色初匀晓妆罢，临风一笑百媚生",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "芥黄",   hex: "#D8AF3B", r: 216, g: 175, b: 59,  poem: "芥子纳须弥，一花一世界，一叶一菩提",                           poet: "佛经",    dynasty: "—",       source: "华严经" },
+  { name: "土黄",   hex: "#BA8E4A", r: 186, g: 142, b: 74,  poem: "黄土筑室茅盖顶，清风一榻自羲皇",                               poet: "陆游",    dynasty: "宋",      source: "幽居" },
+  { name: "石黄",   hex: "#D6B546", r: 214, g: 181, b: 70,  poem: "石黄点点染秋山，满目风光似锦斑",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "琉璃黄", hex: "#E5B63E", r: 229, g: 182, b: 62,  poem: "琉璃钟，琥珀浓，小槽酒滴真珠红",                               poet: "李贺",    dynasty: "唐",      source: "将进酒" },
+  { name: "金黄",   hex: "#FFB61E", r: 255, g: 182, b: 30,  poem: "金樽清酒斗十千，玉盘珍羞直万钱",                               poet: "李白",    dynasty: "唐",      source: "行路难" },
+  { name: "谷黄",   hex: "#DDC278", r: 221, g: 194, b: 120, poem: "稻花香里说丰年，听取蛙声一片",                                 poet: "辛弃疾",  dynasty: "宋",      source: "西江月" },
+  { name: "松花黄", hex: "#EBD494", r: 235, g: 212, b: 148, poem: "松花酿酒，春水煎茶",                                           poet: "张可久",  dynasty: "元",      source: "人月圆" },
+  { name: "葱黄",   hex: "#DECD71", r: 222, g: 205, b: 113, poem: "二月春风似剪刀，裁出绿丝绦万万条",                             poet: "贺知章",  dynasty: "唐",      source: "咏柳" },
+  { name: "黍黄",   hex: "#D4B05A", r: 212, g: 176, b: 90,  poem: "故人具鸡黍，邀我至田家",                                       poet: "孟浩然",  dynasty: "唐",      source: "过故人庄" },
+  { name: "槐黄",   hex: "#C7A94A", r: 199, g: 169, b: 74,  poem: "槐花满院气，松子落阶声",                                       poet: "白居易",  dynasty: "唐",      source: "夏夜宿直" },
+
+  // ═══════════ 绿 (Greens) ═══════════
+  { name: "柳绿",   hex: "#AFDD66", r: 175, g: 221, b: 102, poem: "碧玉妆成一树高，万条垂下绿丝绦",                               poet: "贺知章",  dynasty: "唐",      source: "咏柳" },
+  { name: "竹青",   hex: "#789262", r: 120, g: 146, b: 98,  poem: "咬定青山不放松，立根原在破岩中",                               poet: "郑燮",    dynasty: "清",      source: "竹石" },
+  { name: "松花绿", hex: "#5E7251", r: 94,  g: 114, b: 81,  poem: "明月松间照，清泉石上流",                                       poet: "王维",    dynasty: "唐",      source: "山居秋暝" },
+  { name: "葱绿",   hex: "#9DC24E", r: 157, g: 194, b: 78,  poem: "葱葱溪水暗，漠漠野烟微",                                       poet: "韦应物",  dynasty: "唐",      source: "游溪" },
+  { name: "艾绿",   hex: "#B3D882", r: 179, g: 216, b: 130, poem: "彼采艾兮，一日不见，如三岁兮",                                 poet: "诗经",    dynasty: "先秦",    source: "王风·采葛" },
+  { name: "豆绿",   hex: "#9ED048", r: 158, g: 208, b: 72,  poem: "豆蔻梢头二月初，春风十里扬州路",                               poet: "杜牧",    dynasty: "唐",      source: "赠别" },
+  { name: "碧色",   hex: "#39B294", r: 57,  g: 178, b: 148, poem: "接天莲叶无穷碧，映日荷花别样红",                               poet: "杨万里",  dynasty: "宋",      source: "晓出净慈寺" },
+  { name: "铜绿",   hex: "#549688", r: 84,  g: 150, b: 136, poem: "铜雀春深锁二乔，绿珠垂泪滴罗巾",                               poet: "杜牧",    dynasty: "唐",      source: "赤壁" },
+  { name: "苍绿",   hex: "#455E4A", r: 69,  g: 94,  b: 74,  poem: "苍山如海，残阳如血",                                           poet: "毛泽东",  dynasty: "现代",    source: "忆秦娥·娄山关" },
+  { name: "翠绿",   hex: "#33CC66", r: 51,  g: 204, b: 102, poem: "翠华摇摇行复止，西出都门百余里",                               poet: "白居易",  dynasty: "唐",      source: "长恨歌" },
+  { name: "苔绿",   hex: "#69885A", r: 105, g: 136, b: 90,  poem: "苔痕上阶绿，草色入帘青",                                       poet: "刘禹锡",  dynasty: "唐",      source: "陋室铭" },
+  { name: "嫩绿",   hex: "#B3E16B", r: 179, g: 225, b: 107, poem: "嫩绿柔香远更浓，春来无处不茸茸",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "油绿",   hex: "#244C3A", r: 36,  g: 76,  b: 58,  poem: "油壁香车不再逢，峡云无迹任西东",                               poet: "晏殊",    dynasty: "宋",      source: "寓意" },
+  { name: "玉色",   hex: "#2EDFA3", r: 46,  g: 223, b: 163, poem: "玉容寂寞泪阑干，梨花一枝春带雨",                               poet: "白居易",  dynasty: "唐",      source: "长恨歌" },
+  { name: "鸭绿",   hex: "#568B77", r: 86,  g: 139, b: 119, poem: "鸭绿粼粼漾碧波，春江水暖鸭先知",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "绿沈",   hex: "#3E6F4B", r: 62,  g: 111, b: 75,  poem: "绿沈金锁朱门闭，深院无人春昼长",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 青 (Cyans / Teals) ═══════════
+  { name: "靛青",   hex: "#1772B4", r: 23,  g: 114, b: 180, poem: "青出于蓝而胜于蓝，冰水为之而寒于水",                           poet: "荀子",    dynasty: "先秦",    source: "劝学" },
+  { name: "藏青",   hex: "#2E4773", r: 46,  g: 71,  b: 115, poem: "青海长云暗雪山，孤城遥望玉门关",                               poet: "王昌龄",  dynasty: "唐",      source: "从军行" },
+  { name: "天青",   hex: "#7EC0D3", r: 126, g: 192, b: 211, poem: "天青色等烟雨，而我在等你",                                     poet: "方文山",  dynasty: "现代",    source: "青花瓷" },
+  { name: "鸦青",   hex: "#3C4E65", r: 60,  g: 78,  b: 101, poem: "枯藤老树昏鸦，小桥流水人家",                                   poet: "马致远",  dynasty: "元",      source: "天净沙·秋思" },
+  { name: "石青",   hex: "#2B73AF", r: 43,  g: 115, b: 175, poem: "石青苔色老，松古鹤声长",                                       poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "花青",   hex: "#2377A7", r: 35,  g: 119, b: 167, poem: "花青染就春衫薄，一霎微雨洒庭皋",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "秘色",   hex: "#7EBAC2", r: 126, g: 186, b: 194, poem: "九秋风露越窑开，夺得千峰翠色来",                               poet: "陆龟蒙",  dynasty: "唐",      source: "秘色越器" },
+  { name: "缥色",   hex: "#AEC8B6", r: 174, g: 200, b: 182, poem: "缥帙青箱次第开，慨然英气转难裁",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "水绿",   hex: "#B2DFDA", r: 178, g: 223, b: 218, poem: "春来江水绿如蓝，能不忆江南",                                   poet: "白居易",  dynasty: "唐",      source: "忆江南" },
+  { name: "云山蓝", hex: "#688FA0", r: 104, g: 143, b: 160, poem: "远上寒山石径斜，白云生处有人家",                               poet: "杜牧",    dynasty: "唐",      source: "山行" },
+  { name: "青碧",   hex: "#47A89C", r: 71,  g: 168, b: 156, poem: "蜀江水碧蜀山青，圣主朝朝暮暮情",                               poet: "白居易",  dynasty: "唐",      source: "长恨歌" },
+  { name: "湖青",   hex: "#5DAC9A", r: 93,  g: 172, b: 154, poem: "湖光秋月两相和，潭面无风镜未磨",                               poet: "刘禹锡",  dynasty: "唐",      source: "望洞庭" },
+  { name: "蟹壳青", hex: "#8CAB9E", r: 140, g: 171, b: 158, poem: "螯封嫩玉双双满，壳凸红脂块块香",                               poet: "曹雪芹",  dynasty: "清",      source: "红楼梦" },
+  { name: "虾青",   hex: "#92B3A4", r: 146, g: 179, b: 164, poem: "虾青帘外雨潇潇，春水碧于天",                                   poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "影青",   hex: "#B5CDD3", r: 181, g: 205, b: 211, poem: "影青瓷色似天青，雨过云破处",                                   poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 蓝 (Blues) ═══════════
+  { name: "靛蓝",   hex: "#065279", r: 6,   g: 82,  b: 121, poem: "日出江花红胜火，春来江水绿如蓝",                               poet: "白居易",  dynasty: "唐",      source: "忆江南" },
+  { name: "黛蓝",   hex: "#415F83", r: 65,  g: 95,  b: 131, poem: "远山如黛近山青，一江春水向东流",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "宝蓝",   hex: "#4B5CC4", r: 75,  g: 92,  b: 196, poem: "沧海月明珠有泪，蓝田日暖玉生烟",                               poet: "李商隐",  dynasty: "唐",      source: "锦瑟" },
+  { name: "蔚蓝",   hex: "#4984BF", r: 73,  g: 132, b: 191, poem: "蔚蓝天上云如雪，一碧无垠万里空",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "琉璃蓝", hex: "#457EE4", r: 69,  g: 126, b: 228, poem: "琉璃钟，琥珀浓，小槽酒滴真珠红",                               poet: "李贺",    dynasty: "唐",      source: "将进酒" },
+  { name: "群青",   hex: "#2F4F8F", r: 47,  g: 79,  b: 143, poem: "群青一抹山如画，几点归鸦背夕阳",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "月白",   hex: "#D6E4F0", r: 214, g: 228, b: 240, poem: "露从今夜白，月是故乡明",                                       poet: "杜甫",    dynasty: "唐",      source: "月夜忆舍弟" },
+  { name: "蓝灰",   hex: "#6E8CA0", r: 110, g: 140, b: 160, poem: "蓝桥春雪君归日，秦岭秋风我去时",                               poet: "白居易",  dynasty: "唐",      source: "蓝桥驿见元九诗" },
+  { name: "深蓝",   hex: "#132C4B", r: 19,  g: 44,  b: 75,  poem: "深蓝一点是潇湘，雁字回时月满西楼",                             poet: "李清照",  dynasty: "宋",      source: "一剪梅" },
+  { name: "浅蓝",   hex: "#89B2D0", r: 137, g: 178, b: 208, poem: "浅蓝色玻璃窗外，一树梨花压海棠",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "钴蓝",   hex: "#1E4D8C", r: 30,  g: 77,  b: 140, poem: "钴蓝一抹染青花，千年窑火不曾赊",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "湖蓝",   hex: "#4DACCA", r: 77,  g: 172, b: 202, poem: "湖光潋滟晴方好，山色空蒙雨亦奇",                               poet: "苏轼",    dynasty: "宋",      source: "饮湖上初晴后雨" },
+  { name: "品蓝",   hex: "#3676AF", r: 54,  g: 118, b: 175, poem: "品蓝一抹入青花，万古长空一月华",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "景泰蓝", hex: "#2775B6", r: 39,  g: 117, b: 182, poem: "景泰蓝光映紫宸，金丝掐就凤凰身",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 紫 (Purples) ═══════════
+  { name: "青莲",   hex: "#7A4B81", r: 122, g: 75,  b: 129, poem: "青莲居士谪仙人，酒肆藏名三十春",                               poet: "李白",    dynasty: "唐",      source: "答湖州迦叶司马" },
+  { name: "藕荷",   hex: "#D1AEC9", r: 209, g: 174, b: 201, poem: "藕花深处泊孤舟，笛在月明楼",                                   poet: "李煜",    dynasty: "五代",    source: "望江南" },
+  { name: "丁香",   hex: "#CCA4CF", r: 204, g: 164, b: 207, poem: "丁香空结雨中愁，回首绿波三楚暮",                               poet: "李璟",    dynasty: "五代",    source: "浣溪沙" },
+  { name: "雪青",   hex: "#B7A8D0", r: 183, g: 168, b: 208, poem: "雪青一点梅梢月，照见人间万古愁",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "紫檀",   hex: "#4B1F35", r: 75,  g: 31,  b: 53,  poem: "紫檀金粉香未歇，绿窗红烛夜初长",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "葡萄紫", hex: "#54356B", r: 84,  g: 53,  b: 107, poem: "葡萄美酒夜光杯，欲饮琵琶马上催",                               poet: "王翰",    dynasty: "唐",      source: "凉州词" },
+  { name: "酱紫",   hex: "#704F5C", r: 112, g: 79,  b: 92,  poem: "紫陌红尘拂面来，无人不道看花回",                               poet: "刘禹锡",  dynasty: "唐",      source: "玄都观桃花" },
+  { name: "槿紫",   hex: "#8B5893", r: 139, g: 88,  b: 147, poem: "紫槿花开满院香，一天风露湿衣裳",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "熏衣紫", hex: "#A284C1", r: 162, g: 132, b: 193, poem: "熏衣草色满庭芳，一帘幽梦蝶双双",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "桔梗紫", hex: "#937BB4", r: 147, g: 123, b: 180, poem: "桔梗花开紫满山，秋风吹老碧云鬟",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "魏紫",   hex: "#9B479A", r: 155, g: 71,  b: 154, poem: "唯有牡丹真国色，花开时节动京城",                               poet: "刘禹锡",  dynasty: "唐",      source: "赏牡丹" },
+  { name: "黛紫",   hex: "#5B3E5C", r: 91,  g: 62,  b: 92,  poem: "远山黛色有无中，唯见长江天际流",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "玫瑰紫", hex: "#9A4A6C", r: 154, g: 74,  b: 108, poem: "玫瑰紫气东来日，满架蔷薇一院香",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 褐 (Browns) ═══════════
+  { name: "赭色",   hex: "#955A3F", r: 149, g: 90,  b: 63,  poem: "赭衣临水立，寒鸦带暮飞",                                       poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "栗色",   hex: "#6F3826", r: 111, g: 56,  b: 38,  poem: "栗深林兮惊层巅，云青青兮欲雨",                                 poet: "李白",    dynasty: "唐",      source: "梦游天姥吟留别" },
+  { name: "棕褐",   hex: "#84563C", r: 132, g: 86,  b: 60,  poem: "棕榈叶战水风凉，一只画船何处郎",                               poet: "白居易",  dynasty: "唐",      source: "西湖晚归" },
+  { name: "茶色",   hex: "#A67B5B", r: 166, g: 123, b: 91,  poem: "寒夜客来茶当酒，竹炉汤沸火初红",                               poet: "杜耒",    dynasty: "宋",      source: "寒夜" },
+  { name: "咖啡色", hex: "#6B4C3B", r: 107, g: 76,  b: 59,  poem: "煎茶留静者，靠月坐苍山",                                       poet: "曹松",    dynasty: "唐",      source: "宿溪僧院" },
+  { name: "檀色",   hex: "#B17851", r: 177, g: 120, b: 81,  poem: "檀板轻声歌未了，一帘幽梦月如钩",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "香槟",   hex: "#E1BB84", r: 225, g: 187, b: 132, poem: "醉后不知天在水，满船清梦压星河",                               poet: "唐温如",  dynasty: "元",      source: "题龙阳县青草湖" },
+  { name: "赭石",   hex: "#946A4D", r: 148, g: 106, b: 77,  poem: "赭石山头落日斜，几家篱落傍桑麻",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "可可棕", hex: "#926756", r: 146, g: 103, b: 86,  poem: "浅深山色高低树，一片江南水墨图",                               poet: "刘敞",    dynasty: "宋",      source: "微雨登城" },
+  { name: "酱色",   hex: "#84604C", r: 132, g: 96,  b: 76,  poem: "酱色入秋深，山山黄叶飞",                                       poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 黑白灰 (Monochromes) ═══════════
+  { name: "墨色",   hex: "#1C1C1C", r: 28,  g: 28,  b: 28,  poem: "墨池飞出北溟鱼，笔锋杀尽中山兔",                               poet: "李白",    dynasty: "唐",      source: "草书歌行" },
+  { name: "玄色",   hex: "#1A1A1A", r: 26,  g: 26,  b: 26,  poem: "玄之又玄，众妙之门",                                           poet: "老子",    dynasty: "先秦",    source: "道德经" },
+  { name: "漆黑",   hex: "#0A0A0A", r: 10,  g: 10,  b: 10,  poem: "黑云翻墨未遮山，白雨跳珠乱入船",                               poet: "苏轼",    dynasty: "宋",      source: "望湖楼醉书" },
+  { name: "鸦灰",   hex: "#4D4D4D", r: 77,  g: 77,  b: 77,  poem: "古道西风瘦马，夕阳西下，断肠人在天涯",                         poet: "马致远",  dynasty: "元",      source: "天净沙·秋思" },
+  { name: "霜色",   hex: "#D3D3D3", r: 211, g: 211, b: 211, poem: "床前明月光，疑是地上霜",                                       poet: "李白",    dynasty: "唐",      source: "静夜思" },
+  { name: "素色",   hex: "#E5E0D5", r: 229, g: 224, b: 213, poem: "素手把芙蓉，虚步蹑太清",                                       poet: "李白",    dynasty: "唐",      source: "古风" },
+  { name: "银白",   hex: "#E8E8E8", r: 232, g: 232, b: 232, poem: "银烛秋光冷画屏，轻罗小扇扑流萤",                               poet: "杜牧",    dynasty: "唐",      source: "秋夕" },
+  { name: "雪白",   hex: "#F5F5F5", r: 245, g: 245, b: 245, poem: "忽如一夜春风来，千树万树梨花开",                               poet: "岑参",    dynasty: "唐",      source: "白雪歌送武判官归京" },
+  { name: "象牙白", hex: "#FFFEF2", r: 255, g: 254, b: 242, poem: "牙签万轴裹红绡，王粲书同付火烧",                               poet: "李商隐",  dynasty: "唐",      source: "骄儿诗" },
+  { name: "鱼肚白", hex: "#EFEBE0", r: 239, g: 235, b: 224, poem: "东方欲晓，莫道君行早",                                         poet: "毛泽东",  dynasty: "现代",    source: "清平乐·会昌" },
+  { name: "米白",   hex: "#F5EFE0", r: 245, g: 239, b: 224, poem: "粗缯大布裹生涯，腹有诗书气自华",                               poet: "苏轼",    dynasty: "宋",      source: "和董传留别" },
+  { name: "铅灰",   hex: "#7C7C7C", r: 124, g: 124, b: 124, poem: "铅华洗尽见天真，不施粉黛亦倾城",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "铁灰",   hex: "#5C5C5C", r: 92,  g: 92,  b: 92,  poem: "铁马冰河入梦来，夜阑卧听风吹雨",                               poet: "陆游",    dynasty: "宋",      source: "十一月四日风雨大作" },
+  { name: "烟灰",   hex: "#969696", r: 150, g: 150, b: 150, poem: "烟笼寒水月笼沙，夜泊秦淮近酒家",                               poet: "杜牧",    dynasty: "唐",      source: "泊秦淮" },
+
+  // ═══════════ 金 (Gold/Silver tones) ═══════════
+  { name: "鎏金",   hex: "#D4A853", r: 212, g: 168, b: 83,  poem: "鎏金佛像耀千年，万古长空一月圆",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "古铜",   hex: "#B5843F", r: 181, g: 132, b: 63,  poem: "古铜色暗秋山晚，一抹残阳雁字斜",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "沙金",   hex: "#D9B477", r: 217, g: 180, b: 119, poem: "大漠沙如雪，燕山月似钩",                                       poet: "李贺",    dynasty: "唐",      source: "马诗" },
+  { name: "麦色",   hex: "#D9C089", r: 217, g: 192, b: 137, poem: "夜来南风起，小麦覆陇黄",                                       poet: "白居易",  dynasty: "唐",      source: "观刈麦" },
+  { name: "淡金",   hex: "#E8D5A3", r: 232, g: 213, b: 163, poem: "淡金色的夕阳，洒在古老的城墙上",                               poet: "佚名",    dynasty: "—",       source: "现代诗" },
+
+  // ═══════════ 特 (Special Chinese Pigments) ═══════════
+  { name: "雄黄",   hex: "#E8943A", r: 232, g: 148, b: 58,  poem: "端午雄黄酒一杯，驱邪避疫万家安",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "石绿",   hex: "#3D8B5E", r: 61,  g: 139, b: 94,  poem: "石绿色浓春欲滴，千峰竞秀入帘来",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "蛤粉",   hex: "#F4EDE4", r: 244, g: 237, b: 228, poem: "蛤粉匀来如素练，丹青一点化飞仙",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "泥金",   hex: "#CAA56B", r: 202, g: 165, b: 107, poem: "泥金小字写经书，贝叶飘香万卷余",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "竹纸色", hex: "#F2E6CE", r: 242, g: 230, b: 206, poem: "竹纸斜行闲作草，晴窗细乳戏分茶",                               poet: "陆游",    dynasty: "宋",      source: "临安春雨初霁" },
+
+  // ═══════════ 补赤 (More Reds) ═══════════
+  { name: "牡丹红", hex: "#E83A5F", r: 232, g: 58,  b: 95,  poem: "唯有牡丹真国色，花开时节动京城",                               poet: "刘禹锡",  dynasty: "唐",      source: "赏牡丹" },
+  { name: "樱红",   hex: "#FC86A1", r: 252, g: 134, b: 161, poem: "樱花红陌上，杨柳绿池边",                                       poet: "周恩来",  dynasty: "现代",    source: "春日偶成" },
+  { name: "榴花红", hex: "#D9333E", r: 217, g: 51,  b: 62,  poem: "五月榴花红似火，枝间时见子初成",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "莲红",   hex: "#E18A9A", r: 225, g: 138, b: 154, poem: "接天莲叶无穷碧，映日荷花别样红",                               poet: "杨万里",  dynasty: "宋",      source: "晓出净慈寺" },
+
+  // ═══════════ 补黄 (More Yellows) ═══════════
+  { name: "葵黄",   hex: "#F0C84C", r: 240, g: 200, b: 76,  poem: "更无柳絮因风起，惟有葵花向日倾",                               poet: "司马光",  dynasty: "宋",      source: "客中初夏" },
+  { name: "菊黄",   hex: "#DDA63A", r: 221, g: 166, b: 58,  poem: "不是花中偏爱菊，此花开尽更无花",                               poet: "元稹",    dynasty: "唐",      source: "菊花" },
+  { name: "梨黄",   hex: "#F5E2A4", r: 245, g: 226, b: 164, poem: "梨花院落溶溶月，柳絮池塘淡淡风",                               poet: "晏殊",    dynasty: "宋",      source: "寓意" },
+
+  // ═══════════ 补绿 (More Greens) ═══════════
+  { name: "蕉绿",   hex: "#598556", r: 89,  g: 133, b: 86,  poem: "红了樱桃，绿了芭蕉，流光容易把人抛",                           poet: "蒋捷",    dynasty: "宋",      source: "一剪梅" },
+  { name: "荷绿",   hex: "#69A87A", r: 105, g: 168, b: 122, poem: "小荷才露尖尖角，早有蜻蜓立上头",                               poet: "杨万里",  dynasty: "宋",      source: "小池" },
+  { name: "草绿",   hex: "#7CB342", r: 124, g: 179, b: 66,  poem: "离离原上草，一岁一枯荣",                                       poet: "白居易",  dynasty: "唐",      source: "赋得古原草送别" },
+  { name: "潭绿",   hex: "#4A7A6C", r: 74,  g: 122, b: 108, poem: "桃花潭水深千尺，不及汪伦送我情",                               poet: "李白",    dynasty: "唐",      source: "赠汪伦" },
+
+  // ═══════════ 补青蓝 (More Blues) ═══════════
+  { name: "霁青",   hex: "#5A8CBF", r: 90,  g: 140, b: 191, poem: "云销雨霁，彩彻区明",                                           poet: "王勃",    dynasty: "唐",      source: "滕王阁序" },
+  { name: "海青",   hex: "#2E6293", r: 46,  g: 98,  b: 147, poem: "海客谈瀛洲，烟涛微茫信难求",                                   poet: "李白",    dynasty: "唐",      source: "梦游天姥吟留别" },
+  { name: "涧石蓝", hex: "#4B7A9D", r: 75,  g: 122, b: 157, poem: "明月松间照，清泉石上流",                                       poet: "王维",    dynasty: "唐",      source: "山居秋暝" },
+
+  // ═══════════ 补紫 (More Purples) ═══════════
+  { name: "鸢尾紫", hex: "#7E5D8D", r: 126, g: 93,  b: 141, poem: "紫色的鸢尾开满山谷，春风沉醉的傍晚",                           poet: "佚名",    dynasty: "—",       source: "现代诗" },
+  { name: "凤仙紫", hex: "#A3669E", r: 163, g: 102, b: 158, poem: "凤仙花开紫满庭，夜来风雨一声声",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "藕色",   hex: "#EBCCD1", r: 235, g: 204, b: 209, poem: "藕色罗裙一色裁，芙蓉向脸两边开",                               poet: "王昌龄",  dynasty: "唐",      source: "采莲曲" },
+
+  // ═══════════ 补褐 (More Browns) ═══════════
+  { name: "焦茶",   hex: "#6B4A3A", r: 107, g: 74,  b: 58,  poem: "焦桐罢弹丝自绝，漠漠暗魂愁夜月",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "朽叶",   hex: "#8B6B4A", r: 139, g: 107, b: 74,  poem: "朽叶满阶红不扫，秋千院落闭重门",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "枯竹褐", hex: "#976F4D", r: 151, g: 111, b: 77,  poem: "枯竹老藤三百年，一蓑烟雨任平生",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 补红 (More tones) ═══════════
+  { name: "辰砂",   hex: "#D84035", r: 216, g: 64,  b: 53,  poem: "辰砂炼就金丹熟，一粒能令万病除",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "樱桃红", hex: "#DE3163", r: 222, g: 49,  b: 99,  poem: "红了樱桃，绿了芭蕉",                                           poet: "蒋捷",    dynasty: "宋",      source: "一剪梅" },
+  { name: "胭脂虫", hex: "#C02D3A", r: 192, g: 45,  b: 58,  poem: "胭脂虫染茜裙红，一树海棠春正浓",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+
+  // ═══════════ 补黑白灰 (More Monochromes) ═══════════
+  { name: "青灰",   hex: "#7F8F96", r: 127, g: 143, b: 150, poem: "青灰色的天空下，一只孤雁南飞",                                 poet: "佚名",    dynasty: "—",       source: "现代诗" },
+  { name: "瓦灰",   hex: "#9B9B9B", r: 155, g: 155, b: 155, poem: "天色瓦灰云似絮，一川烟草满城风",                               poet: "佚名",    dynasty: "—",       source: "古诗" },
+  { name: "珠灰",   hex: "#C4C1B8", r: 196, g: 193, b: 184, poem: "珠灰色染秋山暮，几点寒鸦带月归",                               poet: "佚名",    dynasty: "—",       source: "古诗" }
+];
+
+// === HASH ===
+function getColor(name) {
+  var s = (name || '').trim();
+  // 邰伟骁专属色——鎏金
+  if (s === '邰伟骁') {
+    for (var k = 0; k < COLORS.length; k++) { if (COLORS[k].name === '鎏金') return COLORS[k]; }
+  }
+  if (!s) return COLORS[Math.floor(COLORS.length*0.618)];
+  var h = 5381;
+  for (var i = 0; i < s.length; i++) { h = ((h<<5)+h+s.charCodeAt(i)) & 0x7fffffff; }
+  return COLORS[h % COLORS.length];
+}
+
+// === MAIN ===
+(function(){
+  var scrIn = document.getElementById('input-screen');
+  var scrOut = document.getElementById('result-screen');
+  var inp = document.getElementById('name-input');
+  var btn = document.getElementById('search-btn');
+  var retry = document.getElementById('retry-btn');
+  var card = document.getElementById('color-card');
+  var cname = document.getElementById('color-name');
+  var chex = document.getElementById('color-hex');
+  var crgb = document.getElementById('color-rgb');
+  var poem = document.getElementById('poem-text');
+  var psrc = document.getElementById('poem-source');
+
+  function showColor(name) {
+    var c = getColor(name);
+
+    card.style.setProperty('--ink-color', c.hex);
+    card.style.setProperty('--ink-glow', 'rgba('+c.r+','+c.g+','+c.b+',0.35)');
+    // 纯色背景
+    card.style.backgroundImage = 'none';
+    card.style.backgroundBlendMode = 'normal';
+    card.style.background = c.hex;
+    cname.textContent = c.name;
+    chex.textContent = c.hex;
+    crgb.textContent = 'RGB('+c.r+', '+c.g+', '+c.b+')';
+    poem.textContent = '「'+c.poem+'」';
+
+    var parts = [c.poet];
+    if (c.dynasty && c.dynasty !== '—') parts.push(c.dynasty);
+    if (c.source) parts.push('《'+c.source+'》');
+    psrc.textContent = '—— ' + parts.join(' · ');
+
+    // Switch screens
+    scrIn.classList.add('hide');
+    scrOut.classList.add('visible');
+
+    // Bloom animation
+    card.style.transition = 'none';
+    card.style.transform = 'scale(0.3)';
+    card.style.opacity = '0';
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        card.style.transition = 'transform 0.7s cubic-bezier(0.22,0.61,0.36,1), opacity 0.5s';
+        card.style.transform = 'scale(1)';
+        card.style.opacity = '1';
+      });
+    });
+  }
+
+  function showInput() {
+    // 回程过渡：结果淡出 → 输入浮现
+    scrOut.classList.remove('fade-out');
+    // 触发 reflow 确保过渡生效
+    void scrOut.offsetWidth;
+    scrOut.classList.add('fade-out');
+    // 输入页浮现（CSS transition 自动处理）
+    scrIn.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+    setTimeout(function() {
+      scrOut.classList.remove('visible', 'fade-out');
+      scrIn.classList.remove('hide');
+      inp.value = '';
+      setTimeout(function() { inp.focus(); }, 300);
+    }, 480);
+  }
+
+  function search() {
+    var name = inp.value.trim();
+    if (!name) {
+      inp.classList.add('shake');
+      setTimeout(function(){ inp.classList.remove('shake'); }, 500);
+      inp.focus();
+      return;
+    }
+    showColor(name);
+  }
+
+  btn.addEventListener('click', search);
+  btn.addEventListener('touchend', function(e){ e.preventDefault(); search(); });
+  inp.addEventListener('keydown', function(e){ if(e.key==='Enter') { e.preventDefault(); search(); } });
+  retry.addEventListener('click', showInput);
+  inp.focus();
+})();
+</script>
+
+<script src="js/galaxy.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  var ctn = document.getElementById('galaxy-bg');
+  if (ctn && window.initGalaxy) {
+    window.initGalaxy(ctn, {
+      hueShift: 45,
+      starSpeed: 0.3,
+      density: 0.8,
+      speed: 0.6,
+      glowIntensity: 0.35,
+      saturation: 0.2,
+      mouseRepulsion: true,
+      repulsionStrength: 2.5,
+      twinkleIntensity: 0.3,
+      rotationSpeed: 0.08,
+      transparent: true,
+    });
+  }
+});
+</script>
+</body>
+</html>})(window);
+
+// ─── 赛博占色 ──────────────────────────────────
+
+var CYBER_QUESTIONS = [
+  { q: '独处的时候你更偏向？', opts: [
+    { t: '安安静静待着，什么也不想', d: { jing:2, deep:1 } },
+    { t: '看书追剧，给自己找点事做', d: { wen:2, li:1 } },
+    { t: '约朋友出来走走聊聊', d: { lie:2, wai:1 } },
+    { t: '运动/出门/做点不一样的', d: { lie:1, dong:2 } },
+  ]},
+  { q: '朋友一般怎么形容你？', opts: [
+    { t: '温柔细心的', d: { wen:2, rou:1 } },
+    { t: '热情可靠的', d: { lie:2, ren:1 } },
+    { t: '冷静通透的', d: { jing:2, li:2 } },
+    { t: '有趣有梗的', d: { dong:2, wai:1 } },
+  ]},
+  { q: '你现在的人生阶段更像？', opts: [
+    { t: '全力冲刺，有目标在追', d: { lie:2, dong:1 } },
+    { t: '慢慢沉淀，积累自己', d: { jing:2, deep:1 } },
+    { t: '探索变化，寻找方向', d: { dong:2, rou:1 } },
+    { t: '安住当下，珍惜日常', d: { wen:2, jing:1 } },
+  ]},
+  { q: '做决定时你更依赖？', opts: [
+    { t: '直觉，凭感觉走', d: { rou:2, gan:1 } },
+    { t: '逻辑，想清楚再动', d: { li:2, jing:1 } },
+    { t: '经验，相信走过的路', d: { ren:2, deep:1 } },
+    { t: '直觉+逻辑，结合来看', d: { ping:2 } },
+  ]},
+  { q: '你理想中生活的一天的开头是？', opts: [
+    { t: '被阳光自然叫醒，慢悠悠吃早餐', d: { wen:2, jing:1 } },
+    { t: '充满期待地醒来，今天有事做', d: { lie:2, dong:1 } },
+    { t: '被闹钟叫醒，但也精神不错', d: { ren:1, li:1 } },
+    { t: '无所谓，每天都不一样', d: { dong:1, rou:1 } },
+  ]},
+];
+
+var CYBER_ARCHETYPES = [
+  { key:'lie', name:'热烈的守护者', desc:'外冷内热，看似凌厉其实比谁都重情', colors:['朱砂','胭脂','石榴红','辰砂','赤缇','妃色','丹','赤金'] },
+  { key:'wen', name:'温柔的守望者', desc:'细腻沉稳，你的存在本身就是一种安定', colors:['月白','天青','象牙白','藕荷','素色','檀色','霜白','缃色'] },
+  { key:'jing', name:'清雅的隐士', desc:'自得其乐，不争不抢却自有力量', colors:['竹青','豆绿','茶绿','艾绿','松花绿','缥色','葱绿','柳绿'] },
+  { key:'dong', name:'不羁的追风者', desc:'停不下来，世界就是你的游乐场', colors:['橘红','酡红','杏黄','橙黄','琥珀','秋香','橘黄','金黄'] },
+  { key:'deep', name:'深邃的探索者', desc:'心里藏着一片海，表面越平静底下越深', colors:['黛紫','藏蓝','墨色','靛青','乌黑','玄青','鸦青','铅灰'] },
+  { key:'li', name:'通透的智者', desc:'看得透，想得清，活得通透', colors:['秘色','琉璃','霁青','青莲','石青','花青','涧石蓝','海青'] },
+  { key:'rou', name:'轻盈的精灵', desc:'灵动可爱，走到哪里都带着春天的气息', colors:['桃红','樱红','葱绿','鹅黄','翠绿','嫩绿','粉红','明黄'] },
+  { key:'ren', name:'沉稳的山岳', desc:'不动如山，你说的话不多但每一句都算数', colors:['赭石','宝蓝','深蓝','酱色','棕褐','栗色','赭色','玄色'] },
+];
+
+// 色缘关系库 — 全正面描述
+var XY_RELATIONS = {
+  'lie_lie':     { emoji:'🔥', name:'双焰共鸣', desc:'两个热烈的灵魂相遇，不是碰撞，是共振。你们在一起时，世界都变得更明亮了一些。' },
+  'lie_wen':     { emoji:'🌓', name:'阴阳相生', desc:'一个如火，一个如水。不是谁灭了谁，而是水让火烧得更从容，火让水变得更温暖。' },
+  'lie_jing':    { emoji:'⛰️', name:'山火相映', desc:'热烈的你遇见了安静的他/她——像一团火照进了一片深林，你觉得安心，他觉得明亮。' },
+  'lie_dong':    { emoji:'💥', name:'风火同行', desc:'两个停不下来的人，在一起就是一场冒险。你们互相点燃，从不无聊。' },
+  'lie_deep':    { emoji:'🌟', name:'光与深空', desc:'你的热烈和TA的深邃，像星光与夜空——一个耀眼，一个包容，缺一不可。' },
+  'lie_li':      { emoji:'⚖️', name:'理智与情感', desc:'你用直觉冲锋，他用理性护航。你们是最佳拍档——一个敢冲，一个能稳。' },
+  'lie_rou':     { emoji:'🎭', name:'反差之美', desc:'看似相反的两个人，却在最深处互相懂得。一个把世界点燃，一个把世界变温柔。' },
+  'lie_ren':     { emoji:'🛡️', name:'铁与火', desc:'一个坚韧如山，一个热烈如火。山给了火依靠，火给了山温度——互相成就。' },
+  'wen_wen':     { emoji:'🌙', name:'双月同辉', desc:'两个温柔的人在一起，就是双倍的温柔。不用太多言语，安静地待着就很美好。' },
+  'wen_jing':    { emoji:'🌊', name:'静水深流', desc:'温柔而安静，你们在一起像一池春水——表面波澜不惊，底下却有无尽的默契和懂得。' },
+  'wen_dong':    { emoji:'🎐', name:'风与铃', desc:'温柔的人遇见了灵动的人——像风吹过风铃，一个带动，一个回应，自然又动听。' },
+  'wen_deep':    { emoji:'📖', name:'诗与远方', desc:'温柔的你遇见了深邃的TA——像一首诗遇见了懂它的人。你们读得懂彼此字里行间的意思。' },
+  'wen_li':      { emoji:'🧩', name:'默契拼图', desc:'一个温柔包容，一个理性通透。看似不同，却刚好互补——像两块拼图，严丝合缝。' },
+  'wen_rou':     { emoji:'🌸', name:'花与春风', desc:'温柔遇见了灵动——一个轻声细语，一个笑意盈盈。你们在一起就是一幅画。' },
+  'wen_ren':     { emoji:'🏡', name:'温暖的港湾', desc:'温柔与坚韧的相遇，就是家的感觉——一个给你依靠，一个给你温度。' },
+  'jing_jing':   { emoji:'🌲', name:'双松对影', desc:'两个安静的人，不必说话也能懂对方。你们在一起像两棵并肩的树——各自生长，根却在地下紧紧相连。' },
+  'jing_dong':   { emoji:'🌀', name:'动与静的圆舞', desc:'一个安静，一个好动。不是谁迁就谁，而是你们刚好让彼此的世界变得更完整。' },
+  'jing_deep':   { emoji:'🏔️', name:'远山与深谷', desc:'安静的你遇见了深邃的TA——像远山望着深谷，彼此懂得对方的辽阔和深度。' },
+  'jing_li':     { emoji:'🎯', name:'清醒的默契', desc:'两个理性的人在一起，少了很多戏剧，多了很多懂得。你们的关系，清醒而坚定。' },
+  'jing_rou':    { emoji:'🍃', name:'叶与风', desc:'安静的你遇见了灵动的TA——像一片叶子遇见了风。你被带去看更远的世界，他学会了安静。' },
+  'jing_ren':    { emoji:'⛩️', name:'静守时光', desc:'安静而坚韧的你们，在一起像一座古寺——沉稳、笃定、经得起时间。' },
+  'dong_dong':   { emoji:'🎆', name:'双星划过', desc:'两个停不下来的灵魂，在一起就是一场永不落幕的烟花。你们是彼此最好的玩伴。' },
+  'dong_deep':   { emoji:'🌊', name:'浪与海', desc:'灵动的你遇见了深邃的他/她——像海浪遇见了大海。再怎么闹，也知道有一个怀抱在等你。' },
+  'dong_li':     { emoji:'🎲', name:'冒险与计划', desc:'一个随心所欲，一个运筹帷幄。你们在一起，能把任何想法变成现实——他负责想，你负责冲。' },
+  'dong_rou':    { emoji:'🦋', name:'蝶与花', desc:'灵动的你遇见了柔和的TA——像蝴蝶停在花上。自由有了归宿，温柔有了翅膀。' },
+  'dong_ren':    { emoji:'🌱', name:'生长之力', desc:'一个灵动活泼，一个坚韧稳重。你们在一起就像藤蔓和古树——一个向上生长，一个稳稳托住。' },
+  'deep_deep':   { emoji:'🌌', name:'双星交辉', desc:'两个深邃的灵魂，不需要太多话语。你们在人群中一眼就能认出彼此——因为你们都懂得孤单，也懂得陪伴。' },
+  'deep_li':     { emoji:'🔮', name:'智者同行', desc:'一个洞察人心，一个看透世事。你们在一起从不无聊——每一次对话都是一次灵魂的交换。' },
+  'deep_rou':    { emoji:'🌙', name:'月光与星子', desc:'深邃的你遇见了灵动的TA——像月光遇见了星星。一个温柔地照亮，一个调皮地闪烁。' },
+  'deep_ren':    { emoji:'🌳', name:'深根厚土', desc:'深邃而坚韧的你们，在一起像是同一棵树的根和干——谁也离不开谁，一起往下扎，一起往上长。' },
+  'li_li':       { emoji:'♟️', name:'棋逢对手', desc:'两个通透的人，在一起像一场精彩的对弈。互相欣赏，互相成就，谁也不让谁无聊。' },
+  'li_rou':      { emoji:'🎨', name:'理性与灵感', desc:'一个冷静理性，一个灵动感性。你们在一起，就是最好的创作搭档——他把想法变成逻辑，你让逻辑有了温度。' },
+  'li_ren':      { emoji:'🏛️', name:'基石与栋梁', desc:'理性通透的你遇见了坚韧沉稳的TA——像基石托起了栋梁，坚不可摧。' },
+  'rou_rou':     { emoji:'🎵', name:'双音合鸣', desc:'两个柔软的灵魂，在一起像两把琴的和鸣——轻轻一碰就有回响。你们懂得彼此所有的细腻和敏感。' },
+  'rou_ren':     { emoji:'🌄', name:'柔光与远山', desc:'温柔的你遇见了坚韧的TA——像晚霞遇见了远山。一个柔软了时光，一个撑起了天地。' },
+  'ren_ren':     { emoji:'🗿', name:'双塔对峙', desc:'两个坚韧的人，在一起像两座塔——各自独立，互相守望。不黏腻，但谁也撼动不了这份关系。' },
+};
+
+// ─── 题目渲染 ──
+var _cyberAnswers = {};
+
+function renderCyberQuestions() {
+  var el = document.getElementById('cyber-qs');
+  if (!el) return;
+  var letters = ['A','B','C','D'];
+  el.innerHTML = CYBER_QUESTIONS.map(function(q, qi) {
+    var optsHtml = q.opts.map(function(o, oi) {
+      var sel = _cyberAnswers[qi] === oi ? ' selected' : '';
+      return '<button class="cq-opt' + sel + '" onclick="selectCyberAnswer(' + qi + ',' + oi + ')"><span class="cq-let">' + letters[oi] + '</span>' + o.t + '</button>';
+    }).join('');
+    return '<div class="cq"><div class="cq-q"><span class="cq-num">' + (qi+1) + '/5</span>' + q.q + '</div>' + optsHtml + '</div>';
+  }).join('');
+}
+
+function selectCyberAnswer(qi, oi) {
+  _cyberAnswers[qi] = oi;
+  renderCyberQuestions();
+}
+
+// ─── 评分 + 原型 + 颜色 ──
+function calcCyberColor() {
+  var name = document.getElementById('ci-name').value.trim();
+  var birth = document.getElementById('ci-birth').value.trim();
+  var answered = Object.keys(_cyberAnswers).length;
+  if (answered < 5) { alert('答完所有题目才能占色 ✨'); return; }
+
+  var dims = {};
+  for (var qi = 0; qi < 5; qi++) {
+    var oi = _cyberAnswers[qi];
+    if (oi === undefined) continue;
+    var d = CYBER_QUESTIONS[qi].opts[oi].d;
+    for (var k in d) { dims[k] = (dims[k] || 0) + d[k]; }
+  }
+
+  var maxDim = Object.keys(dims).sort(function(a,b){ return (dims[b]||0) - (dims[a]||0); })[0];
+  var archetype = null;
+  for (var i = 0; i < CYBER_ARCHETYPES.length; i++) {
+    if (CYBER_ARCHETYPES[i].key === maxDim) { archetype = CYBER_ARCHETYPES[i]; break; }
+  }
+  if (!archetype) archetype = CYBER_ARCHETYPES[Math.floor(Math.random() * CYBER_ARCHETYPES.length)];
+
+  var seed = (name || '佚名') + '|' + (birth || '01/01');
+  var h = 5381;
+  for (var si = 0; si < seed.length; si++) { h = ((h<<5)+h+seed.charCodeAt(si)) & 0x7fffffff; }
+  var colorName = archetype.colors[h % archetype.colors.length];
+  var color = null;
+  for (var ci = 0; ci < COLORS.length; ci++) { if (COLORS[ci].name === colorName) { color = COLORS[ci]; break; } }
+  if (!color) color = getColor(name || 'default');
+
+  window._lastColor = color;
+  window._lastArchetype = archetype;
+  window._lastName = name;
+  window._lastBirth = birth;
+
+  showCyberResult(color, archetype, name, birth);
+}
+
+function showCyberResult(color, archetype, name, birth) {
+  document.getElementById('cyber-qs').style.display = 'none';
+  document.querySelector('.cyber-submit').style.display = 'none';
+  document.querySelector('.cyber-inputs').style.display = 'none';
+  var res = document.getElementById('cyber-result');
+  res.style.display = 'block';
+
+  document.getElementById('cyber-card-color').style.background = color.hex;
+  document.getElementById('cc-name').textContent = color.name;
+  document.getElementById('cc-archetype').textContent = archetype.name;
+  var poem = (color.poem || '').replace(/^「|」$/g, '');
+  document.getElementById('cc-poem').textContent = poem ? '「' + poem + '」' : '';
+  document.getElementById('ci-hex').textContent = color.hex + ' · RGB(' + color.r + ',' + color.g + ',' + color.b + ')' + (name ? ' · ' + name : '') + (birth ? ' · ' + birth : '');
+  document.getElementById('ci-desc').textContent = archetype.desc;
+
+  document.getElementById('cyber-love').classList.add('show-xy');
+  document.getElementById('xy-name').value = '';
+  document.getElementById('xy-result').innerHTML = '';
+}
+
+function resetCyber() {
+  _cyberAnswers = {};
+  document.getElementById('cyber-qs').style.display = '';
+  document.querySelector('.cyber-submit').style.display = '';
+  document.querySelector('.cyber-inputs').style.display = '';
+  document.getElementById('cyber-result').style.display = 'none';
+  document.getElementById('cyber-love').classList.remove('show-xy');
+  renderCyberQuestions();
+}
+
+// ─── 色缘 ──
+function calcRelation() {
+  var xyName = document.getElementById('xy-name').value.trim();
+  if (!xyName) { document.getElementById('xy-result').innerHTML = '<div style="color:rgba(255,255,255,0.3);font-size:13px;margin-top:8px">输入TA的名字✨</div>'; return; }
+
+  var ary = window._lastArchetype;
+  // 对方也用哈希从同色系取色，但用对方名字为种子
+  var seed = xyName + '|' + (window._lastBirth || '');
+  var h = 5381;
+  for (var si = 0; si < seed.length; si++) { h = ((h<<5)+h+seed.charCodeAt(si)) & 0x7fffffff; }
+  // 对方从其他原型里找一个匹配
+  var otherIdx = h % CYBER_ARCHETYPES.length;
+  var otherAry = CYBER_ARCHETYPES[otherIdx];
+  // 确保不是自己
+  if (otherAry.key === ary.key) { otherIdx = (otherIdx + 1) % CYBER_ARCHETYPES.length; otherAry = CYBER_ARCHETYPES[otherIdx]; }
+
+  var oColor = otherAry.colors[h % otherAry.colors.length];
+
+  // 查色缘关系库
+  var key1 = ary.key + '_' + otherAry.key;
+  var key2 = otherAry.key + '_' + ary.key;
+  var rel = XY_RELATIONS[key1] || XY_RELATIONS[key2];
+  if (!rel) {
+    rel = { emoji:'💫', name:'奇妙的相遇', desc:'你们之间有一种说不清的吸引力——可能是天上的星星在排列组合的时候，特意把你们放在了彼此的方向。' };
+  }
+
+  var oColorObj = null;
+  for (var ci = 0; ci < COLORS.length; ci++) { if (COLORS[ci].name === oColor) { oColorObj = COLORS[ci]; break; } }
+  var oHex = oColorObj ? oColorObj.hex : '#666';
+
+  document.getElementById('xy-result').innerHTML =
+    '<div class="xy-relation">' + rel.emoji + ' ' + rel.name + '</div>' +
+    '<div style="display:flex;justify-content:center;gap:16px;margin:12px 0">' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:' + color.hex + ';border:2px solid rgba(255,255,255,0.2)" title="' + window._lastColor.name + '"></div>' +
+      '<div style="font-size:24px;line-height:40px;color:rgba(255,255,255,0.2)">+</div>' +
+      '<div style="width:40px;height:40px;border-radius:50%;background:' + oHex + ';border:2px solid rgba(255,255,255,0.2)" title="' + oColor + '"></div>' +
+    '</div>' +
+    '<div style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:8px">' + ary.name + ' · ' + otherAry.name + '</div>' +
+    '<div class="xy-desc">' + rel.desc + '</div>';
+}
+
+// ─── 分享卡片 ──
+function genCyberCard() {
+  var color = window._lastColor;
+  var archetype = window._lastArchetype;
+  if (!color || !archetype) return;
+
+  var W = 1080, H = 1440;
+  var canvas = document.createElement('canvas');
+  canvas.width = W; canvas.height = H;
+  var ctx = canvas.getContext('2d');
+
+  ctx.fillStyle = color.hex;
+  ctx.fillRect(0, 0, W, H);
+
+  // 装饰角线
+  ctx.fillStyle = 'rgba(255,255,255,0.08)';
+  [[80,80],[W-140,80],[80,H-82],[W-140,H-82]].forEach(function(p) {
+    ctx.fillRect(p[0], p[1], 60, 2);
+    ctx.fillRect(p[0] + (p[0]===W-140?0:0), p[1] + (p[1]===80?60:-60), 2, 60);
+  });
+
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  ctx.font = '14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('· 赛 博 占 色 ·', W/2, 128);
+
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 96px sans-serif';
+  ctx.shadowColor = 'rgba(0,0,0,0.3)';
+  ctx.shadowBlur = 24;
+  ctx.fillText(color.name, W/2, 380);
+  ctx.shadowBlur = 0;
+
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  ctx.font = '28px sans-serif';
+  ctx.fillText(archetype.name, W/2, 460);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.fillRect(W/2-40, 492, 80, 1);
+
+  var poem = (color.poem || '').replace(/^「|」$/g, '') || '一色一世界';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '22px sans-serif';
+  ctx.fillText('「' + poem + '」', W/2, 560);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '20px sans-serif';
+  // 简单分行
+  var desc = archetype.desc;
+  var lineH = 34, startY = 640;
+  for (var i = 0; i < desc.length; i += 15) {
+    ctx.fillText(desc.substring(i, Math.min(i+15, desc.length)), W/2, startY + (i/15) * lineH);
+  }
+
+  var info = (window._lastName || '') + (window._lastBirth ? ' · ' + window._lastBirth : '');
+  if (info) {
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.font = '18px sans-serif';
+    ctx.fillText(info, W/2, H - 260);
+  }
+
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '16px sans-serif';
+  ctx.fillText('我在这里测的 👇', W/2, H - 190);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.font = '18px sans-serif';
+  ctx.fillText('taiweixiao.com', W/2, H - 150);
+
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  ctx.font = '12px monospace';
+  ctx.fillText(color.hex + ' · RGB(' + color.r + ',' + color.g + ',' + color.b + ')', W/2, H - 100);
+
+  var link = document.createElement('a');
+  link.download = '赛博占色_' + color.name + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ─── 切换 ──
+function switchCyberTab(tab) {
+  var xunse = document.getElementById('input-screen');
+  var cyber = document.getElementById('cyber-screen');
+  var result = document.getElementById('result-screen');
+  var scrIn = document.getElementById('input-screen');
+  if (tab === 'xunse') {
+    scrIn.style.display = ''; scrIn.classList.remove('hide');
+    cyber.classList.remove('active');
+    if (result) result.style.display = '';
+  } else {
+    scrIn.style.display = 'none';
+    if (result) result.style.display = 'none';
+    cyber.classList.add('active');
+    renderCyberQuestions();
+  }
+  var tabs = document.querySelectorAll('.cyber-tab');
+  tabs[0].classList.toggle('active', tab==='xunse');
+  tabs[1].classList.toggle('active', tab==='cyber');
+}
+
+</script>
+
+<script>
+window.addEventListeneret="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>寻色 · 中国传统色</title>
+<style>
+/* === Reset & Root === */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --gold: #c9a96e;
+  --gold-dim: #8b7355;
+  --ink: #0d0d0d;
+  --paper: #f0e6d3;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/* === Base === */
+html {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+body {
+  background: var(--ink); color: #e8dcc8;
+  font-family: 'PingFang SC','Microsoft YaHei',sans-serif;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh; /* dynamic viewport — handles mobile Safari URL bar */
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === Galaxy Background === */
+#galaxy-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  width: 100dvw; height: 100dvh;
+  z-index: 0;
+}
+#galaxy-bg canvas {
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+/* ═══════════════════════════════════════════
+   INPUT SCREEN
+   ═══════════════════════════════════════════ */
+#input-screen {
+  position: fixed;
+  top: var(--safe-top); left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--safe-top) 0 var(--safe-bottom);
+  transition: opacity 0.6s, transform 0.6s;
+}
+#input-screen.hide { opacity:0; transform:scale(1.05); pointer-events:none; }
+
+.center {
+  text-align: center;
+  padding: 1.5rem;
+  max-width: 100%;
+}
+
+.title {
+  font-size: clamp(2.2rem, 8vw, 5rem);
+  letter-spacing: 0.3em;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(201,169,110,0.3);
+  margin-bottom: 0.2em;
+}
+
+.sub {
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  color: #a09880;
+  letter-spacing: 0.2em;
+  margin-bottom: 2rem;
+}
+
+/* Input row */
+.row {
+  display: flex;
+  max-width: min(360px, 90vw);
+  margin: 0 auto;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.row:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(201,169,110,0.15);
+}
+
+#name-input {
+  flex: 1; min-width: 0;
+  background: rgba(0,0,0,0.5);
+  border: none; outline: none;
+  padding: 0.9rem 1rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: var(--paper);
+  letter-spacing: 0.15em;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+#name-input::placeholder { color: #a09880; opacity: 0.6; }
+
+#search-btn {
+  background: var(--gold-dim);
+  border: none;
+  padding: 0 1.5rem;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  color: var(--ink);
+  letter-spacing: 0.2em;
+  cursor: pointer;
+  white-space: nowrap;
+  touch-action: manipulation;
+  transition: background 0.2s, transform 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#search-btn:active { background: var(--gold); transform: scale(0.96); }
+
+.hint {
+  margin-top: 1.5rem;
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
+  color: #a09880;
+  opacity: 0.6;
+  letter-spacing: 0.1em;
+}
+
+/* ═══════════════════════════════════════════
+   RESULT SCREEN
+   ═══════════════════════════════════════════ */
+@keyframes paperFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#result-screen {
+  position: fixed;
+  top: 0; left: 0; z-index: 1;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--safe-top) 1rem var(--safe-bottom);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* Background image with dark overlay for readability */
+  background-image: url('assets/11.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+#result-screen.visible { display: flex; opacity: 1; }
+#result-screen.fade-out { opacity: 0; }
+#color-name { color: #f0e6d3; }
+#color-hex, #color-rgb { color: #d5cbb5; }
+#color-poem { border-top-color: rgba(255,255,255,0.15); border-bottom-color: rgba(255,255,255,0.15); }
+#poem-text { color: #e8ddc8; }
+#poem-source { color: #c5b898; }
+#retry-btn { color: #d5cbb5; border-color: rgba(255,255,255,0.3); }
+#retry-btn:active { color: #0d0d0d; background: rgba(255,255,255,0.25); }
+
+/* Color card — 苏绣质感 */
+#color-card {
+  width: min(72vw, 380px);
+  height: min(72vw, 380px);
+  position: relative;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ink-color, #333);
+  transition: background 0.8s, box-shadow 0.8s;
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,0.03),
+    0 0 0 6px rgba(0,0,0,0.06),
+    0 0 50px var(--ink-glow, rgba(201,169,110,0.2)),
+    0 0 100px var(--ink-glow, rgba(201,169,110,0.08)),
+    10px 8px 30px rgba(0,0,0,0.2);
+}
+
+/* 丝线纹理层 — 仅保留白色高光，不压暗颜色 */
+#color-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    /* 主绣线斜纹 — 极轻的白色丝线 */
+    repeating-linear-gradient(15deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255,255,255,0.04) 2px,
+      rgba(255,255,255,0.04) 2.4px),
+    /* 反方向交叉丝线 */
+    repeating-linear-gradient(-12deg,
+      transparent 0px,
+      transparent 4px,
+      rgba(255,255,255,0.02) 4px,
+      rgba(255,255,255,0.02) 4.3px),
+    /* 丝光渐变 — 左上高光 */
+    linear-gradient(140deg,
+      rgba(255,255,255,0.14) 0%,
+      rgba(255,255,255,0.06) 18%,
+      transparent 40%,
+      transparent 75%,
+      rgba(255,255,255,0.03) 100%),
+    /* 柔光中心 */
+    radial-gradient(ellipse 45% 35% at 35% 25%,
+      rgba(255,255,255,0.08) 0%,
+      transparent 60%);
+  pointer-events: none;
+}
+
+/* 织物底纹 — 经纬交织，只用白色 */
+#color-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 0.6px,
+      rgba(255,255,255,0.012) 0.6px,
+      rgba(255,255,255,0.012) 1px),
+    repeating-linear-gradient(90deg,
+      transparent 0px,
+      transparent 0.6px,
+      rgba(255,255,255,0.008) 0.6px,
+      rgba(255,255,255,0.008) 1px);
+  pointer-events: none;
+}
+
+/* Color info */
+#color-name {
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  letter-spacing: 0.25em;
+  color: #4a3a2a;
+  margin-bottom: 0.2rem;
+  text-align: center;
+}
+
+#color-hex, #color-rgb {
+  font-size: 0.9rem;
+  color: #7a6a55;
+  letter-spacing: 0.1em;
+  margin-top: 0.3rem;
+}
+
+#color-poem {
+  margin-top: 1.5rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(139,115,85,0.25);
+  border-bottom: 1px solid rgba(139,115,85,0.25);
+  max-width: 90vw;
+}
+
+#poem-text {
+  font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+  font-style: italic;
+  line-height: 1.7;
+  color: #5a4a35;
+}
+
+#poem-source {
+  font-size: 0.8rem;
+  color: #8a7a65;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+#retry-btn {
+  margin-top: 1.8rem;
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  color: #6b5335;
+  padding: 0.6rem 2rem;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+  flex-shrink: 0;
+}
+#retry-btn:active {
+  background: var(--gold-dim);
+  color: #f7f1e3;
+  transform: scale(0.96);
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — MOBILE (< 600px)
+   ═══════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* Stack input vertically */
+  .row {
+    flex-direction: column;
+    border-radius: 6px;
+  }
+  #name-input {
+    padding: 0.85rem 1rem;
+    text-align: center;
+  }
+  #search-btn {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  /* Shrink color card */
+  #color-card {
+    width: min(60vw, 260px);
+    height: min(60vw, 260px);
+    margin-bottom: 1.2rem;
+  }
+
+  /* Tighter text spacing */
+  .center { padding: 1rem; }
+  .title { letter-spacing: 0.2em; }
+  .sub { margin-bottom: 1.5rem; }
+
+  #result-screen {
+    justify-content: flex-start;
+    padding-top: calc(var(--safe-top) + 2rem);
+    padding-bottom: calc(2rem + var(--safe-bottom));
+  }
+
+  #color-poem {
+    padding: 0.8rem 1.2rem;
+  }
+
+  #retry-btn {
+    margin-bottom: calc(1rem + var(--safe-bottom));
+  }
+}
+
+/* ═══════════════════════════════════════════
+   SMALL PHONES (< 380px, e.g. iPhone SE)
+   ═══════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .title { font-size: 1.8rem; letter-spacing: 0.15em; }
+  .sub { font-size: 0.8rem; }
+
+  #color-card {
+    width: 55vw;
+    height: 55vw;
+    margin-bottom: 1rem;
+  }
+
+  #color-name { font-size: 1.5rem; letter-spacing: 0.15em; }
+
+  #color-poem { padding: 0.7rem 1rem; }
+  #poem-text { font-size: 0.85rem; line-height: 1.6; }
+}
+
+/* ═══════════════════════════════════════════
+   LANDSCAPE — MOBILE
+   ═══════════════════════════════════════════ */
+@media (max-height: 500px) and (orientation: landscape) {
+  #input-screen {
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
+  .sub { margin-bottom: 1rem; }
+  .hint { margin-top: 0.8rem; }
+
+  #result-screen {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  #color-card {
+    width: min(40vh, 200px);
+    height: min(40vh, 200px);
+    margin-bottom: 0;
+  }
+
+  #color-poem {
+    margin-top: 0.8rem;
+    padding: 0.5rem 1rem;
+  }
+
+  #retry-btn {
+    margin-top: 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TABLET (601px — 1024px)
+   ═══════════════════════════════════════════ */
+@media (min-width: 601px) and (max-width: 1024px) {
+  #color-card {
+    width: min(50vw, 340px);
+    height: min(50vw, 340px);
+  }
+
+  #color-poem { max-width: min(80vw, 500px); }
+
+  #result-screen {
+    justify-content: flex-start;
+    padding-top: 4rem;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   DESKTOP HOVER (non-touch only)
+   ═══════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  #search-btn:hover { background: var(--gold); color: #000; }
+  #retry-btn:hover { background: var(--gold-dim); color: #f7f1e3; }
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+#name-input.shake {
+  animation: shake 0.5s ease;
+}
+.cyber-tab-bar { display:flex; justify-content:center; gap:8px; margin-top:24px; }
+.cyber-tab { padding:8px 20px; border-radius:50px; font-size:13px; font-family:inherit; cursor:pointer; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); transition:all 0.3s; }
+.cyber-tab.active { background:rgba(201,169,110,0.15); border-color:rgba(201,169,110,0.35); color:#c9a96e; }
+.cyber-tab:hover { color:rgba(255,255,255,0.7); }
+#cyber-screen { display:none; position:fixed; top:var(--safe-top); left:0; z-index:1; width:100%; height:100%; height:100dvh; align-items:center; justify-content:center; padding:var(--safe-top) 0 var(--safe-bottom); overflow-y:auto; }
+#cyber-screen.active { display:flex; }
+.cyber-inputs { max-width:360px; margin:0 auto 20px; }
+.ci-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.ci-label { font-size:14px; color:#a09880; min-width:40px; letter-spacing:0.1em; }
+.ci-input { flex:1; padding:10px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,110,0.25); border-radius:50px; color:#e8dcc8; font-size:14px; font-family:inherit; outline:none; }
+.ci-input::placeholder { color:rgba(255,255,255,0.15); }
+.ci-input:focus { border-color:rgba(201,169,110,0.6); }
+.cyber-questions { max-width:460px; margin:0 auto 20px; text-align:left; }
+.cq { margin-bottom:20px; }
+.cq-q { font-size:14px; color:#d5cbb5; margin-bottom:8px; letter-spacing:0.04em; }
+.cq-q .cq-num { color:#c9a96e; margin-right:6px; }
+.cq-opt { display:block; width:100%; text-align:left; padding:10px 16px; margin-bottom:6px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:12px; color:rgba(255,255,255,0.55); font-size:13px; font-family:inherit; cursor:pointer; transition:all 0.2s; }
+.cq-opt:hover { background:rgba(255,255,255,0.05); border-color:rgba(201,169,110,0.2); }
+.cq-opt.selected { background:rgba(201,169,110,0.12); border-color:rgba(201,169,110,0.4); color:#c9a96e; }
+.cq-opt .cq-let { display:inline-block; width:20px; height:20px; line-height:20px; text-align:center; border-radius:50%; border:1px solid rgba(255,255,255,0.15); font-size:11px; margin-right:10px; }
+.cq-opt.selected .cq-let { background:rgba(201,169,110,0.3); border-color:#c9a96e; }
+.cyber-submit { padding:14px 42px; background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.35); border-radius:50px; color:#c9a96e; font-size:17px; font-family:inherit; cursor:pointer; letter-spacing:0.08em; transition:all 0.25s; }
+.cyber-submit:hover { background:rgba(201,169,110,0.25); }
+#cyber-result { max-width:460px; margin:0 auto; text-align:center; display:none; }
+.cyber-card-wrap { margin:0 auto 20px; border-radius:24px; overflow:hidden; box-shadow:0 12px 48px rgba(0,0,0,0.4); }
+.cyber-card-color { width:100%; height:240px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.cyber-card-color .cc-name { font-size:48px; font-weight:700; color:#fff; text-shadow:0 2px 12px rgba(0,0,0,0.35); letter-spacing:0.1em; }
+.cyber-card-color .cc-archetype { font-size:16px; color:rgba(255,255,255,0.85); margin-top:6px; letter-spacing:0.06em; }
+.cyber-card-color .cc-poem { font-size:14px; color:rgba(255,255,255,0.65); margin-top:12px; font-style:italic; }
+.cyber-card-info { background:rgba(255,255,255,0.03); padding:18px 20px; border-radius:0 0 24px 24px; border:1px solid rgba(255,255,255,0.06); border-top:none; }
+.cyber-card-info .ci-hex { font-size:12px; color:rgba(255,255,255,0.3); font-family:monospace; margin-bottom:6px; }
+.cyber-card-info .ci-desc { font-size:14px; color:#d5cbb5; line-height:1.8; }
+.cyber-love { display:none; margin-top:20px; padding:20px; border-radius:16px; border:1px solid rgba(201,169,110,0.15); background:rgba(201,169,110,0.03); }
+.cyber-love.show-xy { display:block; }
+.cyber-love h3 { font-size:16px; color:#c9a96e; margin-bottom:10px; letter-spacing:0.06em; }
+.cyber-love .xy-relation { font-size:22px; margin-bottom:6px; }
+.cyber-love .xy-desc { font-size:14px; color:rgba(255,255,255,0.6); line-height:1.8; }
+.xy-row { display:flex; gap:10px; margin:12px 0; }
+.xy-row input { flex:1; padding:10px 14px; background:rgba(255,255,255,0.04); border:1px solid rgba(201,169,110,0.25); border-radius:50px; color:#e8dcc8; font-size:13px; font-family:inherit; outline:none; }
+.xy-row button { padding:10px 22px; border-radius:50px; background:rgba(201,169,110,0.12); border:1px solid rgba(201,169,110,0.3); color:#c9a96e; font-size:13px; font-family:inherit; cursor:pointer; }
+.cyber-actions { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+.cyber-actions button { padding:12px 24px; border-radius:50px; font-size:14px; font-family:inherit; cursor:pointer; }
+.cyber-actions .ca-primary { background:rgba(201,169,110,0.15); border:1px solid rgba(201,169,110,0.35); color:#c9a96e; }
+.cyber-actions .ca-secondary { background:transparent; border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.5); }
+@media (max-width:480px) { .cyber-card-color .cc-name { font-size:36px; } .cyber-card-color { height:200px; } }
+</style>
+</head>
+<body>
+<div id="galaxy-bg"></div>
+
+<div id="input-screen">
+  <div class="center">
+    <h1 class="title">寻 色</h1>
+    <p class="sub">中国传统色 · 姓名寻色</p>
+    <div class="row">
+      <input type="text" id="name-input" placeholder="请君留名" maxlength="10" autocomplete="off">
+      <button id="search-btn">探 色</button>
+    </div>
+    <div class="cyber-tab-bar"><span class="cyber-tab active" onclick="switchCyberTab('xunse')">🔮 姓名寻色</span><span class="cyber-tab" onclick="switchCyberTab('cyber')">⭐ 赛博占色</span></div>
+    <p class="hint">↵ 输入姓名，探寻属于你的中国传统色</p>
+  </div>
+</div>
+
+<div id="result-screen">
+  <div id="color-card"></div>
+  <div style="text-align:center">
+    <h2 id="color-name"></h2>
+    <p id="color-hex"></p>
+    <p id="color-rgb"></p>
+    <blockquote id="color-poem">
+      <p id="poem-text"></p>
+      <cite id="poem-source"></cite>
+    </blockquote>
+  </div>
+  <button id="retry-btn">再探一色</button>
+</div><div id="cyber-screen">
+  <div class="center">
+    <h1 class="title" style="font-size:clamp(1.8rem,6vw,3.5rem)">赛 博 占 色</h1>
+    <p class="sub">五道题 · 找到你的本命色</p>
+    <div class="cyber-inputs">
+      <div class="ci-row"><span class="ci-label">姓名</span><input class="ci-input" id="ci-name" placeholder="你的名字" maxlength="10"></div>
+      <div class="ci-row"><span class="ci-label">生日</span><input class="ci-input" id="ci-birth" placeholder="月/日 如 01/15" maxlength="5"></div>
+    </div>
+    <div class="cyber-questions" id="cyber-qs"></div>
+    <button class="cyber-submit" onclick="calcCyberColor()">✨ 开启占色</button>
+    <p class="hint" style="margin-top:12px;font-size:11px">五道题答完即可生成 · 越认真越准</p>
+    <div id="cyber-result">
+      <div class="cyber-card-wrap">
+        <div class="cyber-card-color" id="cyber-card-color" style="background:#333">
+          <div class="cc-name" id="cc-name"></div>
+          <div class="cc-archetype" id="cc-archetype"></div>
+          <div class="cc-poem" id="cc-poem"></div>
+        </div>
+        <div class="cyber-card-info">
+          <div class="ci-hex" id="ci-hex"></div>
+          <div class="ci-desc" id="ci-desc"></div>
+        </div>
+      </div>
+      <div class="cyber-love" id="cyber-love">
+        <h3>💞 色缘</h3>
+        <div class="xy-row"><input id="xy-name" placeholder="输入TA的名字，看看你们的色缘" maxlength="10"><button onclick="calcRelation()">合</button></div>
+        <div id="xy-result"></div>
+      </div>
+      <div class="cyber-actions">
+        <button class="ca-primary" onclick="genCyberCard()">📸 分享卡片</button>
+        <button class="ca-secondary" onclick="resetCyber()">🔄 重测</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
